@@ -1,0 +1,19 @@
+{
+  "name": "color-utilities",
+  "version": "0.0.0",
+  "description": "Color utilities and parsers",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "colors",
+    "contrast",
+    "utilities"
+  ],
+  "author": "Mateusz Kocz <mateusz@kocz.pl>",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^2.0.9"
+  }
+}
