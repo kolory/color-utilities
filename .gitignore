@@ -1,0 +1,10 @@
+.DS_store
+Desktop.ini
+._*
+Thumbs.db
+node_modules
+.idea
+
+index.js
+index.js.map
+index.d.ts
