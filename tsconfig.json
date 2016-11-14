@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "module": "umd",
+    "module": "commonjs",
+    "moduleResolution": "node",
     "declaration": true,
     "noImplicitAny": true,
     "removeComments": true,
@@ -13,9 +14,14 @@
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "strictNullChecks": true,
-    "stripInternal": true
+    "stripInternal": true,
+    "types": ["jasmine"],
+    "lib": ["es6"]
   },
   "files": [
     "index.ts"
+  ],
+  "exclude": [
+    "node_modules", "dist"
   ]
 }
