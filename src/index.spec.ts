@@ -53,6 +53,14 @@ describe('Color utilities', () => {
       expect(colorUtil.calculateLuminanceOf('#00FF00')).toBeCloseTo(0.7152)
       expect(colorUtil.calculateLuminanceOf('#AF3512')).toBeCloseTo(0.11703838572298138)
     })
+
+    it('should calculate the contrast ratio of two colors', () => {
+      expect(colorUtil.calculateContrastRatio('#FFFFFF', '#000000')).toBe(21 / 1)
+      expect(colorUtil.calculateContrastRatio('#000000', '#000000')).toBe(1 / 1)
+      expect(Math.round(colorUtil.calculateContrastRatio('#FFA500', '#000000'))).toBe(11 / 1)
+      expect(Math.round(colorUtil.calculateContrastRatio('#FFA500', '#FFFFFF'))).toBe(2 / 1)
+    })
+  })
   
   describe('Colors parsing', () => {
     it('should transform hex colors into RGB values array', () => {

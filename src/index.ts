@@ -29,6 +29,22 @@ export class ColorUtilities {
       .map(inSRGB => (inSRGB <= 0.03928) ? inSRGB / 12.92 : ((inSRGB+0.055)/1.055) ** 2.4)
       .reduce((acc, value, index) => acc + value * multipliers[index], 0)
   }
+
+  /**
+   * Calculates a contrast ratio of two colors. Based on the W3C Recommendation.
+   * https://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef
+   *
+   * @param color1
+   * @param color2
+   * @returns {number} the contrast ratio of provided colors
+   */
+  calculateContrastRatio(color1: hexColor, color2: hexColor): number {
+    return [this.calculateLuminanceOf(color1), this.calculateLuminanceOf(color2)]
+      .sort((a, b) => b - a)
+      .map(value => value + 0.05)
+      .reduce((a, b) => a / b)
+  }
+
   /* Parsers */
 
   /**
