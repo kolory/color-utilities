@@ -10,6 +10,8 @@ export class ColorUtilities {
   // TODO: Make the version number dynamic
   static readonly VERSION = '0.0.0'
 
+  static readonly black = '#000000'
+  static readonly white = '#FFFFFF'
   /* Parsers */
 
   /**

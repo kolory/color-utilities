@@ -24,6 +24,8 @@ const invalidHexColors = [
   '#GFAA500' // No 'G' in the range
 ]
 
+const expectedExportedColors = [['white', '#FFFFFF'], ['black', '#000000']]
+
 describe('Color utilities', () => {
   let colorUtil: ColorUtilities
 
@@ -34,6 +36,12 @@ describe('Color utilities', () => {
   describe('Dev information', () => {
     it('should expose some information to consumers', () => {
       expect(ColorUtilities.VERSION).toEqual(jasmine.stringMatching(/^(\d+\.){2}\d+$/))
+    })
+  })
+
+  describe('Color definitons', () => {
+    it('should expose valid colors', () => {
+      expectedExportedColors.forEach(([color, hexValue]) => expect(ColorUtilities[color]).toEqual(hexValue))
     })
   })
   
