@@ -12,6 +12,23 @@ export class ColorUtilities {
 
   static readonly black = '#000000'
   static readonly white = '#FFFFFF'
+
+  /* Utilities */
+
+  /**
+   * Calculates the relative luminance of a color. Based on the W3C Recommendation.
+   * https://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
+   *
+   * @param color for which to calculate the luminance
+   * @returns {number} relative luminance
+   */
+  calculateLuminanceOf(color: hexColor): number {
+    const multipliers = [0.2126, 0.7152, 0.0722]
+    return this.parseHexColor(color)
+      .map(value => value / 255)
+      .map(inSRGB => (inSRGB <= 0.03928) ? inSRGB / 12.92 : ((inSRGB+0.055)/1.055) ** 2.4)
+      .reduce((acc, value, index) => acc + value * multipliers[index], 0)
+  }
   /* Parsers */
 
   /**

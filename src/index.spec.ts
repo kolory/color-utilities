@@ -44,6 +44,15 @@ describe('Color utilities', () => {
       expectedExportedColors.forEach(([color, hexValue]) => expect(ColorUtilities[color]).toEqual(hexValue))
     })
   })
+
+  describe('Utilities', () => {
+    it('should calculate colors luminance', () => {
+      expect(colorUtil.calculateLuminanceOf('#FFFFFF')).toBe(1)
+      expect(colorUtil.calculateLuminanceOf('#000000')).toBe(0)
+      expect(colorUtil.calculateLuminanceOf('#FFA500')).toBeCloseTo(0.48170267036309633)
+      expect(colorUtil.calculateLuminanceOf('#00FF00')).toBeCloseTo(0.7152)
+      expect(colorUtil.calculateLuminanceOf('#AF3512')).toBeCloseTo(0.11703838572298138)
+    })
   
   describe('Colors parsing', () => {
     it('should transform hex colors into RGB values array', () => {
