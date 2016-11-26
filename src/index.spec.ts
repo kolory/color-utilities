@@ -21,7 +21,7 @@ const invalidHexColors = [
   '#AB233',
   '#aaaaaaa',
 
-  '#GFAA500' // No 'G' on the range
+  '#GFAA500' // No 'G' in the range
 ]
 
 describe('Color utilities', () => {
@@ -70,7 +70,7 @@ describe('Color utilities', () => {
   })
 
   describe('Colors analyze', () => {
-    it('should allow splitting the hex color inti its parts', () => {
+    it('should allow splitting the hex color into its parts', () => {
       expect(colorUtil.splitHexColor(basicHexColor)).toEqual(['FF', 'A5', '00'])
       expect(colorUtil.splitHexColor('#ffa500')).toEqual(['FF', 'A5', '00']) // note the uppercases characters
     })

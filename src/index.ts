@@ -20,7 +20,7 @@ export class ColorUtilities {
    * @returns {colorValues} RGB triplet of the provided hex color
    */
   parseHexColor(hexColor: hexColor): colorValues {
-    return <colorValues> this.splitHexColor(this.normalizeHexColor(hexColor)).map(this.changeHexToNumber)
+    return this.splitHexColor(this.normalizeHexColor(hexColor)).map(this.changeHexToNumber) as colorValues
   }
 
   /* Validators */
@@ -53,8 +53,8 @@ export class ColorUtilities {
    * @returns {hexColorValues}
    */
   splitHexColor(hexColor: hexColor): hexColorValues {
-    return <hexColorValues> [[1, 3], [3, 5], [5, 7]]
-      .map(splitRange => hexColor.substring.apply(hexColor, splitRange).toUpperCase())
+    return [[1, 3], [3, 5], [5, 7]]
+      .map(splitRange => hexColor.substring.apply(hexColor, splitRange).toUpperCase()) as hexColorValues
   }
 
   /* Normalizers */
@@ -79,9 +79,9 @@ export class ColorUtilities {
         .reduce((acc, digit, index) => index !== 0 ? [...acc, digit, digit] : acc, ['#'])
         .join('')
         .toUpperCase()
+    } else {
+      return hexColor.toUpperCase()
     }
-
-    return hexColor.toUpperCase()
   }
 
   /* Supporting internal methods */
