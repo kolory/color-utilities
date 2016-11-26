@@ -10,3 +10,6 @@ node_modules
 /src/index.d.ts
 /src/index.spec.js
 /coverage/
+/index.d.ts
+/index.js
+/index.js.map
