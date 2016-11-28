@@ -73,7 +73,7 @@ export class ColorUtilities {
    * @returns {hexColor|boolean}
    */
   isValidHexColor(potentialHexColor?: hexColor): boolean {
-    return potentialHexColor && /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(potentialHexColor)
+    return Boolean(potentialHexColor && /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(potentialHexColor))
   }
 
   /* Analyzers */

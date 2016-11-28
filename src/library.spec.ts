@@ -1,4 +1,4 @@
-import {ColorUtilities} from './index'
+import {ColorUtilities} from './library'
 
 const basicHexColor = '#FFA500'
 
