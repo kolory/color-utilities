@@ -4,7 +4,8 @@
   "description": "Color utilities and parsers",
   "main": "index.ts",
   "scripts": {
-    "test": "node --max-old-space-size=4096 node_modules/karma/bin/karma start"
+    "test": "npm run lint && node --max-old-space-size=4096 node_modules/karma/bin/karma start",
+    "lint": "./node_modules/tslint/bin/tslint --type-check --project ./tsconfig.json --config ./tslint.json"
   },
   "keywords": [
     "colors",
@@ -24,6 +25,9 @@
     "karma-phantomjs-launcher": "^1.0.2",
     "karma-safari-launcher": "^1.0.0",
     "karma-typescript": "^2.1.2",
-    "typescript": "^2.0.9"
+    "typescript": "^2.0.9",
+    "tslint": "^4.0.2",
+    "tslint-eslint-rules": "^3.0.0",
+    "tslint-microsoft-contrib": "^2.0.13"
   }
 }

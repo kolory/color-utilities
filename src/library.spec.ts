@@ -1,6 +1,6 @@
-import {ColorUtilities} from './library'
+import {ColorUtilities, hexColor} from './library'
 
-const basicHexColor = '#FFA500'
+const basicHexColor: hexColor = '#FFA500'
 
 const validHexColors = [
   basicHexColor,
@@ -41,7 +41,7 @@ describe('Color utilities', () => {
 
   describe('Color definitons', () => {
     it('should expose valid colors', () => {
-      expectedExportedColors.forEach(([color, hexValue]) => expect(ColorUtilities[color]).toEqual(hexValue))
+      expectedExportedColors.forEach(([color, hexValue]) => expect(ColorUtilities.color[color]).toEqual(hexValue))
     })
   })
 
@@ -61,7 +61,7 @@ describe('Color utilities', () => {
       expect(Math.round(colorUtil.calculateContrastRatio('#FFA500', '#FFFFFF'))).toBe(2 / 1)
     })
   })
-  
+
   describe('Colors parsing', () => {
     it('should transform hex colors into RGB values array', () => {
       expect(colorUtil.parseHexColor('#FFF')).toEqual([255, 255, 255])
@@ -80,7 +80,8 @@ describe('Color utilities', () => {
     })
 
     it('should inform about failed parsing', () => {
-      invalidHexColors.forEach(invalidColor => expect(() => colorUtil.parseHexColor(invalidColor)).toThrowError(TypeError))
+      invalidHexColors.forEach(invalidColor =>
+        expect(() => colorUtil.parseHexColor(invalidColor)).toThrowError(TypeError))
     })
   })
 
@@ -88,7 +89,6 @@ describe('Color utilities', () => {
     it('should validate hex colors', () => {
       validHexColors.forEach(color => expect(colorUtil.isValidHexColor(color)).toBeTruthy())
       invalidHexColors.forEach(color => expect(colorUtil.isValidHexColor(color)).toBeFalsy())
-      expect(colorUtil.isValidHexColor(null)).toBeFalsy()
       expect(colorUtil.isValidHexColor(undefined)).toBeFalsy()
       expect(colorUtil.isValidHexColor('')).toBeFalsy()
     })
@@ -97,7 +97,7 @@ describe('Color utilities', () => {
   describe('Colors analyze', () => {
     it('should allow splitting the hex color into its parts', () => {
       expect(colorUtil.splitHexColor(basicHexColor)).toEqual(['FF', 'A5', '00'])
-      expect(colorUtil.splitHexColor('#ffa500')).toEqual(['FF', 'A5', '00']) // note the uppercases characters
+      expect(colorUtil.splitHexColor('#ffa500')).toEqual(['FF', 'A5', '00']) // Note the uppercases characters.
     })
   })
 
@@ -110,7 +110,8 @@ describe('Color utilities', () => {
     })
 
     it('should not handle invalid hex colors', () => {
-      invalidHexColors.forEach(invalidColor => expect(() => colorUtil.normalizeHexColor(invalidColor)).toThrowError(TypeError))
+      invalidHexColors.forEach(invalidColor =>
+        expect(() => colorUtil.normalizeHexColor(invalidColor)).toThrowError(TypeError))
     })
   })
 })

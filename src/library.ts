@@ -10,8 +10,10 @@ export class ColorUtilities {
   // TODO: Make the version number dynamic
   static readonly VERSION = '0.0.0'
 
-  static readonly black = '#000000'
-  static readonly white = '#FFFFFF'
+  static readonly color: {[index: string]: hexColor} = {
+    black: '#000000',
+    white: '#FFFFFF'
+  }
 
   /* Utilities */
 
@@ -26,7 +28,7 @@ export class ColorUtilities {
     const multipliers = [0.2126, 0.7152, 0.0722]
     return this.parseHexColor(color)
       .map(value => value / 255)
-      .map(inSRGB => (inSRGB <= 0.03928) ? inSRGB / 12.92 : ((inSRGB+0.055)/1.055) ** 2.4)
+      .map(inSRGB => (inSRGB <= 0.03928) ? inSRGB / 12.92 : ((inSRGB + 0.055) / 1.055) ** 2.4)
       .reduce((acc, value, index) => acc + value * multipliers[index], 0)
   }
 
@@ -122,7 +124,7 @@ export class ColorUtilities {
   /* Supporting internal methods */
 
   private changeHexToNumber(hex: string): number {
-    return parseInt(hex, 16);
+    return parseInt(hex, 16)
   }
 
   /** @internal */

@@ -13,14 +13,14 @@
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "strictNullChecks": true,
     "stripInternal": true,
     "types": ["jasmine"],
     "lib": ["es6"]
   },
-  "files": [
-    "index.ts"
-  ],
+  "include": ["./src/**/*"],
   "exclude": [
     "node_modules", "dist"
   ]
