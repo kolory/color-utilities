@@ -34,12 +34,6 @@ describe('Color utilities', () => {
     colorUtil = new ColorUtilities()
   })
 
-  describe('Dev information', () => {
-    it('should expose some information to consumers', () => {
-      expect(ColorUtilities.VERSION).toEqual(jasmine.stringMatching(/^(\d+\.){2}\d+$/))
-    })
-  })
-
   describe('Color definitons', () => {
     it('should expose valid colors', () => {
       expectedExportedColors.forEach(([color, hexValue]) => expect(ColorUtilities.color[color]).toEqual(hexValue))

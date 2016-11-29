@@ -1,9 +1,6 @@
 import {hexColor, hexColorValues, colorValues} from './types'
 
 export class ColorUtilities {
-  // TODO: Make the version number dynamic
-  static readonly VERSION = '0.0.0'
-
   static readonly color: {[index: string]: hexColor} = {
     black: '#000000',
     white: '#FFFFFF'
