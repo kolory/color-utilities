@@ -36,7 +36,10 @@ describe('Color utilities', () => {
 
   describe('Color definitons', () => {
     it('should expose valid colors', () => {
-      expectedExportedColors.forEach(([color, hexValue]) => expect(ColorUtilities.color[color]).toEqual(hexValue))
+      expectedExportedColors.forEach(([color, hexValue]) => {
+        expect(ColorUtilities.color[color]).toEqual(hexValue)
+        expect(colorUtil.isValidHexColor(ColorUtilities.color[color])).toBeTruthy()
+      })
     })
   })
 

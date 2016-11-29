@@ -1,6 +1,12 @@
 import {hexColor, hexColorValues, colorValues} from './types'
 
+/**
+ * Utility library for parsing colors, validation, normalization and some other useful features.
+ */
 export class ColorUtilities {
+  /**
+   * A dictionary of color values. USes hex values by default.
+   */
   static readonly color: {[index: string]: hexColor} = {
     black: '#000000',
     white: '#FFFFFF'
@@ -24,11 +30,12 @@ export class ColorUtilities {
   }
 
   /**
-   * Calculates a contrast ratio of two colors. Based on the W3C Recommendation.
+   * Calculates a contrast ratio of two colors. Based on the W3C Recommendation. Method ensures the proper
+   * order of color values, so it doesn't matter which color is brighter.
    * https://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef
    *
-   * @param color1
-   * @param color2
+   * @param {hexColor} color1 Calculate this color's contrast ratio…
+   * @param {hexColor} color2 to this color.
    * @returns {number} the contrast ratio of provided colors
    */
   calculateContrastRatio(color1: hexColor, color2: hexColor): number {
@@ -114,11 +121,21 @@ export class ColorUtilities {
 
   /* Supporting internal methods */
 
+  /**
+   * Parses the base-16 number to base 10.
+   * @internal
+   * @param hex as base 16 number
+   * @returns {number} base 10 number
+   */
   private changeHexToNumber(hex: string): number {
     return parseInt(hex, 16)
   }
 
-  /** @internal */
+  /**
+   * A shortcut to throw an error when privided number was invalid.
+   * @internal
+   * @param {hexColor} hexColor An invalid color
+   */
   private throwInvalidHexColor(hexColor?: hexColor): never {
     throw new TypeError(`Using invalid hex color value. Used "${hexColor}" but only #RGB and #RRGGBB are allowed.`)
   }
