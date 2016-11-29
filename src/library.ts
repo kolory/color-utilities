@@ -99,23 +99,26 @@ export class ColorUtilities {
    *
    * @example
    * "#fff" => "#FFFFFF"
+   * "123" => "#112233"
    *
    * @throws TypeError
    * @param hexColor to be normalized
    * @returns {any}
    */
   normalizeHexColor(hexColor: hexColor): hexColor {
-    if (!this.isValidHexColor(hexColor)) {
+    const potentialColor = hexColor[0] !== '#' ? '#' + hexColor : hexColor
+
+    if (!this.isValidHexColor(potentialColor)) {
       this.throwInvalidHexColor(hexColor)
     }
 
-    if (hexColor.length === 4) {
-      return hexColor.split('')
+    if (potentialColor.length === 4) {
+      return potentialColor.split('')
         .reduce((acc, digit, index) => index !== 0 ? [...acc, digit, digit] : acc, ['#'])
         .join('')
         .toUpperCase()
     } else {
-      return hexColor.toUpperCase()
+      return potentialColor.toUpperCase()
     }
   }
 

@@ -3,16 +3,16 @@ import {hexColor} from './types'
 
 const basicHexColor: hexColor = '#FFA500'
 
-const validHexColors = [
+// Library allows using colors without the initial # in some cases (not in validation, though).
+const strictlyValidHexColors = [
   basicHexColor,
   '#aaa',
   '#123',
-  '#AAAAAA'
+  '#AAAAAA',
 ]
 
 const invalidHexColors = [
   'invalid',
-  '10AA40', // No #
 
   // Too many or too few characters
   '#4',
@@ -85,8 +85,9 @@ describe('Color utilities', () => {
 
   describe('Color validation', () => {
     it('should validate hex colors', () => {
-      validHexColors.forEach(color => expect(colorUtil.isValidHexColor(color)).toBeTruthy())
+      strictlyValidHexColors.forEach(color => expect(colorUtil.isValidHexColor(color)).toBeTruthy())
       invalidHexColors.forEach(color => expect(colorUtil.isValidHexColor(color)).toBeFalsy())
+      expect(colorUtil.isValidHexColor('FFFFFF')).toBeFalsy()
       expect(colorUtil.isValidHexColor(undefined)).toBeFalsy()
       expect(colorUtil.isValidHexColor('')).toBeFalsy()
     })
@@ -105,6 +106,12 @@ describe('Color utilities', () => {
       expect(colorUtil.normalizeHexColor('#aaaaaa')).toBe('#AAAAAA')
       expect(colorUtil.normalizeHexColor('#fa5')).toBe('#FFAA55')
       expect(colorUtil.normalizeHexColor(basicHexColor)).toBe(basicHexColor)
+    })
+
+    it('should handle semi-valid color (without #)', () => {
+      expect(colorUtil.normalizeHexColor('FFFFFF')).toBe('#FFFFFF')
+      expect(colorUtil.normalizeHexColor('fff')).toBe('#FFFFFF')
+      expect(colorUtil.normalizeHexColor('123')).toBe('#112233')
     })
 
     it('should not handle invalid hex colors', () => {
