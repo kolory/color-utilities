@@ -6,7 +6,8 @@
   "scripts": {
     "test": "npm run lint && node --max-old-space-size=4096 node_modules/karma/bin/karma start",
     "lint": "./node_modules/tslint/bin/tslint --type-check --project ./tsconfig.json --config ./tslint.json",
-    "build": "./node_modules/typescript/bin/tsc"
+    "build": "./node_modules/typescript/bin/tsc",
+    "prepublish": "npm run build"
   },
   "keywords": [
     "colors",
