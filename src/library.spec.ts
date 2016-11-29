@@ -1,4 +1,5 @@
-import {ColorUtilities, hexColor} from './library'
+import {ColorUtilities} from './library'
+import {hexColor} from './types'
 
 const basicHexColor: hexColor = '#FFA500'
 

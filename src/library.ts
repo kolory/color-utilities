@@ -1,10 +1,4 @@
-// TODO: Should be exported?
-export type RGBColor = string
-export type hexColor = string
-export type hexValue = string
-export type hexColorValues = [hexValue, hexValue, hexValue]
-export type anyColor = RGBColor | hexColor
-export type colorValues = [number, number, number]
+import {hexColor, hexColorValues, colorValues} from './types'
 
 export class ColorUtilities {
   // TODO: Make the version number dynamic
