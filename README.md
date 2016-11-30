@@ -5,7 +5,7 @@ Exposed as a class, so can be used as a stand-alone, or inside Angular apps.
 
 ## Install and use
 ```
-npm install @rs/color-utilities
+npm install @radiatingstar/color-utilities
 ```
 
 ```
