@@ -6,10 +6,5 @@ node_js:
 git:
   depth: 5
 
-addons:
-  code_climate:
-    repo_token:
-      - secure: Xc77gkySE/sD2PUvMgdSQXKzgLCBfHnsV8s/m6AW2TYua17aL8UbvN6q/b2RkRcfSH210H0NK1/OFaf1yPo1H+PB8fv5ot5YhX4RMLD5lQkC2klH5xV7V5+RHJHj2bpiIwgQvA060n4jKbpZ7HklN8meQndDf9xv6jYcUpman+kZOxENGDqGsZn/NLGEoccPvzgX/XAlOq8sxn9VltlIQBxgtKlP5R6mt4kvUQOXFFa0CYPSbSYccVJfRQz3KL1Q6PEwMIsJ/oYYfzq51ORFFSwuX6q5Nn3QHb3foVe1jzAlecE37ghRP9ooVkJT8yDYv4Ui1vniMokJG7PoJbHa91O2JoRT8OX00wgU1AB1ubnbwe3toW2pjiAK+6pNoeWpyI3vwl9HchRktqs8RRYoL+J0xA4qFbvx1+eDXsspsWWgsg2VlGawlVyg3gWL09ZRgSkeWblGNHFfIqqvOmbDvjAJhfzYVDURnuwT8SUch6Kz6b2X9s8JIlosPJ51NF1nW3sKUSoVh+xJhQ3ew2PYD6P6R8E+0GAS/fDnNjQHqv/g3wdHhbZEFBHsdEzOqO3Vcy0xQcDVU9SPxZQrPPYAH5/x/Y/2LN0snWgiWRAonmCqESo7HMJZlX/YJeACAAC1DIH68M1SD61vpS3Oe0q4RkUXmfLQqK2xmo4mweWWYns=
-
 after_success:
-  - codeclimate-test-reporter < ./coverage/lcovonly
+  - codeclimate-test-reporter < coverage/lcovonly
