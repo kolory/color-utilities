@@ -13,10 +13,10 @@ npm install @radiatingstar/color-utilities
 
 ```
 // TypeScript, JavaScript module
-import {ColorUtilities} from '@rs/color-utilities'
+import {ColorUtilities} from '@radiatingstar/color-utilities'
 
-// Node, browserify
-var colorUtil = require('@rs/color-utilities')
+// Node, Browserify
+var colorUtil = require('@radiatingstar/color-utilities')
 ```
 
 ## Features
