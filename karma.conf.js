@@ -60,7 +60,8 @@ module.exports = function (config) {
     karmaTypescriptConfig: {
       reports: {
         "html": "coverage",
-        "text-summary": ""
+        "text": "",
+        "lcovonly": "coverage"
       }
     }
   })
