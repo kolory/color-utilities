@@ -1,2 +1,11 @@
 *.ts
 !*.d.ts
+
+.idea
+coverage
+.editorconfig
+.travis.yml
+karma.conf.js
+lcov.info
+tsconfig.json
+tslint.json
