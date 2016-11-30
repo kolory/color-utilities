@@ -1,5 +1,5 @@
 {
-  "name": "@rs/color-utilities",
+  "name": "@radiatingstar/color-utilities",
   "version": "0.0.1",
   "description": "Color utilities and parsers",
   "main": "index.js",
