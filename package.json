@@ -4,8 +4,9 @@
   "description": "Color utilities and parsers",
   "main": "index.js",
   "scripts": {
-    "test": "npm run lint && node --max-old-space-size=4096 node_modules/karma/bin/karma start",
+    "test": "npm run lint && node --max-old-space-size=4096 node_modules/karma/bin/karma start --single-run",
     "lint": "./node_modules/tslint/bin/tslint --type-check --project ./tsconfig.json --config ./tslint.json",
+    "unit": "node --max-old-space-size=4096 node_modules/karma/bin/karma start",
     "build": "./node_modules/typescript/bin/tsc",
     "prepublish": "npm run build"
   },
