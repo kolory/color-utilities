@@ -107,10 +107,7 @@ export class ColorUtilities {
    */
   normalizeHexColor(hexColor: hexColor): hexColor {
     const potentialColor = hexColor[0] !== '#' ? '#' + hexColor : hexColor
-
-    if (!this.isValidHexColor(potentialColor)) {
-      this.throwInvalidHexColor(hexColor)
-    }
+    this.throwIfInvalidHexColor(potentialColor)
 
     if (potentialColor.length === 4) {
       return potentialColor.split('')
@@ -135,11 +132,22 @@ export class ColorUtilities {
   }
 
   /**
-   * A shortcut to throw an error when privided number was invalid.
+   * A shortcut to throw an error when provided number was invalid.
    * @internal
    * @param {hexColor} hexColor An invalid color
    */
   private throwInvalidHexColor(hexColor?: hexColor): never {
     throw new TypeError(`Using invalid hex color value. Used "${hexColor}" but only #RGB and #RRGGBB are allowed.`)
+  }
+
+  /**
+   * Validation combined with the error throwing. Just to make the code that needs this behavior shorter.
+   * @internal
+   * @param {hexColor} hexColor An invalid color
+   */
+  private throwIfInvalidHexColor(hexColor?: hexColor): void {
+    if (!this.isValidHexColor(hexColor)) {
+      this.throwInvalidHexColor(hexColor)
+    }
   }
 }

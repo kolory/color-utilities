@@ -8,7 +8,7 @@ const strictlyValidHexColors = [
   basicHexColor,
   '#aaa',
   '#123',
-  '#AAAAAA',
+  '#AAAAAA'
 ]
 
 const invalidHexColors = [
