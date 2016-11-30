@@ -9,6 +9,10 @@
     "build": "./node_modules/typescript/bin/tsc",
     "prepublish": "npm run build"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:radiatingstar/color-utilities.git"
+  },
   "keywords": [
     "colors",
     "contrast",
