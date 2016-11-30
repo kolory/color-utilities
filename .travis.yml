@@ -7,4 +7,5 @@ git:
   depth: 5
 
 after_success:
+  - npm install codeclimate-test-reporter
   - codeclimate-test-reporter < lcov.info
