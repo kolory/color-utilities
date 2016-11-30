@@ -1,4 +1,7 @@
 # Color utilities
+[![Build Status](https://travis-ci.org/radiatingstar/color-utilities.svg?branch=master)](https://travis-ci.org/radiatingstar/color-utilities)
+[![Code Climate](https://codeclimate.com/github/radiatingstar/color-utilities/badges/gpa.svg)](https://codeclimate.com/github/radiatingstar/color-utilities)
+[![Test Coverage](https://codeclimate.com/github/radiatingstar/color-utilities/badges/coverage.svg)](https://codeclimate.com/github/radiatingstar/color-utilities/coverage)
 
 Collection of useful methods for colors parsing, validation, transformations and calculations.
 Exposed as a class, so can be used as a stand-alone, or inside Angular apps.
