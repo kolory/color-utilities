@@ -7,7 +7,4 @@ git:
   depth: 5
 
 after_success:
-  - ls
-  - cd coverage
-  - ls
-  - codeclimate-test-reporter < coverage/lcovonly
+  - codeclimate-test-reporter < lcov.info

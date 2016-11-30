@@ -61,7 +61,7 @@ module.exports = function (config) {
       reports: {
         "html": "coverage",
         "text": "",
-        "lcovonly": "coverage"
+        "lcovonly": ""
       }
     }
   })
