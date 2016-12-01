@@ -162,10 +162,25 @@ export class ColorUtilities {
     }
   }
 
+  /**
+   * Normaizes casing ans spacing in the provided rgb color.
+   *
+   * @example
+   * ' RGB  ( 11,  11,11  )   ' => 'rgb(11, 11, 11)
+   *
+   * @param rgbColor to be normalized.
+   * @returns {string} Normalized rgb color string.
+   */
+  normalizeRgbColor(rgbColor: RGBColor): RGBColor {
+    const potentialColor = rgbColor.toLowerCase()
+    this.throwIfInvalidRgbColor(potentialColor)
+    return potentialColor.replace(/\s/g, '').replace(/,/g, ', ')
+  }
+
   /* Supporting internal methods */
 
   /**
-   * Parses the base-16 number to base 10.
+   * Parses the base-16 number to base-10.
    * @internal
    * @param hex as base 16 number
    * @returns {number} base 10 number

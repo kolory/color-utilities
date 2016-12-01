@@ -141,5 +141,17 @@ describe('Color utilities', () => {
       invalidHexColors.forEach(invalidColor =>
         expect(() => colorUtil.normalizeHexColor(invalidColor)).toThrowError(TypeError))
     })
+
+    it('should normalize RGB colors with strange spacing or uppercase letters', () => {
+      expect(colorUtil.normalizeRgbColor('rgb(1, 2, 3)')).toBe('rgb(1, 2, 3)') // No normalization in this case.
+      expect(colorUtil.normalizeRgbColor('   rgb    (  1,    2,3  )   ')).toBe('rgb(1, 2, 3)')
+      expect(colorUtil.normalizeRgbColor('RGB(100, 100, 100)')).toBe('rgb(100, 100, 100)')
+      expect(colorUtil.normalizeRgbColor('rgb(1,2,3)')).toBe('rgb(1, 2, 3)')
+    })
+
+    it('should not handle invalid RGB colors', () => {
+      invalidRgbColors.forEach(invalidColor =>
+        expect(() => colorUtil.normalizeRgbColor(invalidColor)).toThrowError(TypeError))
+    })
   })
 })
