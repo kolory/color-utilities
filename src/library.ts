@@ -18,7 +18,7 @@ export class ColorUtilities {
    * Calculates the relative luminance of a color. Based on the W3C Recommendation.
    * https://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
    *
-   * @param color for which to calculate the luminance
+   * @param {hexColor} color for which to calculate the luminance
    * @returns {number} relative luminance
    */
   calculateLuminanceOf(color: hexColor): number {
@@ -51,7 +51,7 @@ export class ColorUtilities {
    * Parses valid hex colors into their RGB representation in base 10.
    *
    * @throws TypeError
-   * @param hexColor to be transformed
+   * @param {hexColor} hexColor to be transformed
    * @returns {colorValues} RGB triplet of the provided hex color
    */
   parseHexColor(hexColor: hexColor): colorValues {
@@ -62,7 +62,7 @@ export class ColorUtilities {
    * Transforms the RGB color string into its color values.
    *
    * @throws TypeError
-   * @param rgbColor to be transformed
+   * @param {RGBColor} rgbColor to be transformed
    * @returns {colorValues} RGB triplet of the provided hex color
    */
   parseRGBColor(rgbColor: RGBColor): colorValues {
@@ -80,7 +80,7 @@ export class ColorUtilities {
    * "#GGG" => false
    * "" => false
    *
-   * @param potentialHexColor Might-be-valid-or-not rgb color string.
+   * @param {hexColor?} potentialHexColor Might-be-valid-or-not hex color string.
    * @returns {boolean} Is it valid?
    */
   isValidHexColor(potentialHexColor?: hexColor): boolean {
@@ -98,8 +98,8 @@ export class ColorUtilities {
    * 'Xrgb(0, 1, 2)' => false
    * 'rgb(256, 255, 255)' => false
    *
-   * @param potentialRgbColor
-   * @returns {boolean}
+   * @param {RGBColor} potentialRgbColor Might-be-valid-or-not rgb color string.
+   * @returns {boolean} Is it a valid rgb color string?
    */
   isValidRgbColor(potentialRgbColor?: RGBColor): boolean {
     if (!potentialRgbColor) {
@@ -111,8 +111,8 @@ export class ColorUtilities {
 
   /**
    * Tests if the provided RGB color is in a valid format, eg. "rgb(1, 2, 3)".
-   * @param potentialRgbColor
-   * @returns {boolean}
+   * @param {RGBColor} potentialRgbColor Might-be-valid-or-not rgb color string.
+   * @returns {boolean} Does the string has a valid format?
    */
   private doesRgbHasValidFormat(potentialRgbColor: RGBColor): boolean {
     return /^rgb\((\d{1,3}\,){2}\d{1,3}\)$/.test(potentialRgbColor.replace(/\s/g, '').toLowerCase())
@@ -120,8 +120,8 @@ export class ColorUtilities {
 
   /**
    * Tests if the values of the provided RGB color are in 0-255 range.
-   * @param potentialRgbColor
-   * @returns {boolean}
+   * @param {RGBColor} potentialRgbColor Might-be-valid-or-not rgb color string.
+   * @returns {boolean} Are the values are in the RGB range?
    */
   private areRgbValuesInRange(potentialRgbColor: RGBColor): boolean {
     // Typecasting is safe here, since this.isValidRgbColor ensures the valid format first.
@@ -138,7 +138,7 @@ export class ColorUtilities {
    * @example
    * "#FFA500" => ["FF", "A5", "00"]
    *
-   * @param hexColor to te split
+   * @param {hexColor} hexColor to te split
    * @returns {hexColorValues}
    */
   splitHexColor(hexColor: hexColor): hexColorValues {
@@ -152,8 +152,8 @@ export class ColorUtilities {
    * @example
    * "rgba(255, 0, 1)" => [255, 0, 1]
    *
-   * @param rgbColor
-   * @returns {Number[]}
+   * @param {RGBColor} rgbColor An RGB color string.
+   * @returns {colorValues} A triplet of the color values.
    */
   splitRgbColor(rgbColor: RGBColor): colorValues {
     return (rgbColor.match(/\d{1,3}/g) as string[]).map(stringValue => Number(stringValue)) as colorValues
@@ -169,7 +169,7 @@ export class ColorUtilities {
    * "123" => "#112233"
    *
    * @throws TypeError
-   * @param hexColor to be normalized
+   * @param {hexColor} hexColor to be normalized
    * @returns {any}
    */
   normalizeHexColor(hexColor: hexColor): hexColor {
@@ -192,7 +192,7 @@ export class ColorUtilities {
    * @example
    * ' RGB  ( 11,  11,11  )   ' => 'rgb(11, 11, 11)
    *
-   * @param rgbColor to be normalized.
+   * @param {RGBColor} rgbColor to be normalized.
    * @returns {string} Normalized rgb color string.
    */
   normalizeRgbColor(rgbColor: RGBColor): RGBColor {
@@ -206,7 +206,7 @@ export class ColorUtilities {
   /**
    * Parses the base-16 number to base-10.
    * @internal
-   * @param hex as base 16 number
+   * @param {string} hex as base 16 number
    * @returns {number} base 10 number
    */
   private changeHexToNumber(hex: string): number {
