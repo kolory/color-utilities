@@ -1,4 +1,4 @@
-import {hexColor, hexColorValues, colorValues} from './types'
+import {hexColor, hexColorValues, colorValues, RGBColor} from './types'
 
 /**
  * Utility library for parsing colors, validation, normalization and some other useful features.
@@ -74,6 +74,23 @@ export class ColorUtilities {
    */
   isValidHexColor(potentialHexColor?: hexColor): boolean {
     return Boolean(potentialHexColor && /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(potentialHexColor))
+  }
+
+  isValidRgbColor(potentialRgbColor?: RGBColor): boolean {
+    if (!potentialRgbColor) {
+      return false
+    } else {
+      return this.doesRgbHasValidFormat(potentialRgbColor) && this.areRgbValuesInRange(potentialRgbColor)
+    }
+  }
+
+  private doesRgbHasValidFormat(potentialRgbColor: RGBColor): boolean {
+    return /^rgb\((\d{1,3}\,){2}\d{1,3}\)$/.test(potentialRgbColor.replace(/\s/g, '').toLowerCase())
+  }
+
+  private areRgbValuesInRange(potentialRgbColor: RGBColor): boolean {
+    return (potentialRgbColor.match(/\d{1,3}/g) || []).map(stringValue => Number(stringValue))
+      .every(value => value >= 0 && value <= 255)
   }
 
   /* Analyzers */

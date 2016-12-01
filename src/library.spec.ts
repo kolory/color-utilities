@@ -25,6 +25,18 @@ const invalidHexColors = [
   '#GFAA500' // No 'G' in the range
 ]
 
+const validRgbColors = [
+  'rgb(1,1,1)',
+  'rgb(123, 255, 0)',
+  ' rgb  (   12,    12,1   )   ',
+  'RGB(255, 0, 0)'
+]
+
+const invalidRgbColors = [
+  'Xrgb(0, 1, 2)',
+  'rgb(256, 255, 255)' // 256, out of range
+]
+
 const expectedExportedColors = [['white', '#FFFFFF'], ['black', '#000000']]
 
 describe('Color utilities', () => {
@@ -34,7 +46,7 @@ describe('Color utilities', () => {
     colorUtil = new ColorUtilities()
   })
 
-  describe('Color definitons', () => {
+  describe('Color definitions', () => {
     it('should expose valid colors', () => {
       expectedExportedColors.forEach(([color, hexValue]) => {
         expect(ColorUtilities.color[color]).toEqual(hexValue)
@@ -90,6 +102,13 @@ describe('Color utilities', () => {
       expect(colorUtil.isValidHexColor('FFFFFF')).toBeFalsy()
       expect(colorUtil.isValidHexColor(undefined)).toBeFalsy()
       expect(colorUtil.isValidHexColor('')).toBeFalsy()
+    })
+
+    it('should validate RGB colors', () => {
+      validRgbColors.forEach(color => expect(colorUtil.isValidRgbColor(color)).toBeTruthy())
+      invalidRgbColors.forEach(color => expect(colorUtil.isValidRgbColor(color)).toBeFalsy())
+      expect(colorUtil.isValidRgbColor(undefined)).toBeFalsy()
+      expect(colorUtil.isValidRgbColor('')).toBeFalsy()
     })
   })
 
