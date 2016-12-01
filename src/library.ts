@@ -135,6 +135,19 @@ export class ColorUtilities {
       .map(splitRange => hexColor.substring.apply(hexColor, splitRange).toUpperCase()) as hexColorValues
   }
 
+  /**
+   * Splits the rgba color string into the an array of color values.
+   *
+   * @example
+   * "rgba(255, 0, 1)" => [255, 0, 1]
+   *
+   * @param rgbColor
+   * @returns {Number[]}
+   */
+  splitRgbColor(rgbColor: RGBColor): number[] {
+    return (rgbColor.match(/\d{1,3}/g) as string[]).map(stringValue => Number(stringValue))
+  }
+
   /* Normalizers */
 
   /**

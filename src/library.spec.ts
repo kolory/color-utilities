@@ -121,6 +121,11 @@ describe('Color utilities', () => {
       expect(colorUtil.splitHexColor(basicHexColor)).toEqual(['FF', 'A5', '00'])
       expect(colorUtil.splitHexColor('#ffa500')).toEqual(['FF', 'A5', '00']) // Note the uppercases characters.
     })
+
+    it('should allow splitting the rgb color into its parts', () => {
+      expect(colorUtil.splitRgbColor('rgb(0, 1, 3')).toEqual([0, 1, 3])
+      expect(colorUtil.splitRgbColor('rgb(255, 255, 255')).toEqual([255, 255, 255])
+    })
   })
 
   describe('Colors normalization', () => {
