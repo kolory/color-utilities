@@ -69,13 +69,27 @@ export class ColorUtilities {
    * "#GGG" => false
    * "" => false
    *
-   * @param potentialHexColor
-   * @returns {hexColor|boolean}
+   * @param potentialHexColor Might-be-valid-or-not rgb color string.
+   * @returns {boolean} Is it valid?
    */
   isValidHexColor(potentialHexColor?: hexColor): boolean {
     return Boolean(potentialHexColor && /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(potentialHexColor))
   }
 
+  /**
+   * Validates the provided RGB color.
+   *
+   * @example
+   * 'rgb(1,1,1)' => true
+   * 'rgb(123, 255, 0)' => true
+   * ' rgb  (   12,    12,1   )   ' => true
+   * 'RGB(255, 0, 0)' => true
+   * 'Xrgb(0, 1, 2)' => false
+   * 'rgb(256, 255, 255)' => false
+   *
+   * @param potentialRgbColor
+   * @returns {boolean}
+   */
   isValidRgbColor(potentialRgbColor?: RGBColor): boolean {
     if (!potentialRgbColor) {
       return false
@@ -84,13 +98,25 @@ export class ColorUtilities {
     }
   }
 
+  /**
+   * Tests if the provided RGB color is in a valid format, eg. "rgb(1, 2, 3)".
+   * @param potentialRgbColor
+   * @returns {boolean}
+   */
   private doesRgbHasValidFormat(potentialRgbColor: RGBColor): boolean {
     return /^rgb\((\d{1,3}\,){2}\d{1,3}\)$/.test(potentialRgbColor.replace(/\s/g, '').toLowerCase())
   }
 
+  /**
+   * Tests if the values of the provided RGB color are in 0-255 range.
+   * @param potentialRgbColor
+   * @returns {boolean}
+   */
   private areRgbValuesInRange(potentialRgbColor: RGBColor): boolean {
-    return (potentialRgbColor.match(/\d{1,3}/g) || []).map(stringValue => Number(stringValue))
-      .every(value => value >= 0 && value <= 255)
+    // Typecasting is safe here, since this.isValidRgbColor ensures the valid format first.
+    const values = potentialRgbColor.match(/\d{1,3}/g) as string[]
+    return values.every(stringValue => !/^0\d/.test(stringValue)) &&
+       values.map(stringValue => Number(stringValue)).every(value => value >= 0 && value <= 255)
   }
 
   /* Analyzers */
@@ -165,6 +191,26 @@ export class ColorUtilities {
   private throwIfInvalidHexColor(hexColor?: hexColor): void {
     if (!this.isValidHexColor(hexColor)) {
       this.throwInvalidHexColor(hexColor)
+    }
+  }
+
+  /**
+   * A shortcut to throw an error when provided number was invalid.
+   * @internal
+   * @param {rgbColor} rgbColor An invalid color
+   */
+  private throwInvalidRgbColor(rgbColor?: RGBColor): never {
+    throw new TypeError(`Using invalid RGB color format. Used "${rgbColor}" rgb(123, 123, 123) is allowed.`)
+  }
+
+  /**
+   * Validation combined with the error throwing. Just to make the code that needs this behavior shorter.
+   * @internal
+   * @param {rgbColor} rgbColor An invalid color
+   */
+  private throwIfInvalidRgbColor(rgbColor?: RGBColor): void {
+    if (!this.isValidRgbColor(rgbColor)) {
+      this.throwInvalidRgbColor(rgbColor)
     }
   }
 }

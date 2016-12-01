@@ -34,7 +34,11 @@ const validRgbColors = [
 
 const invalidRgbColors = [
   'Xrgb(0, 1, 2)',
-  'rgb(256, 255, 255)' // 256, out of range
+  'rgb(256, 255, 255)', // 256, out of range
+  'rgb(001, 02, 3)', // Invalid number
+  'rgb(A, 02, 3)', // Invalid number
+  'rgb(,,)',
+  'rgb(1,2,)'
 ]
 
 const expectedExportedColors = [['white', '#FFFFFF'], ['black', '#000000']]
