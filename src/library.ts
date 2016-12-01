@@ -225,7 +225,7 @@ export class ColorUtilities {
   /**
    * A shortcut to throw an error when provided number was invalid.
    * @internal
-   * @param {rgbColor} rgbColor An invalid color
+   * @param {RGBColor} rgbColor An invalid color
    */
   private throwInvalidRgbColor(rgbColor?: RGBColor): never {
     throw new TypeError(`Using invalid RGB color format. Used "${rgbColor}" rgb(123, 123, 123) is allowed.`)
@@ -234,7 +234,7 @@ export class ColorUtilities {
   /**
    * Validation combined with the error throwing. Just to make the code that needs this behavior shorter.
    * @internal
-   * @param {rgbColor} rgbColor An invalid color
+   * @param {RGBColor} rgbColor An invalid color
    */
   private throwIfInvalidRgbColor(rgbColor?: RGBColor): void {
     if (!this.isValidRgbColor(rgbColor)) {
