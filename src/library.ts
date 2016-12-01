@@ -58,6 +58,17 @@ export class ColorUtilities {
     return this.splitHexColor(this.normalizeHexColor(hexColor)).map(this.changeHexToNumber) as colorValues
   }
 
+  /**
+   * Transforms the RGB color string into its color values.
+   *
+   * @throws TypeError
+   * @param rgbColor to be transformed
+   * @returns {colorValues} RGB triplet of the provided hex color
+   */
+  parseRGBColor(rgbColor: RGBColor): colorValues {
+    return this.splitRgbColor(this.normalizeRgbColor(rgbColor)) as colorValues
+  }
+
   /* Validators */
 
   /**
@@ -144,8 +155,8 @@ export class ColorUtilities {
    * @param rgbColor
    * @returns {Number[]}
    */
-  splitRgbColor(rgbColor: RGBColor): number[] {
-    return (rgbColor.match(/\d{1,3}/g) as string[]).map(stringValue => Number(stringValue))
+  splitRgbColor(rgbColor: RGBColor): colorValues {
+    return (rgbColor.match(/\d{1,3}/g) as string[]).map(stringValue => Number(stringValue)) as colorValues
   }
 
   /* Normalizers */

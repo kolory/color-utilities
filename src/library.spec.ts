@@ -85,6 +85,12 @@ describe('Color utilities', () => {
       expect(colorUtil.parseHexColor(basicHexColor)).toEqual([255, 165, 0])
     })
 
+    it('should transform RGB color into RGB values array', () => {
+      expect(colorUtil.parseRGBColor('rgb(0, 0, 0)')).toEqual([0, 0, 0])
+      expect(colorUtil.parseRGBColor('rgb(1, 2, 100)')).toEqual([1, 2, 100])
+      expect(colorUtil.parseRGBColor('rgb(255, 255, 255)')).toEqual([255, 255, 255])
+    })
+
     it('should allow using shorthand hex colors', () => {
       expect(colorUtil.parseHexColor('#FFF')).toEqual(colorUtil.parseHexColor('#FFFFFF'))
     })
@@ -96,6 +102,9 @@ describe('Color utilities', () => {
     it('should inform about failed parsing', () => {
       invalidHexColors.forEach(invalidColor =>
         expect(() => colorUtil.parseHexColor(invalidColor)).toThrowError(TypeError))
+
+      invalidRgbColors.forEach(invalidColor =>
+        expect(() => colorUtil.parseRGBColor(invalidColor)).toThrowError(TypeError))
     })
   })
 
