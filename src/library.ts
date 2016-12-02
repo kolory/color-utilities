@@ -66,6 +66,24 @@ export class ColorUtilities {
   /* Parsers */
 
   /**
+   * A generic parser. Resolves the color type before passing it to specific parsers.
+   *
+   * @throws TypeError
+   * @param {anyColor} color A color to be parsed.
+   * @returns {colorValues} RGB triplet of the provided hex color
+   */
+  parseColor(color: anyColor): colorValues {
+    switch (this.resolveColorType(color)) {
+      case ColorTypes.hex:
+        return this.parseHexColor(color)
+      case ColorTypes.rgb:
+        return this.parseRGBColor(color)
+      default:
+        throw new TypeError(`Trying to pare an invalid color (${color}).`)
+    }
+  }
+
+  /**
    * Parses valid hex colors into their RGB representation in base 10.
    *
    * @throws TypeError

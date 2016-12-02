@@ -84,6 +84,17 @@ describe('Color utilities', () => {
   })
 
   describe('Colors parsing', () => {
+    it('should parse all valid colors', () => {
+      expect(colorUtil.parseColor('#FFF')).toEqual([255, 255, 255])
+      expect(colorUtil.parseColor('#FFFFFF')).toEqual([255, 255, 255])
+      expect(colorUtil.parseColor('#000000')).toEqual([0, 0, 0])
+      expect(colorUtil.parseColor('#ffa500')).toEqual([255, 165, 0])
+      expect(colorUtil.parseColor(basicHexColor)).toEqual([255, 165, 0])
+      expect(colorUtil.parseColor('rgb(0, 0, 0)')).toEqual([0, 0, 0])
+      expect(colorUtil.parseColor('rgb(1, 2, 100)')).toEqual([1, 2, 100])
+      expect(colorUtil.parseColor('rgb(255, 255, 255)')).toEqual([255, 255, 255])
+    })
+
     it('should transform hex colors into RGB values array', () => {
       expect(colorUtil.parseHexColor('#FFF')).toEqual([255, 255, 255])
       expect(colorUtil.parseHexColor('#FFFFFF')).toEqual([255, 255, 255])
@@ -107,6 +118,9 @@ describe('Color utilities', () => {
     })
 
     it('should inform about failed parsing', () => {
+      [...invalidHexColors, ...invalidRgbColors].forEach(color =>
+        expect(() => colorUtil.parseColor(color)).toThrowError(TypeError))
+
       invalidHexColors.forEach(invalidColor =>
         expect(() => colorUtil.parseHexColor(invalidColor)).toThrowError(TypeError))
 
