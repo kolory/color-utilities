@@ -54,7 +54,7 @@ describe('Color utilities', () => {
   describe('Basic features', () => {
     it('should allow creating an instance using the `new` operator and as from a factory', () => {
       expect(new ColorUtilities()).toBeDefined()
-      expect(ColorUtilities)
+      expect(ColorUtilities.create() instanceof ColorUtilities).toBeTruthy()
     })
   })
 
