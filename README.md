@@ -11,12 +11,29 @@ Exposed as a class, so can be used as a stand-alone, or inside Angular apps.
 npm install @radiatingstar/color-utilities
 ```
 
+Use in a JavaScript or TypeScript project:
 ```
 // TypeScript, JavaScript module
 import {ColorUtilities} from '@radiatingstar/color-utilities'
 
 // Node, Browserify
-var colorUtil = require('@radiatingstar/color-utilities')
+const ColorUtilities = require('@radiatingstar/color-utilities')
+
+// Create using a `new` keyword or with a factory.
+const colorUtils = new ColorUtilities()
+const colorUtilsFromFactory = ColorUtilities.create()
+```
+
+Library is compatible with the Angular 2 dependency injection system. Provide it as a dependency in a Component
+or NgModule decorator.
+```
+@Component({
+  ...
+  providers: [ColorUtilities, ...]
+})
+class MyComponent {
+  consturctor(private colorUtilities: ColorUtilities) {}
+}
 ```
 
 ## Features

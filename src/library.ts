@@ -8,7 +8,7 @@ import {ColorTypes} from './color-types-enum'
  * import {ColorUtilities} from '@radiatingstar/color-utilities'
  *
  * // Use in node Node or Browserify
- * const ColorUtil = require('@radiatingstar/color-utilities')
+ * const ColorUtilities = require('@radiatingstar/color-utilities')
  *
  * // Create using a `new` keyword or with a factory.
  * const colorUtils = new ColorUtilities()
