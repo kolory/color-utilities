@@ -1,5 +1,6 @@
 import {ColorUtilities} from './library'
 import {hexColor} from './types'
+import {ColorTypes} from './color-types-enum'
 
 const basicHexColor: hexColor = '#FFA500'
 
@@ -73,6 +74,12 @@ describe('Color utilities', () => {
       expect(colorUtil.calculateContrastRatio('#000000', '#000000')).toBe(1 / 1)
       expect(Math.round(colorUtil.calculateContrastRatio('#FFA500', '#000000'))).toBe(11 / 1)
       expect(Math.round(colorUtil.calculateContrastRatio('#FFA500', '#FFFFFF'))).toBe(2 / 1)
+
+    it('should properly resolve color type', () => {
+      strictlyValidHexColors.forEach(color => expect(colorUtil.resolveColorType(color)).toBe(ColorTypes.hex))
+      validRgbColors.forEach(color => expect(colorUtil.resolveColorType(color)).toBe(ColorTypes.rgb))
+      invalidRgbColors.forEach(color => expect(colorUtil.resolveColorType(color)).toBe(ColorTypes.invalidType))
+      invalidHexColors.forEach(color => expect(colorUtil.resolveColorType(color)).toBe(ColorTypes.invalidType))
     })
   })
 

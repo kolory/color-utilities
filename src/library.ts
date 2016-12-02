@@ -1,4 +1,5 @@
-import {hexColor, hexColorValues, colorValues, RGBColor} from './types'
+import {hexColor, hexColorValues, colorValues, RGBColor, anyColor} from './types'
+import {ColorTypes} from './color-types-enum';
 
 /**
  * Utility library for parsing colors, validation, normalization and some other useful features.
@@ -43,6 +44,23 @@ export class ColorUtilities {
       .sort((a, b) => b - a)
       .map(value => value + 0.05)
       .reduce((a, b) => a / b)
+  }
+
+  /**
+   * Finds out what color encoding type is provided. If a not valid color was provided, the
+   * ColorTypes.invalidType is returned.
+   *
+   * @param {anyColor} color Resolve the type of this color.
+   * @returns {ColorTypes} The color's type.
+   */
+  resolveColorType(color: anyColor): ColorTypes {
+    if (this.isValidHexColor(color)) {
+      return ColorTypes.hex
+    } else if (this.isValidRgbColor(color)) {
+      return ColorTypes.rgb
+    } else {
+      return ColorTypes.invalidType
+    }
   }
 
   /* Parsers */
