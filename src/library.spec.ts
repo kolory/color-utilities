@@ -67,13 +67,26 @@ describe('Color utilities', () => {
       expect(colorUtil.calculateLuminanceOf('#FFA500')).toBeCloseTo(0.48170267036309633)
       expect(colorUtil.calculateLuminanceOf('#00FF00')).toBeCloseTo(0.7152)
       expect(colorUtil.calculateLuminanceOf('#AF3512')).toBeCloseTo(0.11703838572298138)
+
+      expect(colorUtil.calculateLuminanceOf('rgb(255, 255, 255)')).toBe(1)
+      expect(colorUtil.calculateLuminanceOf('rgb(0, 0, 0)')).toBe(0)
+      expect(colorUtil.calculateLuminanceOf('rgb(255, 165, 0)')).toBeCloseTo(0.48170267036309633)
+      expect(colorUtil.calculateLuminanceOf('rgb(0, 255, 0)')).toBeCloseTo(0.7152)
+      expect(colorUtil.calculateLuminanceOf('rgb(175, 53, 18)')).toBeCloseTo(0.11703838572298138)
     })
 
     it('should calculate the contrast ratio of two colors', () => {
       expect(colorUtil.calculateContrastRatio('#FFFFFF', '#000000')).toBe(21 / 1)
+      expect(colorUtil.calculateContrastRatio('#000000', '#FFFFFF')).toBe(21 / 1) // Order doesn't matter.
       expect(colorUtil.calculateContrastRatio('#000000', '#000000')).toBe(1 / 1)
       expect(Math.round(colorUtil.calculateContrastRatio('#FFA500', '#000000'))).toBe(11 / 1)
       expect(Math.round(colorUtil.calculateContrastRatio('#FFA500', '#FFFFFF'))).toBe(2 / 1)
+
+      expect(colorUtil.calculateContrastRatio('rgb(255, 255, 255)', 'rgb(0, 0, 0)')).toBe(21 / 1)
+      expect(colorUtil.calculateContrastRatio('rgb(0, 0, 0)', 'rgb(0, 0, 0)')).toBe(1 / 1)
+      expect(Math.round(colorUtil.calculateContrastRatio('rgb(255, 165, 0)', 'rgb(0, 0, 0)'))).toBe(11 / 1)
+      expect(Math.round(colorUtil.calculateContrastRatio('rgb(255, 165, 0)', 'rgb(255, 255, 255)'))).toBe(2 / 1)
+    })
 
     it('should properly resolve color type', () => {
       strictlyValidHexColors.forEach(color => expect(colorUtil.resolveColorType(color)).toBe(ColorTypes.hex))

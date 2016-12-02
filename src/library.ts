@@ -1,5 +1,5 @@
 import {hexColor, hexColorValues, colorValues, RGBColor, anyColor} from './types'
-import {ColorTypes} from './color-types-enum';
+import {ColorTypes} from './color-types-enum'
 
 /**
  * Utility library for parsing colors, validation, normalization and some other useful features.
@@ -19,12 +19,12 @@ export class ColorUtilities {
    * Calculates the relative luminance of a color. Based on the W3C Recommendation.
    * https://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
    *
-   * @param {hexColor} color for which to calculate the luminance
+   * @param {anyColor} color for which to calculate the luminance
    * @returns {number} relative luminance
    */
-  calculateLuminanceOf(color: hexColor): number {
+  calculateLuminanceOf(color: anyColor): number {
     const multipliers = [0.2126, 0.7152, 0.0722]
-    return this.parseHexColor(color)
+    return this.parseColor(color)
       .map(value => value / 255)
       .map(inSRGB => (inSRGB <= 0.03928) ? inSRGB / 12.92 : ((inSRGB + 0.055) / 1.055) ** 2.4)
       .reduce((acc, value, index) => acc + value * multipliers[index], 0)
@@ -35,11 +35,11 @@ export class ColorUtilities {
    * order of color values, so it doesn't matter which color is brighter.
    * https://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef
    *
-   * @param {hexColor} color1 Calculate this color's contrast ratio…
-   * @param {hexColor} color2 to this color.
+   * @param {anyColor} color1 Calculate this color's contrast ratio…
+   * @param {anyColor} color2 to this color.
    * @returns {number} the contrast ratio of provided colors
    */
-  calculateContrastRatio(color1: hexColor, color2: hexColor): number {
+  calculateContrastRatio(color1: anyColor, color2: anyColor): number {
     return [this.calculateLuminanceOf(color1), this.calculateLuminanceOf(color2)]
       .sort((a, b) => b - a)
       .map(value => value + 0.05)
@@ -74,12 +74,12 @@ export class ColorUtilities {
    */
   parseColor(color: anyColor): colorValues {
     switch (this.resolveColorType(color)) {
-      case ColorTypes.hex:
-        return this.parseHexColor(color)
-      case ColorTypes.rgb:
-        return this.parseRGBColor(color)
-      default:
-        throw new TypeError(`Trying to pare an invalid color (${color}).`)
+    case ColorTypes.hex:
+      return this.parseHexColor(color)
+    case ColorTypes.rgb:
+      return this.parseRGBColor(color)
+    default:
+      throw new TypeError(`Trying to pare an invalid color (${color}).`)
     }
   }
 
