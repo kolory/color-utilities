@@ -42,6 +42,22 @@ const invalidRgbColors = [
   'rgb(1,2,)'
 ]
 
+const validHslColors = [
+  'hsl(0, 0%, 0%)',
+  'hsl(360, 0%, 0%)',
+  '  hsl  (   100,   50%,1%  )   ',
+  'HSL(235, 13%, 99%)'
+]
+
+const invalidHslColors = [
+  'xhsl(100, 0%, 10%)',
+  'hsl(400, 10%, 20%)',
+  'hsl(100, 10, 20)',
+  'hsl(200, 200%, 20%)',
+  'hsl(200, 10%, 200%)',
+  'hsl(,,)'
+]
+
 const expectedExportedColors = [['white', '#FFFFFF'], ['black', '#000000']]
 
 describe('Color utilities', () => {
@@ -68,7 +84,7 @@ describe('Color utilities', () => {
   })
 
   describe('Utilities', () => {
-    it('should calculate colors luminance', () => {
+    it('should calculate the color\'s luminance', () => {
       expect(colorUtil.calculateLuminanceOf('#FFFFFF')).toBe(1)
       expect(colorUtil.calculateLuminanceOf('#000000')).toBe(0)
       expect(colorUtil.calculateLuminanceOf('#FFA500')).toBeCloseTo(0.48170267036309633)
@@ -173,6 +189,13 @@ describe('Color utilities', () => {
       invalidRgbColors.forEach(color => expect(colorUtil.isValidRgbColor(color)).toBeFalsy())
       expect(colorUtil.isValidRgbColor(undefined)).toBeFalsy()
       expect(colorUtil.isValidRgbColor('')).toBeFalsy()
+    })
+
+    it('should validate HSL colors', () => {
+      validHslColors.forEach(color => expect(colorUtil.isValidHslColor(color)).toBeTruthy())
+      invalidHslColors.forEach(color => expect(colorUtil.isValidHslColor(color)).toBeFalsy())
+      expect(colorUtil.isValidHslColor(undefined)).toBeFalsy()
+      expect(colorUtil.isValidHslColor('')).toBeFalsy()
     })
   })
 

@@ -1,6 +1,5 @@
-import {hexColor, hexColorValues, colorValues, RGBColor, anyColor} from './types'
+import {hexColor, hexColorValues, colorValues, RGBColor, anyColor, HSLColor} from './types'
 import {ColorTypes} from './color-types-enum'
-import {HSLColor} from './types';
 
 /**
  * Utility library for parsing colors, validation, normalization and some other useful features.
@@ -176,33 +175,79 @@ export class ColorUtilities {
   }
 
   /**
-   * Tests if the provided RGB color is in a valid format, eg. "rgb(1, 2, 3)".
-   * @param {RGBColor} potentialRgbColor Might-be-valid-or-not rgb color string.
-   * @returns {boolean} Does the string has a valid format?
+   * Validates the potential HSL color.
+   *
+   * @example
+   * 'hsl(123, 12%, 44%) => true
+   * 'HSL(123, 12%, 44%) => true
+   * 'hsl(400, 200%, 300%) => false
+   * 'hsl(123, 12, 44) => false
+   *
+   * @param {HSLColor?} potentialColor Color to be validated.
+   * @returns {boolean} Is this a valid HSL?
    */
-  private doesRgbHasValidFormat(potentialRgbColor: RGBColor): boolean {
-    return /^rgb\((\d{1,3}\,){2}\d{1,3}\)$/.test(potentialRgbColor.replace(/\s/g, '').toLowerCase())
+  isValidHslColor(potentialColor?: HSLColor): boolean {
+    if (!potentialColor) {
+      return false
+    } else {
+      return this.isFormatValid(potentialColor, /^hsl\(\d{1,3},\d{1,3}%,\d{1,3}%\)$/)
+        && this.areHslValuesInRange(potentialColor)
+    }
   }
 
   /**
-   * Tests if the values of the provided RGB color are in 0-255 range.
-   * @param {RGBColor} potentialRgbColor Might-be-valid-or-not rgb color string.
-   * @returns {boolean} Are the values are in the RGB range?
+   * Checks if the HSL values are i proper ranges.
+   *
+   * @param {HSLColor} potentialColor Color to be validated.
+   * @returns {boolean} Are the values in range?
    */
-  private areRgbValuesInRange(potentialRgbColor: RGBColor): boolean {
-    // Typecasting is safe here, since this.isValidRgbColor ensures the valid format first.
-    const values = potentialRgbColor.match(/\d{1,3}/g) as string[]
+  private areHslValuesInRange(potentialColor: HSLColor): boolean {
+    return this.isRangeValid(potentialColor, this.validateHslRange)
+  }
+
+  /**
+   * A function used in the HSL range validation.
+   * @param {number} value of the color.
+   * @param {number} index it's index in the color values array.
+   * @returns {boolean} Is in range?
+   */
+  private validateHslRange(value: number, index: number): boolean {
+    if (index === 0) {
+      return value >= 0 && value <= 360
+    } else {
+      return value >= 0 && value <= 100
+    }
+  }
+
+  /**
+   * Removes unnecessary spaces and makes the color lowercased.
+   * @param {anyColor} color to be normalized.
+   * @returns {string} Normalized color.
+   */
   private trimAndLowercase(color: anyColor): anyColor {
     return color.replace(/\s/g, '').toLowerCase()
   }
 
-  private isRangeValid(color: RGBColor | HSLColor,
-                       rangeValidator: (value: number, index?: number) => boolean): boolean {
+  /**
+   * Range validator. Takes a color to be validated and validating function used in the Array#every call.
+   *
+   * @param {RGBColor | HSLColor} color RGB or HSL color to be validated.
+   * @param {Function} rangeValidator Function to be used for validation.
+   * @returns {boolean} Are values in proper ranges?
+   */
+  private isRangeValid(color: RGBColor | HSLColor, rangeValidator: (value: number, index?: number) => boolean):
+  boolean {
     const values = color.match(/\d{1,3}/g) as string[]
     return values.every(stringValue => !/^0\d/.test(stringValue)) &&
-      values.map(values => Number(values)).every(rangeValidator)
+      values.map(value => Number(value)).every(rangeValidator)
   }
 
+  /**
+   * Finds out if the color is in a proper format. The format is a regular expression
+   * @param {RGBColor | HSLColor} color to be validated
+   * @param {RegExp} validatingRegEx to use against the color.
+   * @returns {boolean} Is the color properly formatted?
+   */
   private isFormatValid(color: RGBColor | HSLColor, validatingRegEx: RegExp): boolean {
     return validatingRegEx.test(this.trimAndLowercase(color))
   }
