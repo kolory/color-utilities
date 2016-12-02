@@ -293,7 +293,7 @@ export class ColorUtilities {
    *
    * @throws TypeError
    * @param {hexColor} hexColor to be normalized
-   * @returns {any}
+   * @returns {hexColor}
    */
   normalizeHexColor(hexColor: hexColor): hexColor {
     const potentialColor = hexColor[0] !== '#' ? '#' + hexColor : hexColor
@@ -310,13 +310,13 @@ export class ColorUtilities {
   }
 
   /**
-   * Normaizes casing ans spacing in the provided rgb color.
+   * Normalizes casing ans spacing in the provided rgb color.
    *
    * @example
    * ' RGB  ( 11,  11,11  )   ' => 'rgb(11, 11, 11)
    *
    * @param {RGBColor} rgbColor to be normalized.
-   * @returns {string} Normalized rgb color string.
+   * @returns {RGBColor} Normalized rgb color string.
    */
   normalizeRgbColor(rgbColor: RGBColor): RGBColor {
     const potentialColor = rgbColor.toLowerCase()
@@ -337,7 +337,7 @@ export class ColorUtilities {
   }
 
   /**
-   * A shortcut to throw an error when provided number was invalid.
+   * A shortcut to throw an error when provided color was invalid.
    * @internal
    * @param {hexColor} hexColor An invalid color
    */
@@ -357,12 +357,13 @@ export class ColorUtilities {
   }
 
   /**
-   * A shortcut to throw an error when provided number was invalid.
+   * A shortcut to throw an error when provided color was invalid.
    * @internal
    * @param {RGBColor} rgbColor An invalid color
    */
   private throwInvalidRgbColor(rgbColor?: RGBColor): never {
-    throw new TypeError(`Using invalid RGB color format. Used "${rgbColor}" rgb(123, 123, 123) is allowed.`)
+    throw new TypeError(`Using invalid RGB color format. Used "${rgbColor}" but it should look like`
+      + `"rgb(123, 123, 123)".`)
   }
 
   /**
