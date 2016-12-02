@@ -77,7 +77,7 @@ export class ColorUtilities {
     case ColorTypes.hex:
       return this.parseHexColor(color)
     case ColorTypes.rgb:
-      return this.parseRGBColor(color)
+      return this.parseRgbColor(color)
     default:
       throw new TypeError(`Trying to pare an invalid color (${color}).`)
     }
@@ -101,7 +101,7 @@ export class ColorUtilities {
    * @param {RGBColor} rgbColor to be transformed
    * @returns {colorValues} RGB triplet of the provided hex color
    */
-  parseRGBColor(rgbColor: RGBColor): colorValues {
+  parseRgbColor(rgbColor: RGBColor): colorValues {
     return this.splitRgbColor(this.normalizeRgbColor(rgbColor)) as colorValues
   }
 

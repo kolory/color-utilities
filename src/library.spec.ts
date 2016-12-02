@@ -117,9 +117,9 @@ describe('Color utilities', () => {
     })
 
     it('should transform RGB color into RGB values array', () => {
-      expect(colorUtil.parseRGBColor('rgb(0, 0, 0)')).toEqual([0, 0, 0])
-      expect(colorUtil.parseRGBColor('rgb(1, 2, 100)')).toEqual([1, 2, 100])
-      expect(colorUtil.parseRGBColor('rgb(255, 255, 255)')).toEqual([255, 255, 255])
+      expect(colorUtil.parseRgbColor('rgb(0, 0, 0)')).toEqual([0, 0, 0])
+      expect(colorUtil.parseRgbColor('rgb(1, 2, 100)')).toEqual([1, 2, 100])
+      expect(colorUtil.parseRgbColor('rgb(255, 255, 255)')).toEqual([255, 255, 255])
     })
 
     it('should allow using shorthand hex colors', () => {
@@ -138,7 +138,7 @@ describe('Color utilities', () => {
         expect(() => colorUtil.parseHexColor(invalidColor)).toThrowError(TypeError))
 
       invalidRgbColors.forEach(invalidColor =>
-        expect(() => colorUtil.parseRGBColor(invalidColor)).toThrowError(TypeError))
+        expect(() => colorUtil.parseRgbColor(invalidColor)).toThrowError(TypeError))
     })
   })
 
