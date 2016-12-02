@@ -61,7 +61,7 @@
     "switch-default": true,
     "triple-equals": true,
     "use-isnan": true,
-    "cyclomatic-complexity": [true, 3],
+    "cyclomatic-complexity": [true, 4],
     "eofline": true,
     "indent": [true, "spaces"],
     "linebreak-style": [true, "LF"],
