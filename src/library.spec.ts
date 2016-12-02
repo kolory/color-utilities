@@ -172,6 +172,8 @@ describe('Color utilities', () => {
       expect(colorUtil.isValidColor('FFFFFF')).toBeFalsy()
       validRgbColors.forEach(color => expect(colorUtil.isValidColor(color)).toBeTruthy())
       invalidRgbColors.forEach(color => expect(colorUtil.isValidColor(color)).toBeFalsy())
+      validHslColors.forEach(color => expect(colorUtil.isValidHslColor(color)).toBeTruthy())
+      invalidHslColors.forEach(color => expect(colorUtil.isValidHslColor(color)).toBeFalsy())
       expect(colorUtil.isValidColor(undefined)).toBeFalsy()
       expect(colorUtil.isValidColor('')).toBeFalsy()
     })

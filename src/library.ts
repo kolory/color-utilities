@@ -133,6 +133,7 @@ export class ColorUtilities {
    */
   isValidColor(potentialColor?: anyColor): boolean {
     return this.isValidHexColor(potentialColor) || this.isValidRgbColor(potentialColor)
+      || this.isValidHslColor(potentialColor)
   }
 
   /**
