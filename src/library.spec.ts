@@ -243,5 +243,17 @@ describe('Color utilities', () => {
       invalidRgbColors.forEach(invalidColor =>
         expect(() => colorUtil.normalizeRgbColor(invalidColor)).toThrowError(TypeError))
     })
+
+    it('should normalize HSL colors', () => {
+      expect(colorUtil.normalizeHslColor('hsl(0,0%,0%)')).toBe('hsl(0, 0%, 0%)')
+      expect(colorUtil.normalizeHslColor('hsl(100,10%,0%)')).toBe('hsl(100, 10%, 0%)')
+      expect(colorUtil.normalizeHslColor('HSL(200, 40%, 90%)')).toBe('hsl(200, 40%, 90%)')
+      expect(colorUtil.normalizeHslColor('  hsl(  360,   10%,0%   )  ')).toBe('hsl(360, 10%, 0%)')
+    })
+
+    it('should not handle invalid HSL colors', () => {
+      invalidHslColors.forEach(invalidColor =>
+        expect(() => colorUtil.normalizeHslColor(invalidColor)).toThrowError(TypeError))
+    })
   })
 })

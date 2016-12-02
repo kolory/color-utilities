@@ -324,6 +324,21 @@ export class ColorUtilities {
     return potentialColor.replace(/\s/g, '').replace(/,/g, ', ')
   }
 
+  /**
+   * Normalizes the HSL colors.
+   *
+   * @example
+   * '   HSL  (123,    49%,51%  )' => 'hsl(123, 49%, 51%)'
+   *
+   * @param {HSLColor} hslColor to be normalized
+   * @returns {HSLColor} Normalized color.
+   */
+  normalizeHslColor(hslColor: HSLColor): HSLColor {
+    const potentialColor = hslColor.toLowerCase()
+    this.throwIfInvalidHslColor(potentialColor)
+    return potentialColor.replace(/\s/g, '').replace(/,/g, ', ')
+  }
+
   /* Supporting internal methods */
 
   /**
@@ -375,5 +390,25 @@ export class ColorUtilities {
     if (!this.isValidRgbColor(rgbColor)) {
       this.throwInvalidRgbColor(rgbColor)
     }
+  }
+
+  /**
+   * Validation combined with the error throwing. Just to make the code that needs this behavior shorter.
+   * @param {HSLColor} hslColor that will be checked.
+   */
+  private throwIfInvalidHslColor(hslColor: HSLColor): void {
+    if (!this.isValidHslColor(hslColor)) {
+      this.throwInvalidHslColor(hslColor)
+    }
+  }
+
+  /**
+   * A shortcut to throw an error when provided color was invalid.
+   * @internal
+   * @param {HSLColor} hslColor An invalid color.
+   */
+  private throwInvalidHslColor(hslColor?: HSLColor): never {
+    throw new TypeError(`Using invalid RGB color format. Used "${hslColor}" but it should look like` +
+      `hsl(123, 50%, 49%).`)
   }
 }
