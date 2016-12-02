@@ -3,8 +3,26 @@ import {ColorTypes} from './color-types-enum'
 
 /**
  * Utility library for parsing colors, validation, normalization and some other useful features.
+ *
+ * // Use in TypeScript or a JavaScript module
+ * import {ColorUtilities} from '@radiatingstar/color-utilities'
+ *
+ * // Use in node Node or Browserify
+ * const ColorUtil = require('@radiatingstar/color-utilities')
+ *
+ * // Create using a `new` keyword or with a factory.
+ * const colorUtils = new ColorUtilities()
+ * const colorUtilsFromFactory = ColorUtilities.create()
  */
 export class ColorUtilities {
+  /**
+   * A factory method for obtaining an instance of the service.
+   * @returns {ColorUtilities} An instance of the service.
+   */
+  static create(): ColorUtilities {
+    return new ColorUtilities()
+  }
+
   /**
    * A dictionary of color values. USes hex values by default.
    */

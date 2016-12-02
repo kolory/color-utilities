@@ -51,6 +51,13 @@ describe('Color utilities', () => {
     colorUtil = new ColorUtilities()
   })
 
+  describe('Basic features', () => {
+    it('should allow creating an instance using the `new` operator and as from a factory', () => {
+      expect(new ColorUtilities()).toBeDefined()
+      expect(ColorUtilities)
+    })
+  })
+
   describe('Color definitions', () => {
     it('should expose valid colors', () => {
       expectedExportedColors.forEach(([color, hexValue]) => {
