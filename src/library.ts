@@ -108,6 +108,16 @@ export class ColorUtilities {
   /* Validators */
 
   /**
+   * Validates the provided color against any specific color type.
+   *
+   * @param {anyColor?} potentialColor Color to be validated.
+   * @returns {boolean} Is this color valid?
+   */
+  isValidColor(potentialColor?: anyColor): boolean {
+    return this.isValidHexColor(potentialColor) || this.isValidRgbColor(potentialColor)
+  }
+
+  /**
    * Validates the provided hex color.
    *
    * @example

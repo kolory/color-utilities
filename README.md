@@ -94,6 +94,29 @@ colorUtil.parseHexColor('rgb(255, 255, 255)') // => [255, 255, 255]
 
 ### Validators
 
+#### Validate a color
+```
+#isValidColor(potentialColor?: anyColor): boolean
+```
+Checks if the provided color is a valid hexadecimal color or an RGB color. Uses specific validators internally,
+so the edge cases from them applies here.
+
+##### Parameters
+
+`color` - A color to be validated.
+
+##### Returns
+A boolean indicating validity of the color. For clarity sake: `true` means the color is valid.
+
+##### Examples
+```
+colorUtil.isValidColor('#FFA500') // => true 
+colorUtil.isValidColor('rgb(255, 165, 0)') // => true
+colorUtil.isValidColor('#QWERTY') // => false 
+colorUtil.isValidColor('#123456789') // => false
+colorUtil.isValidColor(null) // => false
+```
+
 #### Validate a hexadecimal color
 ```
 #isValidHexColor(potentialHexColor?: hexColor): boolean

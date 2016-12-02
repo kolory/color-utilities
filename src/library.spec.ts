@@ -143,6 +143,16 @@ describe('Color utilities', () => {
   })
 
   describe('Color validation', () => {
+    it('should validate all colors', () => {
+      strictlyValidHexColors.forEach(color => expect(colorUtil.isValidColor(color)).toBeTruthy())
+      invalidHexColors.forEach(color => expect(colorUtil.isValidColor(color)).toBeFalsy())
+      expect(colorUtil.isValidColor('FFFFFF')).toBeFalsy()
+      validRgbColors.forEach(color => expect(colorUtil.isValidColor(color)).toBeTruthy())
+      invalidRgbColors.forEach(color => expect(colorUtil.isValidColor(color)).toBeFalsy())
+      expect(colorUtil.isValidColor(undefined)).toBeFalsy()
+      expect(colorUtil.isValidColor('')).toBeFalsy()
+    })
+
     it('should validate hex colors', () => {
       strictlyValidHexColors.forEach(color => expect(colorUtil.isValidHexColor(color)).toBeTruthy())
       invalidHexColors.forEach(color => expect(colorUtil.isValidHexColor(color)).toBeFalsy())
