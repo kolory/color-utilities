@@ -1,5 +1,6 @@
 import {hexColor, hexColorValues, colorValues, RGBColor, anyColor} from './types'
 import {ColorTypes} from './color-types-enum'
+import {HSLColor} from './types';
 
 /**
  * Utility library for parsing colors, validation, normalization and some other useful features.
@@ -169,7 +170,8 @@ export class ColorUtilities {
     if (!potentialRgbColor) {
       return false
     } else {
-      return this.doesRgbHasValidFormat(potentialRgbColor) && this.areRgbValuesInRange(potentialRgbColor)
+      return this.isFormatValid(potentialRgbColor, /^rgb\((\d{1,3}\,){2}\d{1,3}\)$/)
+        && this.isRangeValid(potentialRgbColor, value => value >= 0 && value <= 255)
     }
   }
 
@@ -190,8 +192,19 @@ export class ColorUtilities {
   private areRgbValuesInRange(potentialRgbColor: RGBColor): boolean {
     // Typecasting is safe here, since this.isValidRgbColor ensures the valid format first.
     const values = potentialRgbColor.match(/\d{1,3}/g) as string[]
+  private trimAndLowercase(color: anyColor): anyColor {
+    return color.replace(/\s/g, '').toLowerCase()
+  }
+
+  private isRangeValid(color: RGBColor | HSLColor,
+                       rangeValidator: (value: number, index?: number) => boolean): boolean {
+    const values = color.match(/\d{1,3}/g) as string[]
     return values.every(stringValue => !/^0\d/.test(stringValue)) &&
-       values.map(stringValue => Number(stringValue)).every(value => value >= 0 && value <= 255)
+      values.map(values => Number(values)).every(rangeValidator)
+  }
+
+  private isFormatValid(color: RGBColor | HSLColor, validatingRegEx: RegExp): boolean {
+    return validatingRegEx.test(this.trimAndLowercase(color))
   }
 
   /* Analyzers */
