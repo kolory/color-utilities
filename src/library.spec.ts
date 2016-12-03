@@ -42,6 +42,23 @@ const invalidRgbColors = [
   'rgb(1,2,)'
 ]
 
+const validHslColors = [
+  'hsl(0, 0%, 0%)',
+  'hsl(360, 0%, 0%)',
+  '  hsl  (   100,   50%,1%  )   ',
+  'HSL(235, 13%, 99%)',
+  'hsl(360, 100%, 100%)'
+]
+
+const invalidHslColors = [
+  'xhsl(100, 0%, 10%)',
+  'hsl(400, 10%, 20%)',
+  'hsl(100, 10, 20)',
+  'hsl(200, 200%, 20%)',
+  'hsl(200, 10%, 200%)',
+  'hsl(,,)'
+]
+
 const expectedExportedColors = [['white', '#FFFFFF'], ['black', '#000000']]
 
 describe('Color utilities', () => {
@@ -68,7 +85,7 @@ describe('Color utilities', () => {
   })
 
   describe('Utilities', () => {
-    it('should calculate colors luminance', () => {
+    it('should calculate the color\'s luminance', () => {
       expect(colorUtil.calculateLuminanceOf('#FFFFFF')).toBe(1)
       expect(colorUtil.calculateLuminanceOf('#000000')).toBe(0)
       expect(colorUtil.calculateLuminanceOf('#FFA500')).toBeCloseTo(0.48170267036309633)
@@ -80,6 +97,10 @@ describe('Color utilities', () => {
       expect(colorUtil.calculateLuminanceOf('rgb(255, 165, 0)')).toBeCloseTo(0.48170267036309633)
       expect(colorUtil.calculateLuminanceOf('rgb(0, 255, 0)')).toBeCloseTo(0.7152)
       expect(colorUtil.calculateLuminanceOf('rgb(175, 53, 18)')).toBeCloseTo(0.11703838572298138)
+
+      expect(colorUtil.calculateLuminanceOf('hsl(0, 0%, 0%)')).toBe(0)
+      expect(colorUtil.calculateLuminanceOf('hsl(0, 100%, 100%)')).toBe(1)
+      expect(colorUtil.calculateLuminanceOf('hsl(39, 100%, 50%)')).toBeCloseTo(0.48170267036309633)
     })
 
     it('should calculate the contrast ratio of two colors', () => {
@@ -93,13 +114,24 @@ describe('Color utilities', () => {
       expect(colorUtil.calculateContrastRatio('rgb(0, 0, 0)', 'rgb(0, 0, 0)')).toBe(1 / 1)
       expect(Math.round(colorUtil.calculateContrastRatio('rgb(255, 165, 0)', 'rgb(0, 0, 0)'))).toBe(11 / 1)
       expect(Math.round(colorUtil.calculateContrastRatio('rgb(255, 165, 0)', 'rgb(255, 255, 255)'))).toBe(2 / 1)
+
+      expect(colorUtil.calculateContrastRatio('hsl(0, 100%, 100%)', 'hsl(0, 0%, 0%)')).toBe(21 / 1)
+      expect(colorUtil.calculateContrastRatio('hsl(0, 0%, 0%)', 'hsl(0, 0%, 0%)')).toBe(1 / 1)
+      expect(Math.round(colorUtil.calculateContrastRatio('hsl(39, 100%, 50%)', 'hsl(0, 0%, 0%)'))).toBe(11 / 1)
+    })
+
+    it('should allow mixing color types when calculating their contrast ratio', () => {
+      expect(colorUtil.calculateContrastRatio('hsl(0, 100%, 100%)', 'rgb(0, 0, 0)')).toBe(21 / 1)
+      expect(colorUtil.calculateContrastRatio('rgb(255, 255, 255)', '#000000')).toBe(21 / 1)
     })
 
     it('should properly resolve color type', () => {
       strictlyValidHexColors.forEach(color => expect(colorUtil.resolveColorType(color)).toBe(ColorTypes.hex))
       validRgbColors.forEach(color => expect(colorUtil.resolveColorType(color)).toBe(ColorTypes.rgb))
+      validHslColors.forEach(color => expect(colorUtil.resolveColorType(color)).toBe(ColorTypes.hsl))
       invalidRgbColors.forEach(color => expect(colorUtil.resolveColorType(color)).toBe(ColorTypes.invalidType))
       invalidHexColors.forEach(color => expect(colorUtil.resolveColorType(color)).toBe(ColorTypes.invalidType))
+      invalidHslColors.forEach(color => expect(colorUtil.resolveColorType(color)).toBe(ColorTypes.invalidType))
     })
   })
 
@@ -113,6 +145,12 @@ describe('Color utilities', () => {
       expect(colorUtil.parseColor('rgb(0, 0, 0)')).toEqual([0, 0, 0])
       expect(colorUtil.parseColor('rgb(1, 2, 100)')).toEqual([1, 2, 100])
       expect(colorUtil.parseColor('rgb(255, 255, 255)')).toEqual([255, 255, 255])
+      expect(colorUtil.parseColor('hsl(360, 100%, 100%)')).toEqual([255, 255, 255])
+      expect(colorUtil.parseColor('hsl(0, 100%, 50%)')).toEqual([255, 0, 0])
+      expect(colorUtil.parseColor('hsl(120, 100%, 50%)')).toEqual([0, 255, 0])
+      expect(colorUtil.parseColor('hsl(150, 75%, 50%)')).toEqual([32, 223, 128])
+      expect(colorUtil.parseColor('hsl(190, 15%, 70%)')).toEqual([167, 186, 190])
+      expect(colorUtil.parseColor('hsl(242, 63%, 54%)')).toEqual([69, 64, 212])
     })
 
     it('should transform hex colors into RGB values array', () => {
@@ -123,10 +161,20 @@ describe('Color utilities', () => {
       expect(colorUtil.parseHexColor(basicHexColor)).toEqual([255, 165, 0])
     })
 
-    it('should transform RGB color into RGB values array', () => {
+    it('should transform RGB colors into RGB values array', () => {
       expect(colorUtil.parseRgbColor('rgb(0, 0, 0)')).toEqual([0, 0, 0])
       expect(colorUtil.parseRgbColor('rgb(1, 2, 100)')).toEqual([1, 2, 100])
       expect(colorUtil.parseRgbColor('rgb(255, 255, 255)')).toEqual([255, 255, 255])
+    })
+
+    it('should transform HSL colors into RGB values array', () => {
+      expect(colorUtil.parseHslColor('hsl(360, 100%, 100%)')).toEqual([255, 255, 255])
+      expect(colorUtil.parseHslColor('hsl(0, 100%, 50%)')).toEqual([255, 0, 0])
+      expect(colorUtil.parseHslColor('hsl(120, 100%, 50%)')).toEqual([0, 255, 0])
+      expect(colorUtil.parseHslColor('hsl(150, 75%, 50%)')).toEqual([32, 223, 128])
+      expect(colorUtil.parseHslColor('hsl(190, 15%, 70%)')).toEqual([167, 186, 190])
+      expect(colorUtil.parseHslColor('hsl(242, 63%, 54%)')).toEqual([69, 64, 212])
+      expect(colorUtil.parseHslColor('hsl(39, 100%, 50%)')).toEqual([255, 166, 0])
     })
 
     it('should allow using shorthand hex colors', () => {
@@ -138,13 +186,16 @@ describe('Color utilities', () => {
     })
 
     it('should inform about failed parsing', () => {
-      [...invalidHexColors, ...invalidRgbColors].forEach(color =>
+      [...invalidHexColors, ...invalidRgbColors, ...invalidHslColors].forEach(color =>
         expect(() => colorUtil.parseColor(color)).toThrowError(TypeError))
 
       invalidHexColors.forEach(invalidColor =>
         expect(() => colorUtil.parseHexColor(invalidColor)).toThrowError(TypeError))
 
       invalidRgbColors.forEach(invalidColor =>
+        expect(() => colorUtil.parseRgbColor(invalidColor)).toThrowError(TypeError))
+
+      invalidHslColors.forEach(invalidColor =>
         expect(() => colorUtil.parseRgbColor(invalidColor)).toThrowError(TypeError))
     })
   })
@@ -156,6 +207,8 @@ describe('Color utilities', () => {
       expect(colorUtil.isValidColor('FFFFFF')).toBeFalsy()
       validRgbColors.forEach(color => expect(colorUtil.isValidColor(color)).toBeTruthy())
       invalidRgbColors.forEach(color => expect(colorUtil.isValidColor(color)).toBeFalsy())
+      validHslColors.forEach(color => expect(colorUtil.isValidHslColor(color)).toBeTruthy())
+      invalidHslColors.forEach(color => expect(colorUtil.isValidHslColor(color)).toBeFalsy())
       expect(colorUtil.isValidColor(undefined)).toBeFalsy()
       expect(colorUtil.isValidColor('')).toBeFalsy()
     })
@@ -174,17 +227,33 @@ describe('Color utilities', () => {
       expect(colorUtil.isValidRgbColor(undefined)).toBeFalsy()
       expect(colorUtil.isValidRgbColor('')).toBeFalsy()
     })
+
+    it('should validate HSL colors', () => {
+      validHslColors.forEach(color => expect(colorUtil.isValidHslColor(color)).toBeTruthy())
+      invalidHslColors.forEach(color => expect(colorUtil.isValidHslColor(color)).toBeFalsy())
+      expect(colorUtil.isValidHslColor(undefined)).toBeFalsy()
+      expect(colorUtil.isValidHslColor('')).toBeFalsy()
+    })
   })
 
   describe('Colors analyze', () => {
-    it('should allow splitting the hex color into its parts', () => {
+    it('should allow splitting the hex colors into its parts', () => {
       expect(colorUtil.splitHexColor(basicHexColor)).toEqual(['FF', 'A5', '00'])
       expect(colorUtil.splitHexColor('#ffa500')).toEqual(['FF', 'A5', '00']) // Note the uppercases characters.
     })
 
-    it('should allow splitting the rgb color into its parts', () => {
+    it('should allow splitting the RGB colors into its parts', () => {
       expect(colorUtil.splitRgbColor('rgb(0, 1, 3')).toEqual([0, 1, 3])
       expect(colorUtil.splitRgbColor('rgb(255, 255, 255')).toEqual([255, 255, 255])
+    })
+
+    it('should allow splitting the HSL colors into its parts', () => {
+      expect(colorUtil.splitHslColor('hsl(360, 100%, 100%)')).toEqual([255, 255, 255])
+      expect(colorUtil.splitHslColor('hsl(0, 100%, 50%)')).toEqual([255, 0, 0])
+      expect(colorUtil.splitHslColor('hsl(120, 100%, 50%)')).toEqual([0, 255, 0])
+      expect(colorUtil.splitHslColor('hsl(150, 75%, 50%)')).toEqual([32, 223, 128])
+      expect(colorUtil.splitHslColor('hsl(190, 15%, 70%)')).toEqual([167, 186, 190])
+      expect(colorUtil.splitHslColor('hsl(242, 63%, 54%)')).toEqual([69, 64, 212])
     })
   })
 
@@ -217,6 +286,18 @@ describe('Color utilities', () => {
     it('should not handle invalid RGB colors', () => {
       invalidRgbColors.forEach(invalidColor =>
         expect(() => colorUtil.normalizeRgbColor(invalidColor)).toThrowError(TypeError))
+    })
+
+    it('should normalize HSL colors', () => {
+      expect(colorUtil.normalizeHslColor('hsl(0,0%,0%)')).toBe('hsl(0, 0%, 0%)')
+      expect(colorUtil.normalizeHslColor('hsl(100,10%,0%)')).toBe('hsl(100, 10%, 0%)')
+      expect(colorUtil.normalizeHslColor('HSL(200, 40%, 90%)')).toBe('hsl(200, 40%, 90%)')
+      expect(colorUtil.normalizeHslColor('  hsl(  360,   10%,0%   )  ')).toBe('hsl(360, 10%, 0%)')
+    })
+
+    it('should not handle invalid HSL colors', () => {
+      invalidHslColors.forEach(invalidColor =>
+        expect(() => colorUtil.normalizeHslColor(invalidColor)).toThrowError(TypeError))
     })
   })
 })
