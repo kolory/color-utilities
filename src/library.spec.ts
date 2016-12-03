@@ -97,6 +97,10 @@ describe('Color utilities', () => {
       expect(colorUtil.calculateLuminanceOf('rgb(255, 165, 0)')).toBeCloseTo(0.48170267036309633)
       expect(colorUtil.calculateLuminanceOf('rgb(0, 255, 0)')).toBeCloseTo(0.7152)
       expect(colorUtil.calculateLuminanceOf('rgb(175, 53, 18)')).toBeCloseTo(0.11703838572298138)
+
+      expect(colorUtil.calculateLuminanceOf('hsl(0, 0%, 0%)')).toBe(0)
+      expect(colorUtil.calculateLuminanceOf('hsl(0, 100%, 100%)')).toBe(1)
+      expect(colorUtil.calculateLuminanceOf('hsl(39, 100%, 50%)')).toBeCloseTo(0.48170267036309633)
     })
 
     it('should calculate the contrast ratio of two colors', () => {
@@ -110,6 +114,15 @@ describe('Color utilities', () => {
       expect(colorUtil.calculateContrastRatio('rgb(0, 0, 0)', 'rgb(0, 0, 0)')).toBe(1 / 1)
       expect(Math.round(colorUtil.calculateContrastRatio('rgb(255, 165, 0)', 'rgb(0, 0, 0)'))).toBe(11 / 1)
       expect(Math.round(colorUtil.calculateContrastRatio('rgb(255, 165, 0)', 'rgb(255, 255, 255)'))).toBe(2 / 1)
+
+      expect(colorUtil.calculateContrastRatio('hsl(0, 100%, 100%)', 'hsl(0, 0%, 0%)')).toBe(21 / 1)
+      expect(colorUtil.calculateContrastRatio('hsl(0, 0%, 0%)', 'hsl(0, 0%, 0%)')).toBe(1 / 1)
+      expect(Math.round(colorUtil.calculateContrastRatio('hsl(39, 100%, 50%)', 'hsl(0, 0%, 0%)'))).toBe(11 / 1)
+    })
+
+    it('should allow mixing color types when calculating their contrast ratio', () => {
+      expect(colorUtil.calculateContrastRatio('hsl(0, 100%, 100%)', 'rgb(0, 0, 0)')).toBe(21 / 1)
+      expect(colorUtil.calculateContrastRatio('rgb(255, 255, 255)', '#000000')).toBe(21 / 1)
     })
 
     it('should properly resolve color type', () => {
@@ -161,6 +174,7 @@ describe('Color utilities', () => {
       expect(colorUtil.parseHslColor('hsl(150, 75%, 50%)')).toEqual([32, 223, 128])
       expect(colorUtil.parseHslColor('hsl(190, 15%, 70%)')).toEqual([167, 186, 190])
       expect(colorUtil.parseHslColor('hsl(242, 63%, 54%)')).toEqual([69, 64, 212])
+      expect(colorUtil.parseHslColor('hsl(39, 100%, 50%)')).toEqual([255, 166, 0])
     })
 
     it('should allow using shorthand hex colors', () => {
