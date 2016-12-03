@@ -240,7 +240,7 @@ export class ColorUtilities {
    */
   private isRangeValid(color: RGBColor | HSLColor, rangeValidator: (value: number, index?: number) => boolean):
   boolean {
-    const values = color.match(/\d{1,3}/g) as string[]
+    const values = this.getValues(color)
     return values.every(stringValue => !/^0\d/.test(stringValue)) &&
       values.map(value => Number(value)).every(rangeValidator)
   }
@@ -272,7 +272,7 @@ export class ColorUtilities {
   }
 
   /**
-   * Splits the rgba color string into the an array of color values.
+   * Splits the RGB color string into the an array of color values.
    *
    * @example
    * "rgba(255, 0, 1)" => [255, 0, 1]
@@ -281,7 +281,17 @@ export class ColorUtilities {
    * @returns {colorValues} A triplet of the color values.
    */
   splitRgbColor(rgbColor: RGBColor): colorValues {
-    return (rgbColor.match(/\d{1,3}/g) as string[]).map(stringValue => Number(stringValue)) as colorValues
+    return this.getValues(rgbColor).map(Number) as colorValues
+  }
+  /**
+   * Extracts the values from colors using the regular expression. Returned value is a string, since some
+   * methods need to validate it's format before passing it further as a number.
+   *
+   * @param {anyColor} color from which the values will be extracted.
+   * @returns {string[]} Array of values.
+   */
+  private getValues(color: anyColor): string[] {
+    return color.match(/\d{1,3}/g) as string[]
   }
 
   /* Normalizers */
