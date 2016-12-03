@@ -1,1 +1,1 @@
-export enum ColorTypes {hex, rgb, invalidType}
+export enum ColorTypes {hex, rgb, hsl, invalidType}

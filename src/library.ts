@@ -76,6 +76,8 @@ export class ColorUtilities {
       return ColorTypes.hex
     } else if (this.isValidRgbColor(color)) {
       return ColorTypes.rgb
+    } else if (this.isValidHslColor(color)) {
+      return ColorTypes.hsl
     } else {
       return ColorTypes.invalidType
     }

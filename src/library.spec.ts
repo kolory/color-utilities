@@ -114,8 +114,10 @@ describe('Color utilities', () => {
     it('should properly resolve color type', () => {
       strictlyValidHexColors.forEach(color => expect(colorUtil.resolveColorType(color)).toBe(ColorTypes.hex))
       validRgbColors.forEach(color => expect(colorUtil.resolveColorType(color)).toBe(ColorTypes.rgb))
+      validHslColors.forEach(color => expect(colorUtil.resolveColorType(color)).toBe(ColorTypes.hsl))
       invalidRgbColors.forEach(color => expect(colorUtil.resolveColorType(color)).toBe(ColorTypes.invalidType))
       invalidHexColors.forEach(color => expect(colorUtil.resolveColorType(color)).toBe(ColorTypes.invalidType))
+      invalidHslColors.forEach(color => expect(colorUtil.resolveColorType(color)).toBe(ColorTypes.invalidType))
     })
   })
 
