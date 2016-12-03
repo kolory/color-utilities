@@ -283,6 +283,46 @@ export class ColorUtilities {
   splitRgbColor(rgbColor: RGBColor): colorValues {
     return this.getValues(rgbColor).map(Number) as colorValues
   }
+
+  /**
+   * Splits the HSL color string into it's RGB values representation.
+   *
+   * Algorithm taken from Wikipedia: https://en.wikipedia.org/wiki/HSL_and_HSV#From_HSL
+   *
+   * @param {HSLColor} hslColor to be split.
+   * @returns {colorValues} The color's RGB values.
+   */
+  splitHslColor(hslColor: HSLColor): colorValues {
+    const [hue, saturation, lightness] = this.getValues(hslColor).map(Number)
+    const normalizedSaturation = saturation / 100
+    const normalizedLightness = lightness / 100
+
+    const chroma = (1 - Math.abs(2 * normalizedLightness - 1)) * normalizedSaturation
+    const normalizedHue = hue / 60
+    const x = chroma * (1 - Math.abs(normalizedHue % 2 - 1))
+    const m = (normalizedLightness - chroma / 2)
+
+    /* tslint:disable:cyclomatic-complexity */
+    const intermediaryRgbValues = ((H: number, C: number, X: number) => {
+      if (H <= 1) {
+        return [C, X, 0]
+      } else if (H <= 2) {
+        return [X, C, 0]
+      } else if (H <= 3) {
+        return [0, C, X]
+      } else if (H <= 4) {
+        return [0, X, C]
+      } else if (H <= 5) {
+        return [X, 0, C]
+      } else {
+        return [C, 0, X]
+      }
+    })(normalizedHue, chroma, x)
+    /* tslint:enable */
+
+    return intermediaryRgbValues.map(v => v + m).map(v => Math.round(v * 255)) as colorValues
+  }
+
   /**
    * Extracts the values from colors using the regular expression. Returned value is a string, since some
    * methods need to validate it's format before passing it further as a number.

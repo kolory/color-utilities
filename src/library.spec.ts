@@ -204,14 +204,23 @@ describe('Color utilities', () => {
   })
 
   describe('Colors analyze', () => {
-    it('should allow splitting the hex color into its parts', () => {
+    it('should allow splitting the hex colors into its parts', () => {
       expect(colorUtil.splitHexColor(basicHexColor)).toEqual(['FF', 'A5', '00'])
       expect(colorUtil.splitHexColor('#ffa500')).toEqual(['FF', 'A5', '00']) // Note the uppercases characters.
     })
 
-    it('should allow splitting the rgb color into its parts', () => {
+    it('should allow splitting the RGB colors into its parts', () => {
       expect(colorUtil.splitRgbColor('rgb(0, 1, 3')).toEqual([0, 1, 3])
       expect(colorUtil.splitRgbColor('rgb(255, 255, 255')).toEqual([255, 255, 255])
+    })
+
+    it('should allow splitting the HSL colors into its parts', () => {
+      expect(colorUtil.splitHslColor('hsl(360, 100%, 100%)')).toEqual([255, 255, 255])
+      expect(colorUtil.splitHslColor('hsl(0, 100%, 50%)')).toEqual([255, 0, 0])
+      expect(colorUtil.splitHslColor('hsl(120, 100%, 50%)')).toEqual([0, 255, 0])
+      expect(colorUtil.splitHslColor('hsl(150, 75%, 50%)')).toEqual([32, 223, 128])
+      expect(colorUtil.splitHslColor('hsl(190, 15%, 70%)')).toEqual([167, 186, 190])
+      expect(colorUtil.splitHslColor('hsl(242, 63%, 54%)')).toEqual([69, 64, 212])
     })
   })
 
