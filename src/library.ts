@@ -98,6 +98,8 @@ export class ColorUtilities {
       return this.parseHexColor(color)
     case ColorTypes.rgb:
       return this.parseRgbColor(color)
+    case ColorTypes.hsl:
+      return this.parseHslColor(color)
     default:
       throw new TypeError(`Trying to pare an invalid color (${color}).`)
     }
@@ -123,6 +125,17 @@ export class ColorUtilities {
    */
   parseRgbColor(rgbColor: RGBColor): colorValues {
     return this.splitRgbColor(this.normalizeRgbColor(rgbColor)) as colorValues
+  }
+
+  /**
+   * Transforms the HSL color string into its color values.
+   *
+   * @throws TypeError
+   * @param {HSLColor} hslColor to be transformed.
+   * @returns {colorValues} RGB triplet of the provided hex color.
+   */
+  parseHslColor(hslColor: HSLColor): colorValues {
+    return this.splitHslColor(this.normalizeHslColor(hslColor)) as colorValues
   }
 
   /* Validators */

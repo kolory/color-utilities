@@ -46,7 +46,8 @@ const validHslColors = [
   'hsl(0, 0%, 0%)',
   'hsl(360, 0%, 0%)',
   '  hsl  (   100,   50%,1%  )   ',
-  'HSL(235, 13%, 99%)'
+  'HSL(235, 13%, 99%)',
+  'hsl(360, 100%, 100%)'
 ]
 
 const invalidHslColors = [
@@ -131,6 +132,12 @@ describe('Color utilities', () => {
       expect(colorUtil.parseColor('rgb(0, 0, 0)')).toEqual([0, 0, 0])
       expect(colorUtil.parseColor('rgb(1, 2, 100)')).toEqual([1, 2, 100])
       expect(colorUtil.parseColor('rgb(255, 255, 255)')).toEqual([255, 255, 255])
+      expect(colorUtil.parseColor('hsl(360, 100%, 100%)')).toEqual([255, 255, 255])
+      expect(colorUtil.parseColor('hsl(0, 100%, 50%)')).toEqual([255, 0, 0])
+      expect(colorUtil.parseColor('hsl(120, 100%, 50%)')).toEqual([0, 255, 0])
+      expect(colorUtil.parseColor('hsl(150, 75%, 50%)')).toEqual([32, 223, 128])
+      expect(colorUtil.parseColor('hsl(190, 15%, 70%)')).toEqual([167, 186, 190])
+      expect(colorUtil.parseColor('hsl(242, 63%, 54%)')).toEqual([69, 64, 212])
     })
 
     it('should transform hex colors into RGB values array', () => {
@@ -141,10 +148,19 @@ describe('Color utilities', () => {
       expect(colorUtil.parseHexColor(basicHexColor)).toEqual([255, 165, 0])
     })
 
-    it('should transform RGB color into RGB values array', () => {
+    it('should transform RGB colors into RGB values array', () => {
       expect(colorUtil.parseRgbColor('rgb(0, 0, 0)')).toEqual([0, 0, 0])
       expect(colorUtil.parseRgbColor('rgb(1, 2, 100)')).toEqual([1, 2, 100])
       expect(colorUtil.parseRgbColor('rgb(255, 255, 255)')).toEqual([255, 255, 255])
+    })
+
+    it('should transform HSL colors into RGB values array', () => {
+      expect(colorUtil.parseHslColor('hsl(360, 100%, 100%)')).toEqual([255, 255, 255])
+      expect(colorUtil.parseHslColor('hsl(0, 100%, 50%)')).toEqual([255, 0, 0])
+      expect(colorUtil.parseHslColor('hsl(120, 100%, 50%)')).toEqual([0, 255, 0])
+      expect(colorUtil.parseHslColor('hsl(150, 75%, 50%)')).toEqual([32, 223, 128])
+      expect(colorUtil.parseHslColor('hsl(190, 15%, 70%)')).toEqual([167, 186, 190])
+      expect(colorUtil.parseHslColor('hsl(242, 63%, 54%)')).toEqual([69, 64, 212])
     })
 
     it('should allow using shorthand hex colors', () => {
@@ -156,13 +172,16 @@ describe('Color utilities', () => {
     })
 
     it('should inform about failed parsing', () => {
-      [...invalidHexColors, ...invalidRgbColors].forEach(color =>
+      [...invalidHexColors, ...invalidRgbColors, ...invalidHslColors].forEach(color =>
         expect(() => colorUtil.parseColor(color)).toThrowError(TypeError))
 
       invalidHexColors.forEach(invalidColor =>
         expect(() => colorUtil.parseHexColor(invalidColor)).toThrowError(TypeError))
 
       invalidRgbColors.forEach(invalidColor =>
+        expect(() => colorUtil.parseRgbColor(invalidColor)).toThrowError(TypeError))
+
+      invalidHslColors.forEach(invalidColor =>
         expect(() => colorUtil.parseRgbColor(invalidColor)).toThrowError(TypeError))
     })
   })
