@@ -56,3 +56,5 @@ export const invalidHslColors = [
   'hsl(200, 10%, 200%)',
   'hsl(,,)'
 ]
+
+export const invalidColors = [...invalidHslColors, ...invalidRgbColors, ...invalidHexColors]
