@@ -89,12 +89,18 @@ describe('Color object', () => {
       expect(new Color('#AF3512').luminance).toBeCloseTo(0.11703838572298138)
     })
 
-    it('should calculate contrast to other color', () => {
+    it('should calculate contrast to other color (either a string or another Color)', () => {
       expect(new Color('#FFFFFF').calculateContractTo('#000000')).toBe(21 / 1)
       expect(new Color('#000000').calculateContractTo('#FFFFFF')).toBe(21 / 1)
-      expect(new Color('#000000').calculateContractTo('#000000')).toBe(1 / 1)
+      expect(new Color('hsl(0, 0%, 0%)').calculateContractTo('rgb(0, 0, 0)')).toBe(1 / 1)
       expect(Math.round(new Color('#FFA500').calculateContractTo('#000000'))).toBe(11 / 1)
       expect(Math.round(new Color('#FFA500').calculateContractTo('#FFFFFF'))).toBe(2 / 1)
+
+      expect(new Color('#FFFFFF').calculateContractTo(new Color('#000000'))).toBe(21 / 1)
+      expect(new Color('#000000').calculateContractTo(new Color('#FFFFFF'))).toBe(21 / 1)
+      expect(new Color('#000000').calculateContractTo(new Color('#000000'))).toBe(1 / 1)
+      expect(Math.round(new Color('#FFA500').calculateContractTo(new Color('#000000')))).toBe(11 / 1)
+      expect(Math.round(new Color('#FFA500').calculateContractTo(new Color('#FFFFFF')))).toBe(2 / 1)
     })
   })
 })
