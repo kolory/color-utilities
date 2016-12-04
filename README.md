@@ -1,7 +1,7 @@
 # Color utilities
-[![Build Status](https://travis-ci.org/radiatingstar/color-utilities.svg?branch=master)](https://travis-ci.org/radiatingstar/color-utilities)
-[![Code Climate](https://codeclimate.com/github/radiatingstar/color-utilities/badges/gpa.svg)](https://codeclimate.com/github/radiatingstar/color-utilities)
-[![Test Coverage](https://codeclimate.com/github/radiatingstar/color-utilities/badges/coverage.svg)](https://codeclimate.com/github/radiatingstar/color-utilities/coverage)
+[![Build Status](https://travis-ci.org/kolory/color-utilities.svg?branch=master)](https://travis-ci.org/kolory/color-utilities)
+[![Code Climate](https://codeclimate.com/github/kolory/color-utilities/badges/gpa.svg)](https://codeclimate.com/github/kolory/color-utilities)
+[![Test Coverage](https://codeclimate.com/github/kolory/color-utilities/badges/coverage.svg)](https://codeclimate.com/github/kolory/color-utilities/coverage)
 
 Collection of useful methods for colors parsing, validation, transformations and calculations.
 Exposed as a class, so can be used as a stand-alone, or inside Angular apps.
@@ -37,6 +37,30 @@ class MyComponent {
 ```
 
 ## Features
+
+### Converters
+
+#### Convert a color to another format
+```
+#convert(color: anyColor, to: ColorTypes): anyColor
+```
+
+Converts a color into a different format (eg. hex to RGB or HSL to hex).
+
+##### Parameters
+`color` - A valid color that will be converted.
+`to` - a color type (coming from the `ColorTypes` enum) into which the color should be converted.
+
+##### Returns
+
+A valid color in another format.
+
+##### Example
+
+```
+colorUtils.convert('#F03402', ColorTypes.hsl) // => 'hsl(13, 98%, 47%)'
+colorUtil.convert('hsl(39, 100%, 50%)', ColorTypes.rgb) // => 'rgb(255, 166, 0)'
+```
 
 ### Parsers
 

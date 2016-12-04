@@ -135,6 +135,40 @@ describe('Color utilities', () => {
     })
   })
 
+  describe('Colors converters', () => {
+    it('should allow converting all colors formats to other formats', () => {
+      expect(colorUtil.convert('rgb(255, 255, 255)', ColorTypes.hex)).toBe('#FFFFFF')
+      expect(colorUtil.convert('rgb(255, 165, 0)', ColorTypes.hex)).toBe('#FFA500')
+      expect(colorUtil.convert('rgb(0, 0, 0)', ColorTypes.hex)).toBe('#000000')
+      expect(colorUtil.convert('hsl(253, 98%, 47%)', ColorTypes.hex)).toBe('#3502ED')
+      expect(colorUtil.convert('#FFFFFF', ColorTypes.rgb)).toBe('rgb(255, 255, 255)')
+      expect(colorUtil.convert('#fff', ColorTypes.rgb)).toBe('rgb(255, 255, 255)')
+      expect(colorUtil.convert('#FFA500', ColorTypes.rgb)).toBe('rgb(255, 165, 0)')
+      expect(colorUtil.convert('hsl(39, 100%, 50%)', ColorTypes.rgb)).toBe('rgb(255, 166, 0)')
+
+      // HSL conversion requires a special attention.
+      expect(colorUtil.convert('#FFFFFF', ColorTypes.hsl)).toBe('hsl(0, 100%, 100%)')
+      expect(colorUtil.convert('#000000', ColorTypes.hsl)).toBe('hsl(0, 0%, 0%)')
+      expect(colorUtil.convert('#999', ColorTypes.hsl)).toBe('hsl(0, 0%, 60%)')
+      expect(colorUtil.convert('#AF90F9', ColorTypes.hsl)).toBe('hsl(258, 90%, 77%)')
+      expect(colorUtil.convert('#F00234', ColorTypes.hsl)).toBe('hsl(347, 98%, 47%)')
+      expect(colorUtil.convert('#F03402', ColorTypes.hsl)).toBe('hsl(13, 98%, 47%)')
+      expect(colorUtil.convert('#34F002', ColorTypes.hsl)).toBe('hsl(107, 98%, 47%)')
+      expect(colorUtil.convert('#02F034', ColorTypes.hsl)).toBe('hsl(133, 98%, 47%)')
+      expect(colorUtil.convert('#0234F0', ColorTypes.hsl)).toBe('hsl(227, 98%, 47%)')
+      expect(colorUtil.convert('#3402F0', ColorTypes.hsl)).toBe('hsl(253, 98%, 47%)')
+      expect(colorUtil.convert('rgb(86, 175, 50)', ColorTypes.hsl)).toBe('hsl(103, 56%, 44%)')
+      expect(colorUtil.convert('rgb(255, 165, 0)', ColorTypes.hsl)).toBe('hsl(39, 100%, 50%)')
+    })
+
+    it('should throw when trying to convert an invalid color or to an invalid type', () => {
+      invalidHslColors.forEach(color => expect(() => colorUtil.convert(color, ColorTypes.rgb)).toThrowError(TypeError))
+      invalidRgbColors.forEach(color => expect(() => colorUtil.convert(color, ColorTypes.hex)).toThrowError(TypeError))
+      invalidHexColors.forEach(color => expect(() => colorUtil.convert(color, ColorTypes.hsl)).toThrowError(TypeError))
+      expect(() => colorUtil.convert('rgb(255, 255, 255)', ColorTypes.invalidType)).toThrowError(TypeError)
+    })
+  })
+
   describe('Colors parsing', () => {
     it('should parse all valid colors', () => {
       expect(colorUtil.parseColor('#FFF')).toEqual([255, 255, 255])
