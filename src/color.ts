@@ -37,6 +37,10 @@ export class Color {
     return Color.utils.parseColor(this.color)[2]
   }
 
+  get luminance(): number {
+    return Color.utils.calculateLuminanceOf(this.color)
+  }
+
   constructor(color?: anyColor) {
     if (!color) {
       this.color = '#FFFFFF'

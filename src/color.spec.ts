@@ -79,4 +79,14 @@ describe('Color object', () => {
       expect(new Color('hsl(0, 0%, 100%)') + '').toBe('#FFFFFF')
     })
   })
+
+  describe('Calculations', () => {
+    it('should expose it\'s luminance', () => {
+      expect(new Color('#FFFFFF').luminance).toBe(1)
+      expect(new Color('#000000').luminance).toBe(0)
+      expect(new Color('#FFA500').luminance).toBeCloseTo(0.48170267036309633)
+      expect(new Color('#00FF00').luminance).toBeCloseTo(0.7152)
+      expect(new Color('#AF3512').luminance).toBeCloseTo(0.11703838572298138)
+    })
+  })
 })
