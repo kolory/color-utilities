@@ -83,6 +83,95 @@ export class ColorUtilities {
     }
   }
 
+  /* Converters */
+
+  /**
+   * Converts a valid color into it's representation in different format.
+   *
+   * @example
+   * colorUtil.convert('#F03402', ColorTypes.hsl) // => 'hsl(13, 98%, 47%)'
+   *
+   * @param {anyColor} color to be converted.
+   * @param {ColorTypes} to this format.
+   * @returns {anyColor} converted color.
+   */
+  convert(color: anyColor, to: ColorTypes): anyColor {
+    const values = this.parseColor(color)
+    switch (to) {
+    case ColorTypes.hex:
+      return this.convertValuesToHex(values)
+    case ColorTypes.rgb:
+      return this.convertValuesToRgb(values)
+    case ColorTypes.hsl:
+      return this.convertValuesToHsl(values)
+    default:
+      throw new TypeError(`${to} is not valid color type as an outcome format.`)
+    }
+  }
+
+  /**
+   * Converts the RGB values into a hex color.
+   * @param {colorValues} values to be converted.
+   * @returns {hexColor} outcome hex color.
+   */
+  private convertValuesToHex(values: colorValues): hexColor {
+    return this.normalizeHexColor(
+      values
+        .map(value => value < 10 ? '0' + String(value) : value.toString(16))
+        .reduce((color, value) => color + value, '#')
+    )
+  }
+
+  /**
+   * Converts the RGB values into an RGB color.
+   * @param {colorValues} values to be converted.
+   * @returns {RGBColor} outcome RGB color.
+   */
+  private convertValuesToRgb(values: colorValues): RGBColor {
+    return `rgb(${values.join(', ')})`
+  }
+
+  /**
+   * Converts the RGB values into an HSL color.
+   * Algorithm taken from Wikipedia: https://en.wikipedia.org/wiki/HSL_and_HSV#General_approach
+   *
+   * @param {colorValues} values to be converted.
+   * @returns {RGBColor} outcome HSL color.
+   */
+  private convertValuesToHsl(values: colorValues): HSLColor {
+    /* tslint:disable:cyclomatic-complexity */
+    const [r, g, b] = values.map(v => v / 255)
+    const M = Math.max(r, g, b)
+    const m = Math.min(r, g, b)
+    const C = M - m
+
+    let intermediaryHue = 0
+    if (C) {
+      if (M === r) {
+        intermediaryHue = ((g - b) / C) % 6
+      } else if (M === g) {
+        intermediaryHue = (b - r) / C + 2
+      } else { // M === b
+        intermediaryHue = (r - g) / C + 4
+      }
+    }
+
+    const hue = Math.round(intermediaryHue * 60)
+    const lightness = (M + m) / 2
+
+    let saturation: number
+    if (lightness === 1) {
+      saturation = 1
+    } else if (lightness === 0) {
+      saturation = 0
+    } else {
+      saturation = C / (1 - Math.abs(2 * lightness - 1))
+    }
+
+    return `hsl(${hue >= 0 ? hue : 360 + hue}, ${Math.round(saturation * 100)}%, ${Math.round(lightness * 100)}%)`
+    /* tslint:enable */
+  }
+
   /* Parsers */
 
   /**
