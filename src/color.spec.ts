@@ -1,9 +1,13 @@
 import {Color} from "./color";
 import {anyColor} from "./types";
+import {strictlyValidHexColors, validRgbColors, invalidColors} from "./test-colors";
+import {ColorUtilities} from "./library";
 
 const basicColor: anyColor = '#FFFFFF'
 
 describe('Color object', () => {
+  const utils = new ColorUtilities()
+
   let color: Color
 
   beforeEach(() => {
@@ -19,38 +23,52 @@ describe('Color object', () => {
     it('should allow using a valid color during creation', () => {
       expect(new Color(basicColor).hex).toBe(basicColor)
       expect(Color.create(basicColor).hex).toBe(basicColor)
+      strictlyValidHexColors.forEach(color => expect(Color.create(color).hex).toBe(utils.normalizeHexColor(color)))
+      validRgbColors.forEach(color => expect(Color.create(color).rgb).toBe(utils.normalizeRgbColor(color)))
 
-      // TODO Loop on other colors
+      // Since the HSL conversion doesn't really work in two way, just make sure the Color can be created from
+      // that format.
+      expect(Color.create('hsl(0, 0%, 0%)').hsl).toBe('hsl(0, 0%, 0%)')
     })
 
-    it('should allow not using any color during creation and use white instead', () => {
-
+    it('should defaults to white when no color was provided during initialization', () => {
+      expect(new Color().hex).toBe('#FFFFFF')
     })
 
     it('should not allow using invalid colors during creation', () => {
-
+      invalidColors.forEach(color => expect(() => new Color(color)).toThrowError(TypeError))
     })
   })
 
   describe('Basic actions', () => {
     it('should allow accessing the value in hex, RGB and HSL formats', () => {
-
+      const color = new Color('#000000')
+      expect(color.hex).toBe('#000000')
+      expect(color.rgb).toBe('rgb(0, 0, 0)')
+      expect(color.hsl).toBe('hsl(0, 0%, 0%)')
     })
 
     it('should expose it\'s RGB values', () => {
-
+      const color = new Color('#FFA500')
+      expect(color.R).toBe(255)
+      expect(color.G).toBe(165)
+      expect(color.B).toBe(0)
     })
 
     it('should allow setting a new value', () => {
-
+      let color = new Color('#FFFFFF')
+      expect(color.set('#000000').hex).toBe('#000000')
     })
 
     it('should create a new Color object when setting a new value (immutability)', () => {
-
+      let color = new Color()
+      expect(color.set('#FFA500')).not.toBe(color)
+      expect(color.set('#FFA500') instanceof Color).toBeTruthy()
     })
 
     it('should throw when trying to set an invalid value', () => {
-
+      let color = new Color()
+      invalidColors.forEach(invalidColor => expect(() => color.set(invalidColor)).toThrowError(TypeError))
     })
   })
 
