@@ -8,16 +8,16 @@ Exposed as a class, so can be used as a stand-alone, or inside Angular apps.
 
 ## Install and use
 ```
-npm install @radiatingstar/color-utilities
+npm install @kolory/color-utilities
 ```
 
 Use in a JavaScript or TypeScript project:
 ```
 // TypeScript, JavaScript module
-import {ColorUtilities} from '@radiatingstar/color-utilities'
+import {ColorUtilities} from '@kolory/color-utilities'
 
 // Node, Browserify
-const ColorUtilities = require('@radiatingstar/color-utilities')
+const ColorUtilities = require('@kolory/color-utilities')
 
 // Create using a `new` keyword or with a factory.
 const colorUtils = new ColorUtilities()
