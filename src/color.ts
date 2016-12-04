@@ -58,6 +58,10 @@ export class Color {
     return Color.create(color)
   }
 
+  calculateContractTo(color: anyColor | Color): number {
+    return Color.utils.calculateContrastRatio(this.hex, color instanceof Color ? color.hex : color)
+  }
+
   toString(): string {
     return this.getColor(ColorTypes.hex)
   }

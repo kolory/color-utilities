@@ -88,5 +88,13 @@ describe('Color object', () => {
       expect(new Color('#00FF00').luminance).toBeCloseTo(0.7152)
       expect(new Color('#AF3512').luminance).toBeCloseTo(0.11703838572298138)
     })
+
+    it('should calculate contrast to other color', () => {
+      expect(new Color('#FFFFFF').calculateContractTo('#000000')).toBe(21 / 1)
+      expect(new Color('#000000').calculateContractTo('#FFFFFF')).toBe(21 / 1)
+      expect(new Color('#000000').calculateContractTo('#000000')).toBe(1 / 1)
+      expect(Math.round(new Color('#FFA500').calculateContractTo('#000000'))).toBe(11 / 1)
+      expect(Math.round(new Color('#FFA500').calculateContractTo('#FFFFFF'))).toBe(2 / 1)
+    })
   })
 })
