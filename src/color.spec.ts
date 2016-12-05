@@ -65,6 +65,7 @@ describe('Color object', () => {
     it('should allow setting a new value', () => {
       let color = new Color('#FFFFFF')
       expect(color.set('#000000').hex).toBe('#000000')
+      expect(color.set(new Color('#FFFFFF')).hex).toBe('#FFFFFF')
     })
 
     it('should create a new Color object when setting a new value (immutability)', () => {

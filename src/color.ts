@@ -64,9 +64,9 @@ export class Color {
     }
   }
 
-  set(color: anyColor): Color {
-    if (!Color.utils.isValidColor(color)) {
-      this.throwInvalidColor(color)
+  set(color: anyColor | Color): Color {
+    if (!Color.isColor(color) && !Color.utilities.isValidColor(color as anyColor)) {
+      this.throwInvalidColor(color as anyColor)
     }
     return Color.create(color)
   }
