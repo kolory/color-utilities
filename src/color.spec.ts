@@ -14,6 +14,13 @@ describe('Color object', () => {
     color = new Color()
   })
 
+  describe('Color definitions', () => {
+    it('should expose valid colors', () => {
+      expect(Color.black.hex).toBe('#000000')
+      expect(Color.white.hex).toBe('#FFFFFF')
+    })
+  })
+
   describe('Color creation', () => {
     it('should allow creating an instance using the `new` operator and as from a factory', () => {
       expect(new Color()).toBeDefined()

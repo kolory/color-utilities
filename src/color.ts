@@ -3,13 +3,15 @@ import {ColorUtilities} from "./library";
 import {ColorTypes} from "./color-types-enum";
 
 export class Color {
-  // TODO: static colors
+  private static utils = new ColorUtilities()
+
+  static black = new Color('#000000')
+  static white = new Color('#FFFFFF')
 
   static create(color?: anyColor): Color {
     return new Color(color)
   }
 
-  private static utils = new ColorUtilities()
 
   private color: anyColor
 
@@ -43,7 +45,7 @@ export class Color {
 
   constructor(color?: anyColor) {
     if (!color) {
-      this.color = '#FFFFFF'
+      return Color.white
     } else if (!Color.utils.isValidColor(color)) {
       this.throwInvalidColor(color)
     } else {

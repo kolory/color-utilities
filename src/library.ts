@@ -23,12 +23,6 @@ export class ColorUtilities {
     return new ColorUtilities()
   }
 
-  /**
-   * A dictionary of color values. USes hex values by default.
-   */
-  static readonly color: {[index: string]: hexColor} = {
-    black: '#000000',
-    white: '#FFFFFF'
   }
 
   /* Utilities */

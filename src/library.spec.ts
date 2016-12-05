@@ -5,9 +5,6 @@ import {
   validRgbColors, validHslColors, basicHexColor
 } from "./test-colors";
 
-
-const expectedExportedColors = [['white', '#FFFFFF'], ['black', '#000000']]
-
 describe('Color utilities', () => {
   let colorUtil: ColorUtilities
 
@@ -20,14 +17,7 @@ describe('Color utilities', () => {
       expect(new ColorUtilities()).toBeDefined()
       expect(ColorUtilities.create() instanceof ColorUtilities).toBeTruthy()
     })
-  })
 
-  describe('Color definitions', () => {
-    it('should expose valid colors', () => {
-      expectedExportedColors.forEach(([color, hexValue]) => {
-        expect(ColorUtilities.color[color]).toEqual(hexValue)
-        expect(colorUtil.isValidHexColor(ColorUtilities.color[color])).toBeTruthy()
-      })
     })
   })
 
