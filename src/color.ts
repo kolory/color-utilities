@@ -139,13 +139,16 @@ export class Color {
    * @returns {boolean} Is the value the same?
    */
   equals(color: anyColor | Color): boolean {
+    let values: colorValues
     if (Color.isColor(color)) {
-      return (color as Color).hex === this.hex
+      values = (color as Color).values
     } else if (Color.utilities.isValidColor(color as anyColor)) {
-      return Color.create(color).hex === this.hex
+      values = Color.utilities.parseColor(color as anyColor)
     } else {
       return false
     }
+    const currentValues = this.values
+    return values.every((value, index) => value === currentValues[index])
   }
 
   /**
