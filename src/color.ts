@@ -8,7 +8,7 @@ export class Color {
   static black = new Color('#000000')
   static white = new Color('#FFFFFF')
 
-  static create(color?: anyColor): Color {
+  static create(color?: anyColor | Color): Color {
     return new Color(color)
   }
 
@@ -47,7 +47,7 @@ export class Color {
     if (!color) {
       return Color.white
     } else if (color instanceof Color) {
-      return Color.create(color.hex)
+      return color
     } else if (!Color.utils.isValidColor(color)) {
       this.throwInvalidColor(color)
     } else {
