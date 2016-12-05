@@ -12,6 +12,9 @@ describe('Color object', () => {
     it('should expose valid colors', () => {
       expect(Color.black.hex).toBe('#000000')
       expect(Color.white.hex).toBe('#FFFFFF')
+      expect(Color.red.hex).toBe('#FF0000')
+      expect(Color.green.hex).toBe('#00FF00')
+      expect(Color.blue.hex).toBe('#0000FF')
     })
   })
 
