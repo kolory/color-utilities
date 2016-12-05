@@ -93,6 +93,14 @@ describe('Color object', () => {
       expect(new Color('hsl(0, 0%, 100%)') + '').toBe('#FFFFFF')
     })
 
+    it('should compare two different colors or Color objects by their color value', () => {
+      expect(new Color('#FFFFFF').equals(new Color('#FFFFFF'))).toBeTruthy()
+      expect(new Color('#FFFFFF').equals(new Color('#000000'))).toBeFalsy()
+      expect(new Color('#FFFFFF').equals('#FFFFFF')).toBeTruthy()
+      expect(new Color('#FFFFFF').equals('#000000')).toBeFalsy()
+      expect(new Color('#FFFFFF').equals('invalid')).toBeFalsy()
+    })
+
     it('should have a way of deciding if another object is a Color object', () => {
       expect(Color.isColor(new Color('#FFFFFF'))).toBeTruthy()
       expect(Color.isColor('#FFFFFF')).toBeFalsy()

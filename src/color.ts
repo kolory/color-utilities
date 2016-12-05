@@ -1,6 +1,6 @@
-import {anyColor, hexColor, RGBColor, HSLColor} from "./types";
-import {ColorUtilities} from "./library";
-import {ColorTypes} from "./color-types-enum";
+import {anyColor, hexColor, RGBColor, HSLColor} from './types';
+import {ColorUtilities} from './library';
+import {ColorTypes} from './color-types-enum';
 
 export class Color {
   private static utils = new ColorUtilities()
@@ -46,6 +46,12 @@ export class Color {
     return Color.utils.calculateLuminanceOf(this.color)
   }
 
+  /**
+   * When another Color is used to create this Color, then that used color is returned. Color class is an abstraction
+   * of the color itself, so there's no point in creating a new object. It's impossible to create another "white".
+   * @param color
+   * @returns {Color}
+   */
   constructor(color?: anyColor | Color) {
     if (!color) {
       return Color.white
@@ -67,6 +73,16 @@ export class Color {
 
   calculateContrastTo(color: anyColor | Color): number {
     return Color.utils.calculateContrastRatio(this.hex, color instanceof Color ? color.hex : color)
+  }
+
+  equals(color: anyColor | Color): boolean {
+    if (Color.isColor(color)) {
+      return (color as Color).hex === this.hex
+    } else if (Color.utils.isValidColor(color as anyColor)) {
+      return Color.create(color).hex === this.hex
+    } else {
+      return false
+    }
   }
 
   toString(): string {
