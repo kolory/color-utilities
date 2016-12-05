@@ -38,6 +38,13 @@ describe('Color object', () => {
       expect(Color.create('hsl(0, 0%, 0%)').hsl).toBe('hsl(0, 0%, 0%)')
     })
 
+    it('should create a new color when creating from another Color object', () => {
+      const color1 = new Color('#000000')
+      const color2 = new Color(color1)
+      expect(color2.hex).toBe(color1.hex)
+      expect(color2).not.toBe(color1)
+    })
+
     it('should defaults to white when no color was provided during initialization', () => {
       expect(new Color().hex).toBe('#FFFFFF')
     })

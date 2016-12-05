@@ -43,9 +43,11 @@ export class Color {
     return Color.utils.calculateLuminanceOf(this.color)
   }
 
-  constructor(color?: anyColor) {
+  constructor(color?: anyColor | Color) {
     if (!color) {
       return Color.white
+    } else if (color instanceof Color) {
+      return Color.create(color.hex)
     } else if (!Color.utils.isValidColor(color)) {
       this.throwInvalidColor(color)
     } else {
