@@ -1,6 +1,5 @@
 import {hexColor, hexColorValues, colorValues, RGBColor, anyColor, HSLColor} from './types'
 import {ColorTypes} from './color-types-enum'
-import {Color} from "./color";
 
 /**
  * Utility library for parsing colors, validation, normalization and some other useful features.
@@ -22,10 +21,6 @@ export class ColorUtilities {
    */
   static create(): ColorUtilities {
     return new ColorUtilities()
-  }
-
-  static color(color?: anyColor): Color {
-    return Color.create(color)
   }
 
   /* Utilities */

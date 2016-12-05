@@ -3,8 +3,7 @@ import {ColorTypes} from './color-types-enum'
 import {
   invalidHslColors, invalidRgbColors, invalidHexColors, strictlyValidHexColors,
   validRgbColors, validHslColors, basicHexColor
-} from "./test-colors";
-import {Color} from "./color";
+} from './test-colors';
 
 describe('Color utilities', () => {
   let colorUtil: ColorUtilities
@@ -17,11 +16,6 @@ describe('Color utilities', () => {
     it('should allow creating an instance using the `new` operator and as from a factory', () => {
       expect(new ColorUtilities()).toBeDefined()
       expect(ColorUtilities.create() instanceof ColorUtilities).toBeTruthy()
-    })
-
-    it('should allow creating a Color instance', () => {
-      expect(ColorUtilities.color('#FFFFFF') instanceof Color).toBeTruthy()
-      expect(ColorUtilities.color() instanceof Color).toBeTruthy()
     })
   })
 
