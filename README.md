@@ -62,6 +62,27 @@ colorUtils.convert('#F03402', ColorTypes.hsl) // => 'hsl(13, 98%, 47%)'
 colorUtil.convert('hsl(39, 100%, 50%)', ColorTypes.rgb) // => 'rgb(255, 166, 0)'
 ```
 
+#### Convert a raw color values to the color format
+```
+#convertRawValuesTo(values: colorValues, to: ColorTypes): anyColor
+```
+
+Converts a raw color values (a triplet array: [R, G, B]) into a formatted string (eg. hex to RGB or HSL to hex).
+
+##### Parameters
+`values` - A raw values.
+`to` - a color type (coming from the `ColorTypes` enum) into which the color should be converted.
+
+##### Returns
+
+A valid color in another format.
+
+##### Example
+
+```
+colorUtils.convertRawValuesTo([255, 165, 0], ColorTypes.hex) // => '#FFA500'
+```
+
 ### Parsers
 
 #### Parse any color
