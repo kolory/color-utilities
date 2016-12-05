@@ -1,6 +1,6 @@
-import {anyColor, hexColor, RGBColor, HSLColor} from './types';
-import {ColorUtilities} from './library';
-import {ColorTypes} from './color-types-enum';
+import {anyColor, hexColor, RGBColor, HSLColor} from './types'
+import {ColorUtilities} from './library'
+import {ColorTypes} from './color-types-enum'
 
 export class Color {
   private static utils = new ColorUtilities()

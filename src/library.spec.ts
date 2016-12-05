@@ -3,7 +3,7 @@ import {ColorTypes} from './color-types-enum'
 import {
   invalidHslColors, invalidRgbColors, invalidHexColors, strictlyValidHexColors,
   validRgbColors, validHslColors, basicHexColor
-} from './test-colors';
+} from './test-colors'
 
 describe('Color utilities', () => {
   let colorUtil: ColorUtilities

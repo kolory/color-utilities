@@ -1,4 +1,4 @@
-import {hexColor} from "./types";
+import {hexColor} from './types'
 
 export const basicHexColor: hexColor = '#FFA500'
 

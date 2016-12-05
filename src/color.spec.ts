@@ -1,18 +1,12 @@
-import {Color} from "./color";
-import {anyColor} from "./types";
-import {strictlyValidHexColors, validRgbColors, invalidColors} from "./test-colors";
-import {ColorUtilities} from "./library";
+import {Color} from './color'
+import {anyColor} from './types'
+import {strictlyValidHexColors, validRgbColors, invalidColors} from './test-colors'
+import {ColorUtilities} from './library'
 
 const basicColor: anyColor = '#FFFFFF'
 
 describe('Color object', () => {
   const utils = new ColorUtilities()
-
-  let color: Color
-
-  beforeEach(() => {
-    color = new Color()
-  })
 
   describe('Color definitions', () => {
     it('should expose valid colors', () => {
@@ -33,8 +27,7 @@ describe('Color object', () => {
       strictlyValidHexColors.forEach(color => expect(Color.create(color).hex).toBe(utils.normalizeHexColor(color)))
       validRgbColors.forEach(color => expect(Color.create(color).rgb).toBe(utils.normalizeRgbColor(color)))
 
-      // Since the HSL conversion doesn't really work in two way, just make sure the Color can be created from
-      // that format.
+      // Since the HSL conversion doesn't really work in two ways, just make sure the basic scenario works.
       expect(Color.create('hsl(0, 0%, 0%)').hsl).toBe('hsl(0, 0%, 0%)')
     })
 
@@ -88,9 +81,11 @@ describe('Color object', () => {
 
   describe('Interoperability', () => {
     it('should present itself as a hex color when used in a string context', () => {
+      /* tslint:disable:restrict-plus-operands */
       expect(new Color('#000') + '').toBe('#000000')
       expect(new Color('rgb(255, 255, 255)') + '').toBe('#FFFFFF')
       expect(new Color('hsl(0, 0%, 100%)') + '').toBe('#FFFFFF')
+      /* tslint:enable */
     })
 
     it('should compare two different colors or Color objects by their color value', () => {
