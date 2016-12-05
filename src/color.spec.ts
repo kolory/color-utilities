@@ -90,6 +90,8 @@ describe('Color object', () => {
       expect(new Color('#000') + '').toBe('#000000')
       expect(new Color('rgb(255, 255, 255)') + '').toBe('#FFFFFF')
       expect(new Color('hsl(0, 0%, 100%)') + '').toBe('#FFFFFF')
+      expect(`Hello! I'm an orange with a color ${new Color('rgb(255, 165, 0)')}!`)
+        .toBe(`Hello! I'm an orange with a color #FFA500!`)
       /* tslint:enable */
     })
 
