@@ -21,11 +21,11 @@ export class Color {
 
   /* tslint:disable:completed-docs */
   /* Colors shortcuts. */
-  static black = new Color('#000000')
-  static white = new Color('#FFFFFF')
-  static red = new Color('#FF0000')
-  static green = new Color('#00FF00')
-  static blue = new Color('#0000FF')
+  static readonly black = new Color('#000000')
+  static readonly white = new Color('#FFFFFF')
+  static readonly red = new Color('#FF0000')
+  static readonly green = new Color('#00FF00')
+  static readonly blue = new Color('#0000FF')
 
   // Current value.
   private color: colorValues
