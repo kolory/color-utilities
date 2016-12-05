@@ -92,6 +92,11 @@ describe('Color object', () => {
       expect(new Color('rgb(255, 255, 255)') + '').toBe('#FFFFFF')
       expect(new Color('hsl(0, 0%, 100%)') + '').toBe('#FFFFFF')
     })
+
+    it('should have a way of deciding if another object is a Color object', () => {
+      expect(Color.isColor(new Color('#FFFFFF'))).toBeTruthy()
+      expect(Color.isColor('#FFFFFF')).toBeFalsy()
+    })
   })
 
   describe('Calculations', () => {

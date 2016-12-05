@@ -12,6 +12,9 @@ export class Color {
     return new Color(color)
   }
 
+  static isColor(color?: anyColor | Color): boolean {
+    return color instanceof Color
+  }
 
   private color: anyColor
 
