@@ -1,4 +1,4 @@
-import {anyColor, hexColor, RGBColor, HSLColor} from './types'
+import {anyColor, hexColor, RGBColor, HSLColor, colorValues} from './types'
 import {ColorUtilities} from './library'
 import {ColorTypes} from './color-types-enum'
 
@@ -28,7 +28,7 @@ export class Color {
   static blue = new Color('#0000FF')
 
   // Current value.
-  private color: anyColor
+  private color: colorValues
   /* tslint:enable:completed-docs */
 
   /**
@@ -63,19 +63,23 @@ export class Color {
   }
 
   get R(): number {
-    return Color.utilities.parseColor(this.color)[0]
+    return this.color[0]
   }
 
   get G(): number {
-    return Color.utilities.parseColor(this.color)[1]
+    return this.color[1]
   }
 
   get B(): number {
-    return Color.utilities.parseColor(this.color)[2]
+    return this.color[2]
+  }
+
+  get values(): colorValues {
+    return this.color.slice() as colorValues
   }
 
   get luminance(): number {
-    return Color.utilities.calculateLuminanceOf(this.color)
+    return Color.utilities.calculateLuminanceOf(this.hex)
   }
 
   /**
@@ -100,7 +104,7 @@ export class Color {
     } else if (!Color.utilities.isValidColor(color)) {
       this.throwInvalidColor(color)
     } else {
-      this.color = color
+      this.color = Color.utilities.parseColor(color)
     }
   }
 
@@ -158,7 +162,7 @@ export class Color {
    * @returns {anyColor} The color string.
    */
   private getColor(ofType: ColorTypes): anyColor {
-    return Color.utilities.convert(this.color, ofType)
+    return Color.utilities.convertRawValuesTo(this.color, ofType)
   }
 
   /**

@@ -63,6 +63,7 @@ describe('Color object', () => {
       expect(color.R).toBe(255)
       expect(color.G).toBe(165)
       expect(color.B).toBe(0)
+      expect(color.values).toEqual([255, 165, 0])
     })
 
     it('should allow setting a new value', () => {
