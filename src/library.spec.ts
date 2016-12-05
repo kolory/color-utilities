@@ -4,6 +4,7 @@ import {
   invalidHslColors, invalidRgbColors, invalidHexColors, strictlyValidHexColors,
   validRgbColors, validHslColors, basicHexColor
 } from "./test-colors";
+import {Color} from "./color";
 
 describe('Color utilities', () => {
   let colorUtil: ColorUtilities
@@ -18,6 +19,9 @@ describe('Color utilities', () => {
       expect(ColorUtilities.create() instanceof ColorUtilities).toBeTruthy()
     })
 
+    it('should allow creating a Color instance', () => {
+      expect(ColorUtilities.color('#FFFFFF') instanceof Color).toBeTruthy()
+      expect(ColorUtilities.color() instanceof Color).toBeTruthy()
     })
   })
 
