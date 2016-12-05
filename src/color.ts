@@ -3,7 +3,7 @@ import {ColorUtilities} from './library'
 import {ColorTypes} from './color-types-enum'
 
 export class Color {
-  private static utils = new ColorUtilities()
+  static utils = new ColorUtilities()
 
   static black = new Color('#000000')
   static white = new Color('#FFFFFF')
