@@ -1,6 +1,6 @@
 {
   "name": "@kolory/color-utilities",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Color utilities and parsers",
   "main": "index.js",
   "scripts": {

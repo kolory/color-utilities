@@ -33,6 +33,7 @@ export class Color {
 
   /**
    * Creates the new Color instance from RGB values.
+   *
    * @param {number} red value.
    * @param {number} green value.
    * @param {number} blue value.
@@ -41,6 +42,7 @@ export class Color {
 
   /**
    * Creates the new Color instance from a color string or another Color object.
+   *
    * @param {anyColor | Color} color value to be set.
    */
   static create(color?: anyColor | Color | number): Color
@@ -64,6 +66,7 @@ export class Color {
 
   /**
    * Utility method to check if an object is a Color object.
+   *
    * @param {anyColor | Color} color to be checked.
    * @returns {boolean} Is it a Color object?
    */
@@ -105,6 +108,7 @@ export class Color {
 
   /**
    * Creates the new Color instance from RGB values.
+   *
    * @param {number} red value.
    * @param {number} green value.
    * @param {number} blue value.
@@ -113,6 +117,7 @@ export class Color {
 
   /**
    * Creates the new Color instance from a color string or another Color object.
+   *
    * @param {anyColor | Color} color value to be set.
    */
   constructor(color?: anyColor | Color)
@@ -154,6 +159,7 @@ export class Color {
 
   /**
    * Validates the provided RGB values before returning them back in the colorValues form.
+   *
    * @param {number} red value.
    * @param {number} green value.
    * @param {number} blue value.
@@ -185,6 +191,7 @@ export class Color {
 
   /**
    * Calculates the Color's contrast in comparision to another color.
+   *
    * @param {anyColor | Color} color to which te contrast will be calculated.
    * @returns {number} The contrast ratio.
    */
@@ -194,6 +201,7 @@ export class Color {
 
   /**
    * Checks if the Color's value is the same as the tested one.
+   *
    * @param {anyColor | Color} color to be tested with.
    * @returns {boolean} Is the value the same?
    */
@@ -212,6 +220,7 @@ export class Color {
 
   /**
    * Allow using the Color object in a string context. Returns a normalized hex color.
+   *
    * @returns {string} Stringified Color's value (in the hex format).
    */
   toString(): string {
@@ -220,6 +229,7 @@ export class Color {
 
   /**
    * Returns a color value in requested format.
+   *
    * @param {ColorType} ofType type of the returned color.
    * @returns {anyColor} The color string.
    */
@@ -229,7 +239,7 @@ export class Color {
 
   /**
    * A shortcut to throw the invalid color error.
-   * @internal
+   *
    * @param {anyColor} color that is invalid.
    */
   private throwInvalidColor(color?: anyColor): never {
