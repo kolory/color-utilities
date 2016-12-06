@@ -23,14 +23,6 @@ export class ColorUtilities {
     return new ColorUtilities()
   }
 
-  /**
-   * A dictionary of color values. USes hex values by default.
-   */
-  static readonly color: {[index: string]: hexColor} = {
-    black: '#000000',
-    white: '#FFFFFF'
-  }
-
   /* Utilities */
 
   /**
@@ -96,7 +88,17 @@ export class ColorUtilities {
    * @returns {anyColor} converted color.
    */
   convert(color: anyColor, to: ColorTypes): anyColor {
-    const values = this.parseColor(color)
+    return this.convertRawValuesTo(this.parseColor(color), to)
+  }
+
+  /**
+   * Converts a triplet of RGB values into a color in desired format.
+   *
+   * @param {colorValues} values of the color in raw RGB numbers.
+   * @param {ColorTypes} to this type convert.
+   * @returns {any} The converted color.
+   */
+  convertRawValuesTo(values: colorValues, to: ColorTypes): anyColor {
     switch (to) {
     case ColorTypes.hex:
       return this.convertValuesToHex(values)

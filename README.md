@@ -62,6 +62,27 @@ colorUtils.convert('#F03402', ColorTypes.hsl) // => 'hsl(13, 98%, 47%)'
 colorUtil.convert('hsl(39, 100%, 50%)', ColorTypes.rgb) // => 'rgb(255, 166, 0)'
 ```
 
+#### Convert a raw color values to the color format
+```
+#convertRawValuesTo(values: colorValues, to: ColorTypes): anyColor
+```
+
+Converts a raw color values (a triplet array: [R, G, B]) into a formatted string (eg. hex to RGB or HSL to hex).
+
+##### Parameters
+`values` - A raw values.
+`to` - a color type (coming from the `ColorTypes` enum) into which the color should be converted.
+
+##### Returns
+
+A valid color in another format.
+
+##### Example
+
+```
+colorUtils.convertRawValuesTo([255, 165, 0], ColorTypes.hex) // => '#FFA500'
+```
+
 ### Parsers
 
 #### Parse any color
@@ -417,6 +438,160 @@ colorUtil.calculateContrastRatio('rgb(255, 255, 255)', 'rgb(0, 0, 0)') // => 21
 colorUtil.calculateContrastRatio('#000000', '#000000') // => 1
 colorUtil.calculateContrastRatio('#FFA500', '#000000') // => 11
 colorUtil.calculateContrastRatio('hsl(100, 100%, 100%)', '#000000') // => 21
+```
+
+## Color object
+An object designed to abstract the color's formatting to make it easier to work with in different scenarios.
+
+### Creation
+The Color object can be created as a typical class, using the `new` keyword with an optional color provided,
+or by using the factory method, also with an optional color. The creating method can be also provided with another
+Color object. In that case, the provided object is returned. When used without any color, the default white is used.
+Color object can be created from the raw RGB values as well.
+
+```
+const green = new Color('#00FF00')
+const red = Color.create('#FF0000')
+const blue = new Color(0, 0, 255)
+```
+
+The Color class exposes predefined basic colors that can be used instead of providing their values.
+
+```
+const black = Color.black
+const white = Color.white
+const red = Color.red
+const green = Color.green
+const blue = Color.blue
+```
+
+### Static methods
+
+#### Create a Color object
+```
+Color.create(color?: anyColor | Color): Color
+```
+
+Creates a new color object (a factory method). Refer to the "Creation" section for more information.
+
+#### Check if an object is of the Color type
+```
+Color.isColor(color?: anyColor | Color): boolean
+```
+
+Tests if the provided color is a Color object.
+
+##### Parameters
+`color` - Color or an object to be tested.
+
+##### Returns
+A boolean informing if the object or color is a Color object.
+
+##### Examples
+```
+Color.isColor(new Color('#FFFFFF') // => true
+Color.isColor('#FFFFFF') // => false
+```
+
+### Properties
+
+Color object exposes properties about the color value and allow accessing different formatting of that color.
+
+```
+color.hex // => string: color as a hex
+color.rgb // => string: color in the RGB format
+color.hsl // => string: color in the HSL format
+color.R // => number: red value of the color
+color.G // => number: green value of the color
+color.B // => number: blue value of the color
+color.values // => number[]: array of the RGB values (eg. [255, 165, 0])
+color.luminance // => number: the color's luminance
+```
+
+### Instance methods
+
+#### Set a new value
+```
+#set(color: anyColor | Color): Color
+```
+
+Sets a new color value of the color, returning a new, modified color. This method doesn't actually modify
+the color it's invoked on. This method follows the same rules as the "Creation" section, except id doesn't support
+an empty call, meaning the desired color have to be provided.
+
+##### Parameters
+`color` - Color or a Color object to set.
+
+##### Returns
+A new Color object with the color being the one provided.
+
+##### Examples
+```
+const black = Color.create('#000000')
+const white = black.set('#FFFFFF')
+black !== white // => true
+```
+
+#### Calculate contrast with another color
+```
+#calculateContrastTo(color: anyColor | Color): number
+```
+
+Calculates the contrast of the color compared to another one.
+
+##### Parameters
+`color` - Color or a Color object to which te comparison will be made.
+
+##### Returns
+A contract value.
+
+##### Examples
+```
+const black = Color.create('#000000')
+const white = Color.create('#FFFFFF')
+blac.calculateContrastTo(white) // => 21
+```
+
+#### Check the color equality with another one
+```
+#equals(color: anyColor | Color): boolean
+```
+
+Tests if the color object is of the same color as the tested one.
+
+##### Parameters
+`color` - Color or a Color object to test.
+
+##### Returns
+The test outcome as a boolean. `true` means it's the same color.
+
+##### Examples
+```
+const black = Color.create('#000000')
+const white = Color.create('#FFFFFF')
+black.equals(white) // => false
+black.equals(new Color('#000000')) // => true
+black.equals('#000000') // => true
+```
+
+#### Use the color in a string context
+```
+#color.toString(): hexColor
+```
+
+Color object can be used in all places the string is expected. When concatenated with a string (or used in
+a template string), it's automatically transformed into it's hex representation. In other cases, the #toString()
+method transforms the object into hex.
+
+##### Returns
+A hex representation of the Color object.
+
+##### Examples
+```
+const orange = Color.create('#FFA500')
+"Color: " + orange // => "Color: #FFA500"
+`I'm an orange with a value ${orange}` // => "I'm an orange with a value #FFA500"
+color.toString() // => "#FFA500"
 ```
 
 ## License
