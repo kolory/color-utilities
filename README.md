@@ -445,12 +445,14 @@ An object designed to abstract the color's formatting to make it easier to work 
 
 ### Creation
 The Color object can be created as a typical class, using the `new` keyword with an optional color provided,
-or using the factory method, also with an optional color. The creating method can be also provided with another
+or by using the factory method, also with an optional color. The creating method can be also provided with another
 Color object. In that case, the provided object is returned. When used without any color, the default white is used.
+Color object can be created from the raw RGB values as well.
 
 ```
 const green = new Color('#00FF00')
 const red = Color.create('#FF0000')
+const blue = new Color(0, 0, 255)
 ```
 
 The Color class exposes predefined basic colors that can be used instead of providing their values.
