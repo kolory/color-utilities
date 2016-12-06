@@ -24,6 +24,13 @@ describe('Color object', () => {
       expect(Color.create() instanceof Color).toBeTruthy()
     })
 
+    it('should allow creating a Color object from raw RGB values', () => {
+      expect(new Color(255, 255, 255).hex).toBe('#FFFFFF')
+      expect(new Color(255, 165, 0).hex).toBe('#FFA500')
+      expect(Color.create(255, 255, 255).hex).toBe('#FFFFFF')
+      expect(Color.create(255, 165, 0).hex).toBe('#FFA500')
+    })
+
     it('should allow using a valid color during creation', () => {
       expect(new Color(basicColor).hex).toBe(basicColor)
       expect(Color.create(basicColor).hex).toBe(basicColor)
@@ -47,6 +54,8 @@ describe('Color object', () => {
 
     it('should not allow using invalid colors during creation', () => {
       invalidColors.forEach(color => expect(() => new Color(color)).toThrowError(TypeError))
+      expect(() => new Color(-1, 0, 0)).toThrowError(RangeError)
+      expect(() => new Color(100, 100, 300)).toThrowError(RangeError)
     })
   })
 

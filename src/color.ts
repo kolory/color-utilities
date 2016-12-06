@@ -32,13 +32,34 @@ export class Color {
   /* tslint:enable:completed-docs */
 
   /**
+   * Creates the new Color instance from RGB values.
+   * @param {number} red value.
+   * @param {number} green value.
+   * @param {number} blue value.
+   */
+  static create(red?: number, green?: number, blue?: number): Color
+
+  /**
+   * Creates the new Color instance from a color string or another Color object.
+   * @param {anyColor | Color} color value to be set.
+   */
+  static create(color?: anyColor | Color | number): Color
+
+  /**
    * Factory method creating a Color object instance. Provide a valid hex, RGB, HSL color or another Color object.
    * For the insight of how the color is created, refer to the constructor's documentation.
-   * @param {anyColor | Color} color value to be set.
-   * @returns {Color} The color object instance.
+   *
+   * @param {anyColor | Color | number} colorOrRed red part of the RGB color or a color.
+   * @param {number} green part of the color.
+   * @param {number} blue part of the color.
+   * @returns {Color} The new Color instance.
    */
-  static create(color?: anyColor | Color): Color {
-    return new Color(color)
+  static create(colorOrRed?: anyColor | Color | number, green?: number, blue?: number): Color {
+    if (typeof colorOrRed === 'number') {
+      return new Color(colorOrRed, green, blue)
+    } else {
+      return new Color(colorOrRed)
+    }
   }
 
   /**
@@ -83,28 +104,66 @@ export class Color {
   }
 
   /**
+   * Creates the new Color instance from RGB values.
+   * @param {number} red value.
+   * @param {number} green value.
+   * @param {number} blue value.
+   */
+  constructor(red?: number, green?: number, blue?: number)
+
+  /**
+   * Creates the new Color instance from a color string or another Color object.
+   * @param {anyColor | Color} color value to be set.
+   */
+  constructor(color?: anyColor | Color)
+
+  /**
    * Color object is created from:
    * - a valid hex, RGB or HSL color, returning a Color instance;
    * - another color object, returning the same object;
-   * - without any color provided, making the new color white.
+   * - without any color provided, making the new color white,
+   * - RGB values.
    *
    * When another Color is used to create a Color instance, then that object is returned instead. Color class is
    * an abstraction of the color itself, so there's no point in creating a new object. It's impossible to create
    * another "white".
    *
    * @throws TypeError
-   * @param {anyColor | Color} color to be used during creation.
-   * @returns {Color} The new Color instance.
+   * @throws RangeError
+   *
+   * @param {anyColor | Color | number} colorOrRed red part of the RGB color or a color.
+   * @param {number} green part of the color.
+   * @param {number} blue part of the color.
+   * @returns {Color} The new Color object.
    */
-  constructor(color?: anyColor | Color) {
-    if (!color) {
+  constructor(colorOrRed?: anyColor | Color | number, green?: number, blue?: number) {
+    /* tslint:disable:cyclomatic-complexity */
+    if (typeof colorOrRed === 'number') {
+      this.color = this.getColorFromRawValues(colorOrRed, green, blue)
+    } else if (!colorOrRed) {
       return Color.white
-    } else if (color instanceof Color) {
-      return color
-    } else if (!Color.utilities.isValidColor(color)) {
-      this.throwInvalidColor(color)
+    } else if (colorOrRed instanceof Color) {
+      return colorOrRed
+    } else if (!Color.utilities.isValidColor(colorOrRed)) {
+      this.throwInvalidColor(colorOrRed)
     } else {
-      this.color = Color.utilities.parseColor(color)
+      this.color = Color.utilities.parseColor(colorOrRed)
+    }
+    /* tslint:enable */
+  }
+
+  /**
+   * Validates the provided RGB values before returning them back in the colorValues form.
+   * @param {number} red value.
+   * @param {number} green value.
+   * @param {number} blue value.
+   * @returns {colorValues} Valid values.
+   */
+  private getColorFromRawValues(red: number, green?: number, blue?: number): colorValues {
+    if ([red, green, blue].every(value => value >= 0 && value <= 255)) {
+      return [red, green, blue] as colorValues
+    } else {
+      throw new RangeError(`At leas one value from [${red}, ${green}, ${blue}] of out of the valid [0-255] range.`)
     }
   }
 
