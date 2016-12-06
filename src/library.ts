@@ -113,6 +113,7 @@ export class ColorUtilities {
 
   /**
    * Converts the RGB values into a hex color.
+   *
    * @param {colorValues} values to be converted.
    * @returns {hexColor} outcome hex color.
    */
@@ -126,6 +127,7 @@ export class ColorUtilities {
 
   /**
    * Converts the RGB values into an RGB color.
+   *
    * @param {colorValues} values to be converted.
    * @returns {RGBColor} outcome RGB color.
    */
@@ -314,6 +316,7 @@ export class ColorUtilities {
 
   /**
    * A function used in the HSL range validation.
+   *
    * @param {number} value of the color.
    * @param {number} index it's index in the color values array.
    * @returns {boolean} Is in range?
@@ -328,6 +331,7 @@ export class ColorUtilities {
 
   /**
    * Removes unnecessary spaces and makes the color lowercased.
+   *
    * @param {anyColor} color to be normalized.
    * @returns {string} Normalized color.
    */
@@ -351,6 +355,7 @@ export class ColorUtilities {
 
   /**
    * Finds out if the color is in a proper format. The format is a regular expression
+   *
    * @param {RGBColor | HSLColor} color to be validated
    * @param {RegExp} validatingRegEx to use against the color.
    * @returns {boolean} Is the color properly formatted?
@@ -499,7 +504,7 @@ export class ColorUtilities {
 
   /**
    * Parses the base-16 number to base-10.
-   * @internal
+   *
    * @param {string} hex as base 16 number
    * @returns {number} base 10 number
    */
@@ -509,7 +514,7 @@ export class ColorUtilities {
 
   /**
    * A shortcut to throw an error when provided color was invalid.
-   * @internal
+   *
    * @param {hexColor} hexColor An invalid color
    */
   private throwInvalidHexColor(hexColor?: hexColor): never {
@@ -518,7 +523,7 @@ export class ColorUtilities {
 
   /**
    * Validation combined with the error throwing. Just to make the code that needs this behavior shorter.
-   * @internal
+   *
    * @param {hexColor} hexColor An invalid color
    */
   private throwIfInvalidHexColor(hexColor?: hexColor): void {
@@ -529,7 +534,7 @@ export class ColorUtilities {
 
   /**
    * A shortcut to throw an error when provided color was invalid.
-   * @internal
+   *
    * @param {RGBColor} rgbColor An invalid color
    */
   private throwInvalidRgbColor(rgbColor?: RGBColor): never {
@@ -539,7 +544,7 @@ export class ColorUtilities {
 
   /**
    * Validation combined with the error throwing. Just to make the code that needs this behavior shorter.
-   * @internal
+   *
    * @param {RGBColor} rgbColor An invalid color
    */
   private throwIfInvalidRgbColor(rgbColor?: RGBColor): void {
@@ -550,6 +555,7 @@ export class ColorUtilities {
 
   /**
    * Validation combined with the error throwing. Just to make the code that needs this behavior shorter.
+   *
    * @param {HSLColor} hslColor that will be checked.
    */
   private throwIfInvalidHslColor(hslColor: HSLColor): void {
@@ -560,7 +566,7 @@ export class ColorUtilities {
 
   /**
    * A shortcut to throw an error when provided color was invalid.
-   * @internal
+   *
    * @param {HSLColor} hslColor An invalid color.
    */
   private throwInvalidHslColor(hslColor?: HSLColor): never {
