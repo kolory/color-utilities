@@ -19,9 +19,9 @@ import {ColorUtilities} from '@kolory/color-utilities'
 // Node, Browserify
 const ColorUtilities = require('@kolory/color-utilities')
 
-// Create using a `new` keyword or with a factory.
+// Create using a `new` keyword or with a factory (preferred).
+const colorUtilitiesFromFactory = ColorUtilities.create() // Preferred.
 const colorUtilities = new ColorUtilities()
-const colorUtilitiesFromFactory = ColorUtilities.create()
 ```
 
 Library is compatible with the Angular 2 dependency injection system. Provide it as a dependency in a Component
@@ -444,15 +444,20 @@ colorUtilities.calculateContrastRatio('hsl(100, 100%, 100%)', '#000000') // => 2
 An object designed to abstract the color's formatting to make it easier to work with in different scenarios.
 
 ### Creation
-The Color object can be created as a typical class, using the `new` keyword with an optional color provided,
-or by using the factory method, also with an optional color. The creating method can be also provided with another
-Color object. In that case, the provided object is returned. When used without any color, the default white is used.
-Color object can be created from the raw RGB values as well.
+The Color object can be created by using the factory method. While the typical class instantation
+with a `new` keyword is supported and is functionally equivalent, it's discouraged as not future proof. Whenever you can,
+prever `Color.create()` over `new Color()`.
+
+The creating method can optionally be provided with a raw color value (RGB, HEX, HSL) or with another Color object.
+In the second case, the provided object is returned. When used without any color, the default white is used.
 
 ```
-const green = new Color('#00FF00')
 const red = Color.create('#FF0000')
-const blue = new Color(0, 0, 255)
+const green = Color.create('#00FF00')
+const blue = Color.create(0, 0, 255)
+
+// Discouraged, but functionally equivalent.
+const black = new Color('#000')
 ```
 
 The Color class exposes predefined basic colors that can be used instead of providing their values.

@@ -21,11 +21,11 @@ export class Color {
 
   /* tslint:disable:completed-docs */
   /* Colors shortcuts. */
-  static readonly black = new Color('#000000')
-  static readonly white = new Color('#FFFFFF')
-  static readonly red = new Color('#FF0000')
-  static readonly green = new Color('#00FF00')
-  static readonly blue = new Color('#0000FF')
+  static readonly black = Color.create('#000000')
+  static readonly white = Color.create('#FFFFFF')
+  static readonly red = Color.create('#FF0000')
+  static readonly green = Color.create('#00FF00')
+  static readonly blue = Color.create('#0000FF')
 
   // Current value.
   private color: colorValues
@@ -70,7 +70,7 @@ export class Color {
    * @param {anyColor | Color} color to be checked.
    * @returns {boolean} Is it a Color object?
    */
-  static isColor(color?: anyColor | Color): boolean {
+  static isColor(color?: anyColor | Color): color is Color {
     return color instanceof Color
   }
 
@@ -183,8 +183,8 @@ export class Color {
    * @returns {Color} A new Color instance with the value set.
    */
   set(color: anyColor | Color): Color {
-    if (!Color.isColor(color) && !Color.utilities.isValidColor(color as anyColor)) {
-      this.throwInvalidColor(color as anyColor)
+    if (!Color.isColor(color) && !Color.utilities.isValidColor(color)) {
+      this.throwInvalidColor(color)
     }
     return Color.create(color)
   }
@@ -209,8 +209,8 @@ export class Color {
     let values: colorValues
     if (Color.isColor(color)) {
       values = (color as Color).values
-    } else if (Color.utilities.isValidColor(color as anyColor)) {
-      values = Color.utilities.parseColor(color as anyColor)
+    } else if (Color.utilities.isValidColor(color)) {
+      values = Color.utilities.parseColor(color)
     } else {
       return false
     }
