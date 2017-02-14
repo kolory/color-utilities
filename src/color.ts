@@ -1,4 +1,4 @@
-import {anyColor, hexColor, RGBColor, HSLColor, colorValues} from './types'
+import {anyColor, hexColor, rgbColor, hslColor, colorValues} from './types'
 import {ColorUtilities} from './library'
 import {ColorTypes} from './color-types-enum'
 
@@ -78,11 +78,11 @@ export class Color {
     return this.getColor(ColorTypes.hex)
   }
 
-  get rgb(): RGBColor {
+  get rgb(): rgbColor {
     return this.getColor(ColorTypes.rgb)
   }
 
-  get hsl(): HSLColor {
+  get hsl(): hslColor {
     return this.getColor(ColorTypes.hsl)
   }
 
