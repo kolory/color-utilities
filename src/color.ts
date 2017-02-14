@@ -1,4 +1,4 @@
-import {basicColor, hexColor, rgbColor, hslColor, colorValues} from './types'
+import {anyColor, basicColor, hexColor, rgbColor, hslColor, colorValues} from './types'
 import {ColorUtilities} from './library'
 import {ColorTypes} from './color-types-enum'
 
@@ -43,20 +43,20 @@ export class Color {
   /**
    * Creates the new Color instance from a color string or another Color object.
    *
-   * @param {basicColor | Color} color value to be set.
+   * @param {anyColor} color value to be set.
    */
-  static create(color?: basicColor | Color | number): Color
+  static create(color?: anyColor | number): Color
 
   /**
    * Factory method creating a Color object instance. Provide a valid hex, RGB, HSL color or another Color object.
    * For the insight of how the color is created, refer to the constructor's documentation.
    *
-   * @param {basicColor | Color | number} colorOrRed red part of the RGB color or a color.
+   * @param {anyColor | number} colorOrRed red part of the RGB color or a color.
    * @param {number} green part of the color.
    * @param {number} blue part of the color.
    * @returns {Color} The new Color instance.
    */
-  static create(colorOrRed?: basicColor | Color | number, green?: number, blue?: number): Color {
+  static create(colorOrRed?: anyColor | number, green?: number, blue?: number): Color {
     if (typeof colorOrRed === 'number') {
       return new Color(colorOrRed, green, blue)
     } else {
@@ -67,10 +67,10 @@ export class Color {
   /**
    * Utility method to check if an object is a Color object.
    *
-   * @param {basicColor | Color} color to be checked.
+   * @param {anyColor} color to be checked.
    * @returns {boolean} Is it a Color object?
    */
-  static isColor(color?: basicColor | Color): color is Color {
+  static isColor(color?: anyColor): color is Color {
     return color instanceof Color
   }
 
@@ -118,9 +118,9 @@ export class Color {
   /**
    * Creates the new Color instance from a color string or another Color object.
    *
-   * @param {basicColor | Color} color value to be set.
+   * @param {anyColor} color value to be set.
    */
-  constructor(color?: basicColor | Color)
+  constructor(color?: anyColor)
 
   /**
    * Color object is created from:
@@ -136,12 +136,12 @@ export class Color {
    * @throws TypeError
    * @throws RangeError
    *
-   * @param {basicColor | Color | number} colorOrRed red part of the RGB color or a color.
+   * @param {anyColor | number} colorOrRed red part of the RGB color or a color.
    * @param {number} green part of the color.
    * @param {number} blue part of the color.
    * @returns {Color} The new Color object.
    */
-  constructor(colorOrRed?: basicColor | Color | number, green?: number, blue?: number) {
+  constructor(colorOrRed?: anyColor | number, green?: number, blue?: number) {
     /* tslint:disable:cyclomatic-complexity */
     if (typeof colorOrRed === 'number') {
       this.color = this.getColorFromRawValues(colorOrRed, green, blue)
@@ -179,10 +179,10 @@ export class Color {
    * not using any value.
    *
    * @throws TypeError
-   * @param {basicColor | Color} color to be used when setting a new value.
+   * @param {anyColor} color to be used when setting a new value.
    * @returns {Color} A new Color instance with the value set.
    */
-  set(color: basicColor | Color): Color {
+  set(color: anyColor): Color {
     if (!Color.isColor(color) && !Color.utilities.isValidColor(color)) {
       this.throwInvalidColor(color)
     }
@@ -192,20 +192,20 @@ export class Color {
   /**
    * Calculates the Color's contrast in comparision to another color.
    *
-   * @param {basicColor | Color} color to which te contrast will be calculated.
+   * @param {anyColor} color to which te contrast will be calculated.
    * @returns {number} The contrast ratio.
    */
-  calculateContrastTo(color: basicColor | Color): number {
+  calculateContrastTo(color: anyColor): number {
     return Color.utilities.calculateContrastRatio(this.hex, color instanceof Color ? color.hex : color)
   }
 
   /**
    * Checks if the Color's value is the same as the tested one.
    *
-   * @param {basicColor | Color} color to be tested with.
+   * @param {anyColor} color to be tested with.
    * @returns {boolean} Is the value the same?
    */
-  equals(color: basicColor | Color): boolean {
+  equals(color: anyColor): boolean {
     let values: colorValues
     if (Color.isColor(color)) {
       values = (color as Color).values
