@@ -2,7 +2,7 @@
 export type rgbColor = string
 export type hexColor = string
 export type hslColor = string
-export type anyColor = rgbColor | hexColor | hslColor
+export type basicColor = rgbColor | hexColor | hslColor
 
 // Values
 export type hexValue = string

@@ -1,6 +1,5 @@
-import {hexColor, hexColorValues, colorValues, rgbColor, anyColor, hslColor} from './types'
+import {hexColor, hexColorValues, colorValues, rgbColor, basicColor, hslColor} from './types'
 import {ColorTypes} from './color-types-enum'
-import {Color} from './color'
 
 /**
  * Utility library for parsing colors, validation, normalization and some other useful features.
@@ -30,10 +29,10 @@ export class ColorUtilities {
    * Calculates the relative luminance of a color. Based on the W3C Recommendation.
    * https://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
    *
-   * @param {anyColor} color for which to calculate the luminance
+   * @param {basicColor} color for which to calculate the luminance
    * @returns {number} relative luminance
    */
-  calculateLuminanceOf(color: anyColor): number {
+  calculateLuminanceOf(color: basicColor): number {
     const multipliers = [0.2126, 0.7152, 0.0722]
     return this.parseColor(color)
       .map(value => value / 255)
@@ -46,11 +45,11 @@ export class ColorUtilities {
    * order of color values, so it doesn't matter which color is brighter.
    * https://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef
    *
-   * @param {anyColor} color1 Calculate this color's contrast ratio…
-   * @param {anyColor} color2 to this color.
+   * @param {basicColor} color1 Calculate this color's contrast ratio…
+   * @param {basicColor} color2 to this color.
    * @returns {number} the contrast ratio of provided colors
    */
-  calculateContrastRatio(color1: anyColor, color2: anyColor): number {
+  calculateContrastRatio(color1: basicColor, color2: basicColor): number {
     return [this.calculateLuminanceOf(color1), this.calculateLuminanceOf(color2)]
       .sort((a, b) => b - a)
       .map(value => value + 0.05)
@@ -61,10 +60,10 @@ export class ColorUtilities {
    * Finds out what color encoding type is provided. If a not valid color was provided, the
    * ColorTypes.invalidType is returned.
    *
-   * @param {anyColor} color Resolve the type of this color.
+   * @param {basicColor} color Resolve the type of this color.
    * @returns {ColorTypes} The color's type.
    */
-  resolveColorType(color: anyColor): ColorTypes {
+  resolveColorType(color: basicColor): ColorTypes {
     if (this.isValidHexColor(color)) {
       return ColorTypes.hex
     } else if (this.isValidRgbColor(color)) {
@@ -84,11 +83,11 @@ export class ColorUtilities {
    * @example
    * colorUtil.convert('#F03402', ColorTypes.hsl) // => 'hsl(13, 98%, 47%)'
    *
-   * @param {anyColor} color to be converted.
+   * @param {basicColor} color to be converted.
    * @param {ColorTypes} to this format.
-   * @returns {anyColor} converted color.
+   * @returns {basicColor} converted color.
    */
-  convert(color: anyColor, to: ColorTypes): anyColor {
+  convert(color: basicColor, to: ColorTypes): basicColor {
     return this.convertRawValuesTo(this.parseColor(color), to)
   }
 
@@ -99,7 +98,7 @@ export class ColorUtilities {
    * @param {ColorTypes} to this type convert.
    * @returns {any} The converted color.
    */
-  convertRawValuesTo(values: colorValues, to: ColorTypes): anyColor {
+  convertRawValuesTo(values: colorValues, to: ColorTypes): basicColor {
     switch (to) {
     case ColorTypes.hex:
       return this.convertValuesToHex(values)
@@ -183,10 +182,10 @@ export class ColorUtilities {
    * A generic parser. Resolves the color type before passing it to specific parsers.
    *
    * @throws TypeError
-   * @param {anyColor} color A color to be parsed.
+   * @param {basicColor} color A color to be parsed.
    * @returns {colorValues} RGB triplet of the provided hex color
    */
-  parseColor(color: anyColor): colorValues {
+  parseColor(color: basicColor): colorValues {
     switch (this.resolveColorType(color)) {
     case ColorTypes.hex:
       return this.parseHexColor(color)
@@ -237,10 +236,10 @@ export class ColorUtilities {
   /**
    * Validates the provided color against any specific color type.
    *
-   * @param {anyColor?} potentialColor Color to be validated.
+   * @param {basicColor?} potentialColor Color to be validated.
    * @returns {boolean} Is this color valid?
    */
-  isValidColor(potentialColor?: anyColor): boolean {
+  isValidColor(potentialColor?: basicColor): boolean {
     return this.isValidHexColor(potentialColor) || this.isValidRgbColor(potentialColor)
       || this.isValidHslColor(potentialColor)
   }
@@ -333,10 +332,10 @@ export class ColorUtilities {
   /**
    * Removes unnecessary spaces and makes the color lowercased.
    *
-   * @param {anyColor} color to be normalized.
+   * @param {basicColor} color to be normalized.
    * @returns {string} Normalized color.
    */
-  private trimAndLowercase(color: anyColor): anyColor {
+  private trimAndLowercase(color: basicColor): basicColor {
     return color.replace(/\s/g, '').toLowerCase()
   }
 
@@ -437,10 +436,10 @@ export class ColorUtilities {
    * Extracts the values from colors using the regular expression. Returned value is a string, since some
    * methods need to validate it's format before passing it further as a number.
    *
-   * @param {anyColor} color from which the values will be extracted.
+   * @param {basicColor} color from which the values will be extracted.
    * @returns {string[]} Array of values.
    */
-  private getValues(color: anyColor): string[] {
+  private getValues(color: basicColor): string[] {
     return color.match(/\d{1,3}/g) as string[]
   }
 
