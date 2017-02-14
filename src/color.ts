@@ -196,7 +196,7 @@ export class Color {
    * @returns {number} The contrast ratio.
    */
   calculateContrastTo(color: anyColor): number {
-    return Color.utilities.calculateContrastRatio(this.hex, color instanceof Color ? color.hex : color)
+    return Color.utilities.calculateContrastRatio(this.hex, Color.isColor(color) ? color.hex : color)
   }
 
   /**
