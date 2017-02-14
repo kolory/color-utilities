@@ -1,4 +1,4 @@
-import {anyColor, hexColor, RGBColor, HSLColor, colorValues} from './types'
+import {anyColor, basicColor, hexColor, rgbColor, hslColor, colorValues} from './types'
 import {ColorUtilities} from './library'
 import {ColorTypes} from './color-types-enum'
 
@@ -43,20 +43,20 @@ export class Color {
   /**
    * Creates the new Color instance from a color string or another Color object.
    *
-   * @param {anyColor | Color} color value to be set.
+   * @param {anyColor} color value to be set.
    */
-  static create(color?: anyColor | Color | number): Color
+  static create(color?: anyColor | number): Color
 
   /**
    * Factory method creating a Color object instance. Provide a valid hex, RGB, HSL color or another Color object.
    * For the insight of how the color is created, refer to the constructor's documentation.
    *
-   * @param {anyColor | Color | number} colorOrRed red part of the RGB color or a color.
+   * @param {anyColor | number} colorOrRed red part of the RGB color or a color.
    * @param {number} green part of the color.
    * @param {number} blue part of the color.
    * @returns {Color} The new Color instance.
    */
-  static create(colorOrRed?: anyColor | Color | number, green?: number, blue?: number): Color {
+  static create(colorOrRed?: anyColor | number, green?: number, blue?: number): Color {
     if (typeof colorOrRed === 'number') {
       return new Color(colorOrRed, green, blue)
     } else {
@@ -67,10 +67,10 @@ export class Color {
   /**
    * Utility method to check if an object is a Color object.
    *
-   * @param {anyColor | Color} color to be checked.
+   * @param {anyColor} color to be checked.
    * @returns {boolean} Is it a Color object?
    */
-  static isColor(color?: anyColor | Color): color is Color {
+  static isColor(color?: anyColor): color is Color {
     return color instanceof Color
   }
 
@@ -78,11 +78,11 @@ export class Color {
     return this.getColor(ColorTypes.hex)
   }
 
-  get rgb(): RGBColor {
+  get rgb(): rgbColor {
     return this.getColor(ColorTypes.rgb)
   }
 
-  get hsl(): HSLColor {
+  get hsl(): hslColor {
     return this.getColor(ColorTypes.hsl)
   }
 
@@ -118,9 +118,9 @@ export class Color {
   /**
    * Creates the new Color instance from a color string or another Color object.
    *
-   * @param {anyColor | Color} color value to be set.
+   * @param {anyColor} color value to be set.
    */
-  constructor(color?: anyColor | Color)
+  constructor(color?: anyColor)
 
   /**
    * Color object is created from:
@@ -136,12 +136,12 @@ export class Color {
    * @throws TypeError
    * @throws RangeError
    *
-   * @param {anyColor | Color | number} colorOrRed red part of the RGB color or a color.
+   * @param {anyColor | number} colorOrRed red part of the RGB color or a color.
    * @param {number} green part of the color.
    * @param {number} blue part of the color.
    * @returns {Color} The new Color object.
    */
-  constructor(colorOrRed?: anyColor | Color | number, green?: number, blue?: number) {
+  constructor(colorOrRed?: anyColor | number, green?: number, blue?: number) {
     /* tslint:disable:cyclomatic-complexity */
     if (typeof colorOrRed === 'number') {
       this.color = this.getColorFromRawValues(colorOrRed, green, blue)
@@ -179,10 +179,10 @@ export class Color {
    * not using any value.
    *
    * @throws TypeError
-   * @param {anyColor | Color} color to be used when setting a new value.
+   * @param {anyColor} color to be used when setting a new value.
    * @returns {Color} A new Color instance with the value set.
    */
-  set(color: anyColor | Color): Color {
+  set(color: anyColor): Color {
     if (!Color.isColor(color) && !Color.utilities.isValidColor(color)) {
       this.throwInvalidColor(color)
     }
@@ -192,20 +192,20 @@ export class Color {
   /**
    * Calculates the Color's contrast in comparision to another color.
    *
-   * @param {anyColor | Color} color to which te contrast will be calculated.
+   * @param {anyColor} color to which te contrast will be calculated.
    * @returns {number} The contrast ratio.
    */
-  calculateContrastTo(color: anyColor | Color): number {
-    return Color.utilities.calculateContrastRatio(this.hex, color instanceof Color ? color.hex : color)
+  calculateContrastTo(color: anyColor): number {
+    return Color.utilities.calculateContrastRatio(this.hex, Color.isColor(color) ? color.hex : color)
   }
 
   /**
    * Checks if the Color's value is the same as the tested one.
    *
-   * @param {anyColor | Color} color to be tested with.
+   * @param {anyColor} color to be tested with.
    * @returns {boolean} Is the value the same?
    */
-  equals(color: anyColor | Color): boolean {
+  equals(color: anyColor): boolean {
     let values: colorValues
     if (Color.isColor(color)) {
       values = (color as Color).values
@@ -231,18 +231,18 @@ export class Color {
    * Returns a color value in requested format.
    *
    * @param {ColorType} ofType type of the returned color.
-   * @returns {anyColor} The color string.
+   * @returns {basicColor} The color string.
    */
-  private getColor(ofType: ColorTypes): anyColor {
+  private getColor(ofType: ColorTypes): basicColor {
     return Color.utilities.convertRawValuesTo(this.color, ofType)
   }
 
   /**
    * A shortcut to throw the invalid color error.
    *
-   * @param {anyColor} color that is invalid.
+   * @param {basicColor} color that is invalid.
    */
-  private throwInvalidColor(color?: anyColor): never {
+  private throwInvalidColor(color?: basicColor): never {
     throw new TypeError(`Can't set a new color. "${color}" is not in a recognized format.`)
   }
 }

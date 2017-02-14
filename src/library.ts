@@ -1,4 +1,4 @@
-import {hexColor, hexColorValues, colorValues, RGBColor, anyColor, HSLColor} from './types'
+import {hexColor, hexColorValues, colorValues, rgbColor, basicColor, hslColor} from './types'
 import {ColorTypes} from './color-types-enum'
 
 /**
@@ -29,10 +29,10 @@ export class ColorUtilities {
    * Calculates the relative luminance of a color. Based on the W3C Recommendation.
    * https://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
    *
-   * @param {anyColor} color for which to calculate the luminance
+   * @param {basicColor} color for which to calculate the luminance
    * @returns {number} relative luminance
    */
-  calculateLuminanceOf(color: anyColor): number {
+  calculateLuminanceOf(color: basicColor): number {
     const multipliers = [0.2126, 0.7152, 0.0722]
     return this.parseColor(color)
       .map(value => value / 255)
@@ -45,11 +45,11 @@ export class ColorUtilities {
    * order of color values, so it doesn't matter which color is brighter.
    * https://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef
    *
-   * @param {anyColor} color1 Calculate this color's contrast ratio…
-   * @param {anyColor} color2 to this color.
+   * @param {basicColor} color1 Calculate this color's contrast ratio…
+   * @param {basicColor} color2 to this color.
    * @returns {number} the contrast ratio of provided colors
    */
-  calculateContrastRatio(color1: anyColor, color2: anyColor): number {
+  calculateContrastRatio(color1: basicColor, color2: basicColor): number {
     return [this.calculateLuminanceOf(color1), this.calculateLuminanceOf(color2)]
       .sort((a, b) => b - a)
       .map(value => value + 0.05)
@@ -60,10 +60,10 @@ export class ColorUtilities {
    * Finds out what color encoding type is provided. If a not valid color was provided, the
    * ColorTypes.invalidType is returned.
    *
-   * @param {anyColor} color Resolve the type of this color.
+   * @param {basicColor} color Resolve the type of this color.
    * @returns {ColorTypes} The color's type.
    */
-  resolveColorType(color: anyColor): ColorTypes {
+  resolveColorType(color: basicColor): ColorTypes {
     if (this.isValidHexColor(color)) {
       return ColorTypes.hex
     } else if (this.isValidRgbColor(color)) {
@@ -83,11 +83,11 @@ export class ColorUtilities {
    * @example
    * colorUtil.convert('#F03402', ColorTypes.hsl) // => 'hsl(13, 98%, 47%)'
    *
-   * @param {anyColor} color to be converted.
+   * @param {basicColor} color to be converted.
    * @param {ColorTypes} to this format.
-   * @returns {anyColor} converted color.
+   * @returns {basicColor} converted color.
    */
-  convert(color: anyColor, to: ColorTypes): anyColor {
+  convert(color: basicColor, to: ColorTypes): basicColor {
     return this.convertRawValuesTo(this.parseColor(color), to)
   }
 
@@ -98,7 +98,7 @@ export class ColorUtilities {
    * @param {ColorTypes} to this type convert.
    * @returns {any} The converted color.
    */
-  convertRawValuesTo(values: colorValues, to: ColorTypes): anyColor {
+  convertRawValuesTo(values: colorValues, to: ColorTypes): basicColor {
     switch (to) {
     case ColorTypes.hex:
       return this.convertValuesToHex(values)
@@ -129,9 +129,9 @@ export class ColorUtilities {
    * Converts the RGB values into an RGB color.
    *
    * @param {colorValues} values to be converted.
-   * @returns {RGBColor} outcome RGB color.
+   * @returns {rgbColor} outcome RGB color.
    */
-  private convertValuesToRgb(values: colorValues): RGBColor {
+  private convertValuesToRgb(values: colorValues): rgbColor {
     return `rgb(${values.join(', ')})`
   }
 
@@ -140,9 +140,9 @@ export class ColorUtilities {
    * Algorithm taken from Wikipedia: https://en.wikipedia.org/wiki/HSL_and_HSV#General_approach
    *
    * @param {colorValues} values to be converted.
-   * @returns {RGBColor} outcome HSL color.
+   * @returns {rgbColor} outcome HSL color.
    */
-  private convertValuesToHsl(values: colorValues): HSLColor {
+  private convertValuesToHsl(values: colorValues): hslColor {
     /* tslint:disable:cyclomatic-complexity */
     const [r, g, b] = values.map(v => v / 255)
     const M = Math.max(r, g, b)
@@ -182,10 +182,10 @@ export class ColorUtilities {
    * A generic parser. Resolves the color type before passing it to specific parsers.
    *
    * @throws TypeError
-   * @param {anyColor} color A color to be parsed.
+   * @param {basicColor} color A color to be parsed.
    * @returns {colorValues} RGB triplet of the provided hex color
    */
-  parseColor(color: anyColor): colorValues {
+  parseColor(color: basicColor): colorValues {
     switch (this.resolveColorType(color)) {
     case ColorTypes.hex:
       return this.parseHexColor(color)
@@ -213,10 +213,10 @@ export class ColorUtilities {
    * Transforms the RGB color string into its color values.
    *
    * @throws TypeError
-   * @param {RGBColor} rgbColor to be transformed
+   * @param {rgbColor} rgbColor to be transformed
    * @returns {colorValues} RGB triplet of the provided hex color
    */
-  parseRgbColor(rgbColor: RGBColor): colorValues {
+  parseRgbColor(rgbColor: rgbColor): colorValues {
     return this.splitRgbColor(this.normalizeRgbColor(rgbColor)) as colorValues
   }
 
@@ -224,10 +224,10 @@ export class ColorUtilities {
    * Transforms the HSL color string into its color values.
    *
    * @throws TypeError
-   * @param {HSLColor} hslColor to be transformed.
+   * @param {hslColor} hslColor to be transformed.
    * @returns {colorValues} RGB triplet of the provided hex color.
    */
-  parseHslColor(hslColor: HSLColor): colorValues {
+  parseHslColor(hslColor: hslColor): colorValues {
     return this.splitHslColor(this.normalizeHslColor(hslColor)) as colorValues
   }
 
@@ -236,10 +236,10 @@ export class ColorUtilities {
   /**
    * Validates the provided color against any specific color type.
    *
-   * @param {anyColor?} potentialColor Color to be validated.
+   * @param {basicColor?} potentialColor Color to be validated.
    * @returns {boolean} Is this color valid?
    */
-  isValidColor(potentialColor?: anyColor): boolean {
+  isValidColor(potentialColor?: basicColor): boolean {
     return this.isValidHexColor(potentialColor) || this.isValidRgbColor(potentialColor)
       || this.isValidHslColor(potentialColor)
   }
@@ -271,10 +271,10 @@ export class ColorUtilities {
    * 'Xrgb(0, 1, 2)' => false
    * 'rgb(256, 255, 255)' => false
    *
-   * @param {RGBColor} potentialRgbColor Might-be-valid-or-not rgb color string.
+   * @param {rgbColor} potentialRgbColor Might-be-valid-or-not rgb color string.
    * @returns {boolean} Is it a valid rgb color string?
    */
-  isValidRgbColor(potentialRgbColor?: RGBColor): boolean {
+  isValidRgbColor(potentialRgbColor?: rgbColor): boolean {
     if (!potentialRgbColor) {
       return false
     } else {
@@ -292,10 +292,10 @@ export class ColorUtilities {
    * 'hsl(400, 200%, 300%) => false
    * 'hsl(123, 12, 44) => false
    *
-   * @param {HSLColor?} potentialColor Color to be validated.
+   * @param {hslColor?} potentialColor Color to be validated.
    * @returns {boolean} Is this a valid HSL?
    */
-  isValidHslColor(potentialColor?: HSLColor): boolean {
+  isValidHslColor(potentialColor?: hslColor): boolean {
     if (!potentialColor) {
       return false
     } else {
@@ -307,10 +307,10 @@ export class ColorUtilities {
   /**
    * Checks if the HSL values are i proper ranges.
    *
-   * @param {HSLColor} potentialColor Color to be validated.
+   * @param {hslColor} potentialColor Color to be validated.
    * @returns {boolean} Are the values in range?
    */
-  private areHslValuesInRange(potentialColor: HSLColor): boolean {
+  private areHslValuesInRange(potentialColor: hslColor): boolean {
     return this.isRangeValid(potentialColor, this.validateHslRange)
   }
 
@@ -332,21 +332,21 @@ export class ColorUtilities {
   /**
    * Removes unnecessary spaces and makes the color lowercased.
    *
-   * @param {anyColor} color to be normalized.
+   * @param {basicColor} color to be normalized.
    * @returns {string} Normalized color.
    */
-  private trimAndLowercase(color: anyColor): anyColor {
+  private trimAndLowercase(color: basicColor): basicColor {
     return color.replace(/\s/g, '').toLowerCase()
   }
 
   /**
    * Range validator. Takes a color to be validated and validating function used in the Array#every call.
    *
-   * @param {RGBColor | HSLColor} color RGB or HSL color to be validated.
+   * @param {rgbColor | hslColor} color RGB or HSL color to be validated.
    * @param {Function} rangeValidator Function to be used for validation.
    * @returns {boolean} Are values in proper ranges?
    */
-  private isRangeValid(color: RGBColor | HSLColor, rangeValidator: (value: number, index?: number) => boolean):
+  private isRangeValid(color: rgbColor | hslColor, rangeValidator: (value: number, index?: number) => boolean):
   boolean {
     const values = this.getValues(color)
     return values.every(stringValue => !/^0\d/.test(stringValue)) &&
@@ -356,11 +356,11 @@ export class ColorUtilities {
   /**
    * Finds out if the color is in a proper format. The format is a regular expression
    *
-   * @param {RGBColor | HSLColor} color to be validated
+   * @param {rgbColor | hslColor} color to be validated
    * @param {RegExp} validatingRegEx to use against the color.
    * @returns {boolean} Is the color properly formatted?
    */
-  private isFormatValid(color: RGBColor | HSLColor, validatingRegEx: RegExp): boolean {
+  private isFormatValid(color: rgbColor | hslColor, validatingRegEx: RegExp): boolean {
     return validatingRegEx.test(this.trimAndLowercase(color))
   }
 
@@ -386,10 +386,10 @@ export class ColorUtilities {
    * @example
    * "rgba(255, 0, 1)" => [255, 0, 1]
    *
-   * @param {RGBColor} rgbColor An RGB color string.
+   * @param {rgbColor} rgbColor An RGB color string.
    * @returns {colorValues} A triplet of the color values.
    */
-  splitRgbColor(rgbColor: RGBColor): colorValues {
+  splitRgbColor(rgbColor: rgbColor): colorValues {
     return this.getValues(rgbColor).map(Number) as colorValues
   }
 
@@ -398,10 +398,10 @@ export class ColorUtilities {
    *
    * Algorithm taken from Wikipedia: https://en.wikipedia.org/wiki/HSL_and_HSV#From_HSL
    *
-   * @param {HSLColor} hslColor to be split.
+   * @param {hslColor} hslColor to be split.
    * @returns {colorValues} The color's RGB values.
    */
-  splitHslColor(hslColor: HSLColor): colorValues {
+  splitHslColor(hslColor: hslColor): colorValues {
     const [hue, saturation, lightness] = this.getValues(hslColor).map(Number)
     const normalizedSaturation = saturation / 100
     const normalizedLightness = lightness / 100
@@ -436,10 +436,10 @@ export class ColorUtilities {
    * Extracts the values from colors using the regular expression. Returned value is a string, since some
    * methods need to validate it's format before passing it further as a number.
    *
-   * @param {anyColor} color from which the values will be extracted.
+   * @param {basicColor} color from which the values will be extracted.
    * @returns {string[]} Array of values.
    */
-  private getValues(color: anyColor): string[] {
+  private getValues(color: basicColor): string[] {
     return color.match(/\d{1,3}/g) as string[]
   }
 
@@ -476,10 +476,10 @@ export class ColorUtilities {
    * @example
    * ' RGB  ( 11,  11,11  )   ' => 'rgb(11, 11, 11)
    *
-   * @param {RGBColor} rgbColor to be normalized.
-   * @returns {RGBColor} Normalized rgb color string.
+   * @param {rgbColor} rgbColor to be normalized.
+   * @returns {rgbColor} Normalized rgb color string.
    */
-  normalizeRgbColor(rgbColor: RGBColor): RGBColor {
+  normalizeRgbColor(rgbColor: rgbColor): rgbColor {
     const potentialColor = rgbColor.toLowerCase()
     this.throwIfInvalidRgbColor(potentialColor)
     return potentialColor.replace(/\s/g, '').replace(/,/g, ', ')
@@ -491,10 +491,10 @@ export class ColorUtilities {
    * @example
    * '   HSL  (123,    49%,51%  )' => 'hsl(123, 49%, 51%)'
    *
-   * @param {HSLColor} hslColor to be normalized
-   * @returns {HSLColor} Normalized color.
+   * @param {hslColor} hslColor to be normalized
+   * @returns {hslColor} Normalized color.
    */
-  normalizeHslColor(hslColor: HSLColor): HSLColor {
+  normalizeHslColor(hslColor: hslColor): hslColor {
     const potentialColor = hslColor.toLowerCase()
     this.throwIfInvalidHslColor(potentialColor)
     return potentialColor.replace(/\s/g, '').replace(/,/g, ', ')
@@ -535,9 +535,9 @@ export class ColorUtilities {
   /**
    * A shortcut to throw an error when provided color was invalid.
    *
-   * @param {RGBColor} rgbColor An invalid color
+   * @param {rgbColor} rgbColor An invalid color
    */
-  private throwInvalidRgbColor(rgbColor?: RGBColor): never {
+  private throwInvalidRgbColor(rgbColor?: rgbColor): never {
     throw new TypeError(`Using invalid RGB color format. Used "${rgbColor}" but it should look like`
       + `"rgb(123, 123, 123)".`)
   }
@@ -545,9 +545,9 @@ export class ColorUtilities {
   /**
    * Validation combined with the error throwing. Just to make the code that needs this behavior shorter.
    *
-   * @param {RGBColor} rgbColor An invalid color
+   * @param {rgbColor} rgbColor An invalid color
    */
-  private throwIfInvalidRgbColor(rgbColor?: RGBColor): void {
+  private throwIfInvalidRgbColor(rgbColor?: rgbColor): void {
     if (!this.isValidRgbColor(rgbColor)) {
       this.throwInvalidRgbColor(rgbColor)
     }
@@ -556,9 +556,9 @@ export class ColorUtilities {
   /**
    * Validation combined with the error throwing. Just to make the code that needs this behavior shorter.
    *
-   * @param {HSLColor} hslColor that will be checked.
+   * @param {hslColor} hslColor that will be checked.
    */
-  private throwIfInvalidHslColor(hslColor: HSLColor): void {
+  private throwIfInvalidHslColor(hslColor: hslColor): void {
     if (!this.isValidHslColor(hslColor)) {
       this.throwInvalidHslColor(hslColor)
     }
@@ -567,9 +567,9 @@ export class ColorUtilities {
   /**
    * A shortcut to throw an error when provided color was invalid.
    *
-   * @param {HSLColor} hslColor An invalid color.
+   * @param {hslColor} hslColor An invalid color.
    */
-  private throwInvalidHslColor(hslColor?: HSLColor): never {
+  private throwInvalidHslColor(hslColor?: hslColor): never {
     throw new TypeError(`Using invalid RGB color format. Used "${hslColor}" but it should look like` +
       `hsl(123, 50%, 49%).`)
   }

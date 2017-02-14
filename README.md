@@ -42,7 +42,7 @@ class MyComponent {
 
 #### Convert a color to another format
 ```
-#convert(color: anyColor, to: ColorTypes): anyColor
+#convert(color: basicColor, to: ColorTypes): basicColor
 ```
 
 Converts a color into a different format (eg. hex to RGB or HSL to hex).
@@ -64,7 +64,7 @@ colorUtilities.convert('hsl(39, 100%, 50%)', ColorTypes.rgb) // => 'rgb(255, 166
 
 #### Convert a raw color values to the color format
 ```
-#convertRawValuesTo(values: colorValues, to: ColorTypes): anyColor
+#convertRawValuesTo(values: colorValues, to: ColorTypes): basicColor
 ```
 
 Converts a raw color values (a triplet array: [R, G, B]) into a formatted string (eg. hex to RGB or HSL to hex).
@@ -87,7 +87,7 @@ colorUtilities.convertRawValuesTo([255, 165, 0], ColorTypes.hex) // => '#FFA500'
 
 #### Parse any color
 ```
-#parseColor(color: anyColor): colorValues
+#parseColor(color: basicColor): colorValues
 ```
 Transforms RGB, HSL or hex color into an array of RGB values. A generic variant of specific parsers dedicated for
 hex and RGB colors.
@@ -180,7 +180,7 @@ colorUtilities.parseHslColor('hsl(123, 100%, 100%)') // => [255, 255, 255]
 
 #### Validate a color
 ```
-#isValidColor(potentialColor?: anyColor): boolean
+#isValidColor(potentialColor?: basicColor): boolean
 ```
 Checks if the provided color is a valid hexadecimal color, an RGB color or an HSL color. Uses specific validators
 internally, so the edge cases from them applies here.
@@ -396,7 +396,7 @@ colorUtilities.normalizeHslColor('  HSL (  123,      100%,1%  )') // => 'hsl(123
 
 #### Calculate luminance of a color
 ```
-#calculateLuminanceOf(color: anyColor): number
+#calculateLuminanceOf(color: basicColor): number
 ```
 Calculates the relative luminance of a color, as defined in the
 [W3C Specification](https://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef).
@@ -419,7 +419,7 @@ colorUtilities.calculateLuminanceOf('#FFA500') // => 0.48170267036309633
 
 #### Calculate contrast between two colors
 ```
-#calculateContrastRatio(color1: anyColor, color2: anyColor): number
+#calculateContrastRatio(color1: basicColor, color2: basicColor): number
 ```
 Calculates a contrast ratio between two colors, as defined in the
 [W3C Specification](https://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef).
@@ -474,14 +474,14 @@ const blue = Color.blue
 
 #### Create a Color object
 ```
-Color.create(color?: anyColor | Color): Color
+Color.create(color?: anyColor): Color
 ```
 
 Creates a new color object (a factory method). Refer to the "Creation" section for more information.
 
 #### Check if an object is of the Color type
 ```
-Color.isColor(color?: anyColor | Color): boolean
+Color.isColor(color?: anyColor): boolean
 ```
 
 Tests if the provided color is a Color object.
@@ -517,7 +517,7 @@ color.luminance // => number: the color's luminance
 
 #### Set a new value
 ```
-#set(color: anyColor | Color): Color
+#set(color: anyColor): Color
 ```
 
 Sets a new color value of the color, returning a new, modified color. This method doesn't actually modify
@@ -539,7 +539,7 @@ black !== white // => true
 
 #### Calculate contrast with another color
 ```
-#calculateContrastTo(color: anyColor | Color): number
+#calculateContrastTo(color: anyColor): number
 ```
 
 Calculates the contrast of the color compared to another one.
@@ -559,7 +559,7 @@ blac.calculateContrastTo(white) // => 21
 
 #### Check the color equality with another one
 ```
-#equals(color: anyColor | Color): boolean
+#equals(color: anyColor): boolean
 ```
 
 Tests if the color object is of the same color as the tested one.
@@ -597,6 +597,66 @@ const orange = Color.create('#FFA500')
 "Color: " + orange // => "Color: #FFA500"
 `I'm an orange with a value ${orange}` // => "I'm an orange with a value #FFA500"
 color.toString() // => "#FFA500"
+```
+
+## Colors types
+Since all color are essentaily strings, the library aliases them for more explicit typing. Those types are exported for
+consumers to use them together with the library or as a standalone definitions.
+
+### Basic types
+There are three basic color types:
+- `hexColor` used for colors in the HEX format,
+- `rgbColor` used for colors in the RGB format,
+- `hexColor` used for colors in the HSL format.
+
+There's also a `basicColor` type representing all three possible types.
+
+To use them, just import required definitions from the `@kolory/color-utilities` module.
+
+#### Examples
+```
+import {basicColor, hexColor, rgbColor, hslColor} from '@kolory/color-utilities'
+
+const red: hexColor = '#FF0000'
+const green: rgbColor = 'rgb(0, 255, 0)'
+const blue: hslColor = 'hsl(240, 100%, 50%)'
+
+let cameleon: basicColor
+cameleon = '#FF0000'
+cameleon = rgb(0, 255, 0)'
+cameleon = 'hsl(240, 100%, 50%)'
+```
+
+### Value types
+In the internal calculations and raw colors management the library uses three value types representing values colors
+are consisted of.
+
+- `hexValue` is used for a single value of the hex color (eg. `A5` in `#FFA500`),
+- `hexColorValues`  is a triplet of `hexValue`s and represents all three values of a hex color (eg. `['FF', 'A5', '00']` in `#FFA500`),
+- `colorValues` is a triplet of the color's RGB values (eg. `[255, 165, 0]` in `#FFA500`).
+
+#### Examples
+```
+import {colorValues, hexColorValues} from '@kolory/color-utilities'
+
+const rawValuesOfOrange: colorValues = new ColorUtilities().parseColor('#FFA500')
+const hexValuesOfOrange: hexColorValues = new ColorUtilities().splitHexColor('#FFA500')
+```
+
+### Any color
+When using the [Color Object](https://github.com/kolory/color-utilities#color-object) class that is not included in
+any of the basic colors, the `anyColor` type comes in handy. It's a union type of a `basicColor` type ane the type 
+of the `Color` class.
+
+#### Examples
+```
+import {anyColor} from '@kolory/color-utilities'
+
+let rainbow: anyColor
+rainbow = '#FF0000'
+rainbow = rgb(0, 255, 0)'
+rainbow = 'hsl(240, 100%, 50%)'
+rainbow = Color.create('#FFA500')
 ```
 
 ## License

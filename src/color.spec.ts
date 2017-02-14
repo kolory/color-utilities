@@ -1,9 +1,9 @@
 import {Color} from './color'
-import {anyColor} from './types'
+import {basicColor} from './types'
 import {strictlyValidHexColors, validRgbColors, invalidColors} from './test-colors'
 import {ColorUtilities} from './library'
 
-const basicColor: anyColor = '#FFFFFF'
+const baseColor: basicColor = '#FFFFFF'
 
 describe('Color object', () => {
   const utils = new ColorUtilities()
@@ -32,8 +32,8 @@ describe('Color object', () => {
     })
 
     it('should allow using a valid color during creation', () => {
-      expect(new Color(basicColor).hex).toBe(basicColor)
-      expect(Color.create(basicColor).hex).toBe(basicColor)
+      expect(new Color(baseColor).hex).toBe(baseColor)
+      expect(Color.create(baseColor).hex).toBe(baseColor)
       strictlyValidHexColors.forEach(color => expect(Color.create(color).hex).toBe(utils.normalizeHexColor(color)))
       validRgbColors.forEach(color => expect(Color.create(color).rgb).toBe(utils.normalizeRgbColor(color)))
 
