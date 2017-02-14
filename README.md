@@ -599,5 +599,65 @@ const orange = Color.create('#FFA500')
 color.toString() // => "#FFA500"
 ```
 
+## Colors types
+Since all color are essentaily strings, the library aliases them for more explicit typing. Those types are exported for
+consumers to use them together with the library or as a standalone definitions.
+
+### Basic types
+There are three basic color types:
+- `hexColor` used for colors in the HEX format,
+- `rgbColor` used for colors in the RGB format,
+- `hexColor` used for colors in the HSL format.
+
+There's also a `basicColor` type representing all three possible types.
+
+To use them, just import required definitions from the `@kolory/color-utilities` module.
+
+#### Examples
+```
+import {basicColor, hexColor, rgbColor, hslColor} from '@kolory/color-utilities'
+
+const red: hexColor = '#FF0000'
+const green: rgbColor = 'rgb(0, 255, 0)'
+const blue: hslColor = 'hsl(240, 100%, 50%)'
+
+let cameleon: basicColor
+cameleon = '#FF0000'
+cameleon = rgb(0, 255, 0)'
+cameleon = 'hsl(240, 100%, 50%)'
+```
+
+### Value types
+In the internal calculations and raw colors management the library uses three value types representing values colors
+are consisted of.
+
+- `hexValue` is used for a single value of the hex color (eg. `A5` in `#FFA500`),
+- `hexColorValues`  is a triplet of `hexValue`s and represents all three values of a hex color (eg. `['FF', 'A5', '00']` in `#FFA500`),
+- `colorValues` is a triplet of the color's RGB values (eg. `[255, 165, 0]` in `#FFA500`).
+
+#### Examples
+```
+import {colorValues, hexColorValues} from '@kolory/color-utilities'
+
+const rawValuesOfOrange: colorValues = new ColorUtilities().parseColor('#FFA500')
+const hexValuesOfOrange: hexColorValues = new ColorUtilities().splitHexColor('#FFA500')
+```
+
+### Any color
+When using the [Color Object](https://github.com/kolory/color-utilities#color-object) class that is not included in
+any of the basic colors, the `anyColor` type comes in handy. It's a union type of a `basicColor` type ane the type 
+of the `Color` class.
+
+#### Examples
+```
+import {anyColor} from '@kolory/color-utilities'
+
+let rainbow: anyColor
+rainbow = '#FF0000'
+rainbow = rgb(0, 255, 0)'
+rainbow = 'hsl(240, 100%, 50%)'
+rainbow = Color.create('#FFA500')
+```
+
 ## License
 MIT
