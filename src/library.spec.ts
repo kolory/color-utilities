@@ -102,6 +102,19 @@ describe('Color utilities', () => {
       invalidHexColors.forEach(color => expect(() => colorUtil.convert(color, ColorTypes.hsl)).toThrowError(TypeError))
       expect(() => colorUtil.convert('rgb(255, 255, 255)', ColorTypes.invalidType)).toThrowError(TypeError)
     })
+
+    it('should allow using "hex", "rgb" and "hsl" strings for color types', () => {
+      expect(colorUtil.convert('#FFFFFF', 'hsl')).toEqual(colorUtil.convert('#FFFFFF', ColorTypes.hsl))
+      expect(colorUtil.convert('#FFFFFF', 'rgb')).toEqual(colorUtil.convert('#FFFFFF', ColorTypes.rgb))
+      expect(colorUtil.convert('#FFFFFF', 'hex')).toEqual(colorUtil.convert('#FFFFFF', ColorTypes.hex))
+      expect(colorUtil.convert('rgb(0, 0, 0)', 'rgb')).toBe(colorUtil.convert('rgb(0, 0, 0)', ColorTypes.rgb))
+      expect(colorUtil.convert('rgb(0, 0, 0)', 'hsl')).toBe(colorUtil.convert('rgb(0, 0, 0)', ColorTypes.hsl))
+      expect(colorUtil.convert('rgb(0, 0, 0)', 'hex')).toBe(colorUtil.convert('rgb(0, 0, 0)', ColorTypes.hex))
+      expect(colorUtil.convert('#F03402', 'hex')).toBe(colorUtil.convert('#F03402', ColorTypes.hex))
+      expect(colorUtil.convert('#F03402', 'rgb')).toBe(colorUtil.convert('#F03402', ColorTypes.rgb))
+      expect(colorUtil.convert('#F03402', 'hsl')).toBe(colorUtil.convert('#F03402', ColorTypes.hsl))
+      expect(() => colorUtil.convert('#FFFFF', 'invalid' as 'hex')).toThrow()
+    })
   })
 
   describe('Colors parsing', () => {

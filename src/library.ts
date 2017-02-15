@@ -84,11 +84,37 @@ export class ColorUtilities {
    * colorUtil.convert('#F03402', ColorTypes.hsl) // => 'hsl(13, 98%, 47%)'
    *
    * @param {basicColor} color to be converted.
-   * @param {ColorTypes} to this format.
+   * @param {ColorTypes | string} to this format.
    * @returns {basicColor} converted color.
    */
-  convert(color: basicColor, to: ColorTypes): basicColor {
-    return this.convertRawValuesTo(this.parseColor(color), to)
+  convert(color: string, to: ColorTypes | 'hex' | 'rgb' | 'hsl'): basicColor
+  convert(color: basicColor, to: ColorTypes | 'hex' | 'rgb' | 'hsl'): basicColor
+  convert(color: string | basicColor, to: ColorTypes | 'hex' | 'rgb' | 'hsl'): basicColor {
+    let toType
+    if (typeof to === 'string') {
+      toType = this.convertStringTypeToEnum(to)
+    } else {
+      toType = to
+    }
+    return this.convertRawValuesTo(this.parseColor(color), toType)
+  }
+
+  // TODO: convertToXXX()
+
+  /**
+   * Transforms the string type to it's enum representation allowing consumers to use "hex", "rgb" and "hsl" in some
+   * cases without relying on the ColorTypes enum.
+   *
+   * @param {string} type The string type to be converted.
+   * @returns {ColorTypes} Enum representation of the color type.
+   */
+  private convertStringTypeToEnum(type: 'hex' | 'rgb' | 'hsl'): ColorTypes {
+    switch (type) {
+    case 'hex': return ColorTypes.hex
+    case 'rgb': return ColorTypes.rgb
+    case 'hsl': return ColorTypes.hsl
+    default: return ColorTypes.invalidType
+    }
   }
 
   /**
