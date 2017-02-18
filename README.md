@@ -42,14 +42,18 @@ class MyComponent {
 
 #### Convert a color to another format
 ```
-#convert(color: basicColor, to: ColorTypes): basicColor
+#convert(color: basicColor, to: ColorTypes | 'hex' | 'rgb' | 'hsl'): basicColor
+#convertToHex(color: basicColor): basicColor
+#convertToRgb(color: basicColor): basicColor
+#convertToHsl(color: basicColor): basicColor
 ```
 
-Converts a color into a different format (eg. hex to RGB or HSL to hex).
+Converts a color into a different format (eg. hex to RGB or HSL to hex). Use either the generic `convert` method providing
+a color to be converted with the outcome format (from the `ColorType` enum or as a string) or one of the specific method .
 
 ##### Parameters
 `color` - A valid color that will be converted.
-`to` - a color type (coming from the `ColorTypes` enum) into which the color should be converted.
+`to` - (in the `#convert` generic method) a color type (coming from the `ColorTypes` enum) into which the color should be converted.
 
 ##### Returns
 
@@ -58,8 +62,12 @@ A valid color in another format.
 ##### Example
 
 ```
+import {ColorTypes} from '@kolory/color-utilities'
 colorUtilities.convert('#F03402', ColorTypes.hsl) // => 'hsl(13, 98%, 47%)'
 colorUtilities.convert('hsl(39, 100%, 50%)', ColorTypes.rgb) // => 'rgb(255, 166, 0)'
+colorUtil.convertToRgb('#FFA500') // => 'rgb(255, 165, 0)'
+colorUtil.convertToHsl('rgb(255, 166, 0)') // => 'hsl(39, 100%, 50%)'
+colorUtil.convertToHex('hsl(39, 100%, 50%)') // => '#FFA600'
 ```
 
 #### Convert a raw color values to the color format
