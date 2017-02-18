@@ -99,7 +99,35 @@ export class ColorUtilities {
     return this.convertRawValuesTo(this.parseColor(color), toType)
   }
 
-  // TODO: convertToXXX()
+  /**
+   * Converts a valid color into it's HEX representation
+   *
+   * @param {basicColor | string} color to be converted.
+   * @returns {basicColor} color converted to HEX format.
+   */
+  convertToHex(color: string | basicColor): basicColor {
+    return this.convert(color, ColorTypes.hex)
+  }
+
+  /**
+   * Converts a valid color into it's RGB representation
+   *
+   * @param {basicColor | string} color to be converted
+   * @returns {basicColor} color converted to RGB format.
+   */
+  convertToRgb(color: string | basicColor): basicColor {
+    return this.convert(color, ColorTypes.rgb)
+  }
+
+  /**
+   * Converts a valid color into it's HSL representation
+   *
+   * @param {basicColor | string} color to be converted
+   * @returns {basicColor} color converted to HSL format.
+   */
+  convertToHsl(color: string | basicColor): basicColor {
+    return this.convert(color, ColorTypes.hsl)
+  }
 
   /**
    * Transforms the string type to it's enum representation allowing consumers to use "hex", "rgb" and "hsl" in some

@@ -115,6 +115,32 @@ describe('Color utilities', () => {
       expect(colorUtil.convert('#F03402', 'hsl')).toBe(colorUtil.convert('#F03402', ColorTypes.hsl))
       expect(() => colorUtil.convert('#FFFFF', 'invalid' as 'hex')).toThrow()
     })
+
+    it('should have a specific HEX conversion method accepting string or basicColor', () => {
+      expect(colorUtil.convertToHex('rgb(255, 165, 0)')).toBe('#FFA500')
+      expect(colorUtil.convertToHex('rgb(0, 0, 0)')).toBe('#000000')
+      expect(colorUtil.convertToHex('rgb(255, 255, 255)')).toBe('#FFFFFF')
+      expect(colorUtil.convertToHex('hsl(253, 98%, 47%)')).toBe('#3502ED')
+      expect(colorUtil.convertToHex('hsl(39, 100%, 50%)')).toBe('#FFA600')
+      expect(colorUtil.convertToHex('#FFA500')).toBe('#FFA500')
+    })
+
+    it('should have a specific RGB conversion method accepting string or basicColor', () => {
+      expect(colorUtil.convertToRgb('#FFA500')).toBe('rgb(255, 165, 0)')
+      expect(colorUtil.convertToRgb('#000000')).toBe('rgb(0, 0, 0)')
+      expect(colorUtil.convertToRgb('#FFFFFF')).toBe('rgb(255, 255, 255)')
+      expect(colorUtil.convertToRgb('hsl(253, 98%, 47%)')).toBe('rgb(53, 2, 237)')
+      expect(colorUtil.convertToRgb('hsl(39, 100%, 50%)')).toBe('rgb(255, 166, 0)')
+      expect(colorUtil.convertToRgb('rgb(255, 165, 0)')).toBe('rgb(255, 165, 0)')
+    })
+
+    it('should have a specific HSL conversion method accepting string or basicColor', () => {
+      expect(colorUtil.convertToHsl('rgb(255, 166, 0)')).toBe('hsl(39, 100%, 50%)')
+      expect(colorUtil.convertToHsl('#000000')).toBe('hsl(0, 0%, 0%)')
+      expect(colorUtil.convertToHsl('#FFFFFF')).toBe('hsl(0, 100%, 100%)')
+      expect(colorUtil.convertToHsl('rgb(53, 2, 237)')).toBe('hsl(253, 98%, 47%)')
+      expect(colorUtil.convertToHsl('hsl(100, 100%, 50%)')).toBe('hsl(100, 100%, 50%)')
+    })
   })
 
   describe('Colors parsing', () => {
