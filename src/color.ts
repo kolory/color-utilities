@@ -19,18 +19,6 @@ export class Color {
    */
   static utilities = new ColorUtilities()
 
-  /* tslint:disable:completed-docs */
-  /* Colors shortcuts. */
-  static readonly black = Color.create('#000000')
-  static readonly white = Color.create('#FFFFFF')
-  static readonly red = Color.create('#FF0000')
-  static readonly green = Color.create('#00FF00')
-  static readonly blue = Color.create('#0000FF')
-
-  // Current value.
-  private color: colorValues
-  /* tslint:enable:completed-docs */
-
   /**
    * Creates the new Color instance from RGB values.
    *
@@ -73,6 +61,18 @@ export class Color {
   static isColor(color?: anyColor): color is Color {
     return color instanceof Color
   }
+
+  /* tslint:disable:completed-docs */
+  /* Colors shortcuts. */
+  static readonly black = Color.create('#000000')
+  static readonly white = Color.create('#FFFFFF')
+  static readonly red = Color.create('#FF0000')
+  static readonly green = Color.create('#00FF00')
+  static readonly blue = Color.create('#0000FF')
+
+  // Current value.
+  private color: colorValues
+  /* tslint:enable:completed-docs */
 
   get hex(): hexColor {
     return this.getColor(ColorTypes.hex)
@@ -143,7 +143,7 @@ export class Color {
    */
   constructor(colorOrRed?: anyColor | number, green?: number, blue?: number) {
     /* tslint:disable:cyclomatic-complexity */
-    if (typeof colorOrRed === 'number') {
+    if (this.isNumber(colorOrRed)) {
       this.color = this.getColorFromRawValues(colorOrRed, green, blue)
     } else if (!colorOrRed) {
       return Color.white
@@ -166,11 +166,30 @@ export class Color {
    * @returns {colorValues} Valid values.
    */
   private getColorFromRawValues(red: number, green?: number, blue?: number): colorValues {
-    if ([red, green, blue].every(value => value >= 0 && value <= 255)) {
+    if (this.areValuesValidRGB([red, green, blue])) {
       return [red, green, blue] as colorValues
     } else {
-      throw new RangeError(`At leas one value from [${red}, ${green}, ${blue}] of out of the valid [0-255] range.`)
+      throw new Error(`At leas one value from [${red}, ${green}, ${blue}] is not a number or outside of the allowed` +
+        `range [0-255] range.`)
     }
+  }
+
+  /**
+   * Checks if the provided value is a raw number.
+   * @param {number | anyColor | undefined | null} value to be checked.
+   * @returns {boolean} Is it a raw number?
+   */
+  private isNumber(value: number | anyColor | undefined | null): value is number {
+    return typeof value === 'number'
+  }
+
+  /**
+   * Checks if the three RGB values are valid numbers and are in the allowed range.
+   * @param {(number | undefined | null)[]} values Values to be checked.
+   * @returns {number|undefined} Are the values valid?
+   */
+  private areValuesValidRGB(values: (number | undefined | null)[]): boolean {
+    return values.reduce((outcome, value) => outcome && this.isNumber(value) && value >= 0 && value <= 255, true)
   }
 
   /**
