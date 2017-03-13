@@ -516,16 +516,15 @@ export class ColorUtilities {
    * @returns {hexColor}
    */
   normalizeHexColor(hexColor: hexColor): hexColor {
-    const potentialColor = hexColor[0] !== '#' ? '#' + hexColor : hexColor
+    const potentialColor = (hexColor[0] !== '#' ? '#' + hexColor : hexColor).toUpperCase()
     this.throwIfInvalidHexColor(potentialColor)
 
     if (potentialColor.length === 4) {
       return potentialColor.split('')
         .reduce((acc, digit, index) => index !== 0 ? [...acc, digit, digit] : acc, ['#'])
         .join('')
-        .toUpperCase()
     } else {
-      return potentialColor.toUpperCase()
+      return potentialColor
     }
   }
 
