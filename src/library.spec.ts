@@ -80,6 +80,8 @@ describe('Color utilities', () => {
       expect(colorUtil.convert('#fff', ColorTypes.rgb)).toBe('rgb(255, 255, 255)')
       expect(colorUtil.convert('#FFA500', ColorTypes.rgb)).toBe('rgb(255, 165, 0)')
       expect(colorUtil.convert('hsl(39, 100%, 50%)', ColorTypes.rgb)).toBe('rgb(255, 166, 0)')
+      expect(colorUtil.convert('rgb(76, 11, 95)', ColorTypes.hex)).toBe('#4C0B5F')
+      expect(colorUtil.convert('rgb(9, 10, 11)', ColorTypes.hex)).toBe('#090A0B')
 
       // HSL conversion requires a special attention.
       expect(colorUtil.convert('#FFFFFF', ColorTypes.hsl)).toBe('hsl(0, 100%, 100%)')
