@@ -17,11 +17,19 @@
     "noUnusedParameters": true,
     "strictNullChecks": true,
     "stripInternal": true,
-    "types": ["jasmine"],
-    "lib": ["es6"]
+    "types": [
+      "jasmine"
+    ],
+    "lib": [
+      "es6"
+    ]
   },
-  "include": ["./src/**/*", "index.ts"],
+  "include": [
+    "./src/**/*",
+    "index.ts"
+  ],
   "exclude": [
-    "node_modules", "dist"
+    "node_modules",
+    "dist"
   ]
 }

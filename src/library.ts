@@ -138,10 +138,14 @@ export class ColorUtilities {
    */
   private convertStringTypeToEnum(type: 'hex' | 'rgb' | 'hsl'): ColorTypes {
     switch (type) {
-    case 'hex': return ColorTypes.hex
-    case 'rgb': return ColorTypes.rgb
-    case 'hsl': return ColorTypes.hsl
-    default: return ColorTypes.invalidType
+    case 'hex':
+      return ColorTypes.hex
+    case 'rgb':
+      return ColorTypes.rgb
+    case 'hsl':
+      return ColorTypes.hsl
+    default:
+      return ColorTypes.invalidType
     }
   }
 
@@ -174,7 +178,8 @@ export class ColorUtilities {
   private convertValuesToHex(values: colorValues): hexColor {
     return this.normalizeHexColor(
       values
-        .map(value => value < 10 ? '0' + String(value) : value.toString(16))
+        .map(value => value.toString(16))
+        .map(in16value => in16value.length === 1 ? '0' + in16value : in16value)
         .reduce((color, value) => color + value, '#')
     )
   }
@@ -400,8 +405,8 @@ export class ColorUtilities {
    * @param {Function} rangeValidator Function to be used for validation.
    * @returns {boolean} Are values in proper ranges?
    */
-  private isRangeValid(color: rgbColor | hslColor, rangeValidator: (value: number, index?: number) => boolean):
-  boolean {
+  private isRangeValid(color: rgbColor
+                         | hslColor, rangeValidator: (value: number, index?: number) => boolean): boolean {
     const values = this.getValues(color)
     return values.every(stringValue => !/^0\d/.test(stringValue)) &&
       values.map(value => Number(value)).every(rangeValidator)
@@ -511,16 +516,15 @@ export class ColorUtilities {
    * @returns {hexColor}
    */
   normalizeHexColor(hexColor: hexColor): hexColor {
-    const potentialColor = hexColor[0] !== '#' ? '#' + hexColor : hexColor
+    const potentialColor = (hexColor[0] !== '#' ? '#' + hexColor : hexColor).toUpperCase()
     this.throwIfInvalidHexColor(potentialColor)
 
     if (potentialColor.length === 4) {
       return potentialColor.split('')
         .reduce((acc, digit, index) => index !== 0 ? [...acc, digit, digit] : acc, ['#'])
         .join('')
-        .toUpperCase()
     } else {
-      return potentialColor.toUpperCase()
+      return potentialColor
     }
   }
 

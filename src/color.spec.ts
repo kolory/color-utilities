@@ -54,8 +54,10 @@ describe('Color object', () => {
 
     it('should not allow using invalid colors during creation', () => {
       invalidColors.forEach(color => expect(() => new Color(color)).toThrowError(TypeError))
-      expect(() => new Color(-1, 0, 0)).toThrowError(RangeError)
-      expect(() => new Color(100, 100, 300)).toThrowError(RangeError)
+      expect(() => new Color(-1, 0, 0)).toThrow()
+      expect(() => new Color(100, 100, 300)).toThrow()
+      expect(() => new Color(100, 100, 300)).toThrow()
+      expect(() => new Color(100, NaN, 100)).toThrow()
     })
   })
 
